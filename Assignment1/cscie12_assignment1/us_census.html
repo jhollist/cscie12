@@ -1,25 +1,137 @@
 <!DOCTYPE html >
-<html xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
-<title>Census</title>
-<script type="text/javascript" src="js/jquery-1.9.1.min.js" >/** load jquery **/</script>
-<script type="text/javascript" src="js/table.js" >/** load js for tables **/</script>
-<style type="text/css">
-html, body { color: black; background-color: #fff; font-family: Calibri,Arial,Helvetica,sans-serif; }
-table { width: 100%; border-spacing: 0px; border-collapse: separate; border: thin solid #ccc;}
-caption {font-size: 150%; font-weight: bold; margin: 0.25em;}
-th, td { padding: 0.2em; }
-thead th { color: black; background-color: #ddf; border: thin solid #ccc; }
-tbody tr td, tbody tr th { text-align: right; vertical-align: bottom; border: thin solid #ccc;}
-td.highlight, th.highlight { background-color: #ff9; color: black;}
-</style>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <title>Census</title>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js" >/** load jquery **/</script>
+    <script type="text/javascript" src="js/table.js" >/** load js for tables **/</script>
+    <style type="text/css">
+      html, body { color: black; background-color: #fff; font-family: Calibri,Arial,Helvetica,sans-serif; }
+      table { width: 50%; border-spacing: 0px; border-collapse: separate; border: thin solid #ccc;}
+      caption {font-size: 150%; font-weight: bold; margin: 0.25em;}
+      th, td { padding: 0.2em; }
+      thead th { color: black; background-color: #ddf; border: thin solid #ccc; }
+      tbody tr td, tbody tr th { text-align: right; vertical-align: bottom; border: thin solid #ccc;}
+      td.highlight, th.highlight { background-color: #ff9; color: black;}
+      tfoot {font-size: 80%;}
+    </style>
+  </head>
 <body>
-<!-- complete the table based upon the data from us_census.txt  -->
-<table>
-
-
-</table>
+  <table>
+    <caption>United States Population from 1790 to 2010</caption>
+    <thead>
+      <tr>
+        <th id="year" rowspan="1" colspan="1">Year</th>
+        <th id="total" rowspan="1" colspan="1">Total Population</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <td rowspan="1" colspan="2">Data from <a href="http://www.census.gov/">United States Census Bureau</a></td>
+      </tr>
+    </tfoot>
+    <!--
+    using the <td> ids below with the headers attribute as seems to be required
+    for the .js to work correctly is NOT valid html5.  I opted for using valid
+    html5 and live with the .js not working correctly.
+    Seems some on the discussion chose to use <th> on the first element in each
+    row to get the highlighting to work, but semantically, that would be seem
+    to be wrong.  
+    -->
+    <tbody>
+      <tr>
+        <td id="y2010" rowspan="1" colspan="1">2010</td>      
+        <td headers="year total" rowspan="1" colspan="1">308,745,538</td>
+      </tr>
+      <tr>
+        <td id="y2000" rowspan="1" colspan="1">2000</td>       
+        <td headers="year total" rowspan="1" colspan="1">285,230,516</td> 
+      </tr>
+      <tr>
+        <td id="y1990" rowspan="1" colspan="1">1990</td>       
+        <td headers="year total" rowspan="1" colspan="1">248,709,873</td> 
+      </tr>
+      <tr>
+        <td id="y1980" rowspan="1" colspan="1">1980</td>       
+        <td headers="year total" rowspan="1" colspan="1">226,542,199</td> 
+      </tr>
+      <tr>
+        <td id="y1970" rowspan="1" colspan="1">1970</td>       
+        <td headers="year total"  rowspan="1" colspan="1">203,302,031</td>  
+      </tr>
+      <tr>
+        <td id="y1960" rowspan="1" colspan="1">1960</td>       
+        <td headers="year total" rowspan="1" colspan="1">179,323,175</td> 
+      </tr>
+      <tr>
+        <td id="y1950" rowspan="1" colspan="1">1950</td>       
+        <td headers="year total" rowspan="1" colspan="1">151,325,798</td>  
+      </tr>
+      <tr>
+        <td id="y1940" rowspan="1" colspan="1">1940</td>       
+        <td headers="year total" rowspan="1" colspan="1">132,164,569</td>  
+      </tr>
+      <tr>
+        <td id="y1930" rowspan="1" colspan="1">1930</td>       
+        <td headers="year total" rowspan="1" colspan="1">123,202,624</td>  
+      </tr>
+      <tr>
+        <td id="y1920" rowspan="1" colspan="1">1920</td>       
+        <td headers="year total" rowspan="1" colspan="1">106,021,537</td> 
+      </tr>
+      <tr>
+        <td id="y1910" rowspan="1" colspan="1">1910</td>        
+        <td headers="year total" rowspan="1" colspan="1">92,228,496</td>  
+      </tr>
+      <tr>
+        <td id="y1900" rowspan="1" colspan="1">1900</td>        
+        <td headers="year total" rowspan="1" colspan="1">76,212,168</td> 
+      </tr>
+      <tr>
+        <td id="y1890" rowspan="1" colspan="1">1890</td>        
+        <td headers="year total" rowspan="1" colspan="1">62,979,766</td>  
+      </tr>
+      <tr>
+        <td id="y1880" rowspan="1" colspan="1">1880</td>        
+        <td headers="year total" rowspan="1" colspan="1">50,189,209</td> 
+      </tr>
+      <tr>
+        <td id="y1870" rowspan="1" colspan="1">1870</td>        
+        <td headers="year total" rowspan="1" colspan="1">38,558,371</td> 
+      </tr>
+      <tr>
+        <td id="y1860" rowspan="1" colspan="1">1860</td>        
+        <td headers="year total" rowspan="1" colspan="1">31,443,321</td> 
+      </tr>
+      <tr>
+        <td id="y1850" rowspan="1" colspan="1">1850</td>        
+        <td headers="year total" rowspan="1" colspan="1">23,191,876</td>  
+      </tr>
+      <tr>
+        <td id="y1840" rowspan="1" colspan="1">1840</td>        
+        <td headers="year total" rowspan="1" colspan="1">17,063,353</td> 
+      </tr>
+      <tr>
+        <td id="y1830" rowspan="1" colspan="1">1830</td>        
+        <td headers="year total" rowspan="1" colspan="1">12,860,702</td> 
+      </tr>
+      <tr>
+        <td id="y1820" rowspan="1" colspan="1">1820</td>         
+        <td headers="year total" rowspan="1" colspan="1">9,638,453</td> 
+      </tr>
+      <tr>
+        <td id="y1810" rowspan="1" colspan="1">1810</td>         
+        <td headers="year total" rowspan="1" colspan="1">7,239,881</td> 
+      </tr>
+      <tr>
+        <td id="y1800" rowspan="1" colspan="1">1800</td>         
+        <td headers="year total" rowspan="1" colspan="1">5,308,483</td> 
+      </tr>
+      <tr>
+        <td id="y1790" rowspan="1" colspan="1">1790</td>         
+        <td headers="year total" rowspan="1" colspan="1">3,929,214</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
