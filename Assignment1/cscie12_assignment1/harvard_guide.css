@@ -1,0 +1,27 @@
+h1 {
+  color: #A51C30;
+  background-color: #C8C8C8 ;
+  font-family: arial;
+  font-weight: bold;
+  font-variant: small-caps;
+  text-align: center; 
+}
+
+h2,h3 {
+  color: #A51C30;
+  font-family: arial;
+  font-weight: bold;
+  border-bottom: solid #505050  
+}
+
+body {
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+address {
+  text-align: center;
+}

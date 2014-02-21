@@ -3,105 +3,194 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
     <title>Dado Tea Lunch Special</title>
-    <link rel="stylehseet" type="text/css" href="lunch_special.css">
+    <link rel="stylesheet" type="text/css" href="lunch_special.css">
   </head>
 <body>
-  <h1>Dada Tea Lunch Special</h1>
+  <h1>Dado Tea Lunch Special</h1>
   
-  <p>Moday - Friday
+  <div class="top">
+  Moday - Friday
+  <br/>
   11am - 3pm
-  $7.24</p>
-  
-  <p>Includes sandwich, snack, and drink.</p>
+  <br/>
+  $7.24
+  <br/>
+  <br/>
+  Includes sandwich, snack, and drink.
+  <br/>
+  <br/>
+  </div>
   
   <form method="post" action="http://morpheus.dce.harvard.edu/cgi-bin/echo.cgi" enctype="application/x-www-form-urlencoded">
     <fieldset>
     <legend>Order Information</legend>
-    
-    Name
-    
-    Here
-    To Go
+      <div>
+      
+        <strong><label for="name">Name:</label></strong>
+        <br/>
+        <input type="text" name="name" size="50" placeholder="First Last" id="name"/>
+        <br/>
+        
+        <input type="radio" name="where" value="Here" id="here"/>
+        <label for="here">Here</label>
+        <br/>
+        <input type="radio" name="where" value="To Go" id="togo" />
+        <label for="togo">To Go</label>
+        
+      </div>
     </fieldset>
     <fieldset>
     <legend>Sandwiches</legend>
-    
-    Monday
-    Pesto Tofu Salad
-    Chicken Salad
-    
-    Tuesday
-    Greek Salad Wrap
-    Tuna Salad
-    
-    Wednesday
-    Hummus
-    Turkey
-    
-    Thursday
-    Carrot-Ginger Wrap
-    Egg Salad
-    
-    Friday
-    Veggie
-    Tuna Salad
+      <div>
+      
+        <strong>Monday</strong>
+        <br/>
+        <input type="radio" name="sandwich" value="Monday,Pesto Tofu Salad" id="pts" />
+        <label for="pts">Pesto Tofu Salad</label>
+        <br/>
+        <input type="radio" name="sandwich" value="Monday,Chicken Salad" id="chick"/>
+        <label for="chick">Chicken Salad</label>
+        <br/>
+        
+        <strong>Tuesday</strong>
+        <br/>
+        <input type="radio" name="sandwich" value="Tuesday,Greek Salad Wrap" id="greek"/>
+        <label for="greek">Greek Salad Wrap</label>
+        <br/>
+        <input type="radio" name="sandwich" value="Tuesday,Tuna Salad" id="tuna"/>
+        <label for="tuna">Tuna Salad</label>
+        <br/>
+        
+        <strong>Wednesday</strong>
+        <br/>
+        <input type="radio" name="sandwich" value="Wednesday,Hummus" id="hum" />
+        <label for="hum">Hummus</label>
+        <br/>
+        <input type="radio" name="sandwich" value="Wednesday,Turkey" id="turkey" />
+        <label for="turkey">Turkey</label>
+        <br/>
+        
+        <strong>Thursday</strong>
+        <br/>
+        <input type="radio" name="sandwich" value="Thursday,Carrot-Ginger Wrap" id="cgw" />
+        <label for="cgw">Carrot-Ginger Wrap</label>
+        <br/>
+        <input type="radio" name="sandwich" value="Thursday,Egg Salad" id="egg" />
+        <label for="egg">Egg Salad</label>
+        <br/>
+        
+        <strong>Friday</strong>
+        <br/>
+        <input type="radio" name="sandwich" value="Friday,Veggie" id="veg"/>
+        <label for="veg">Veggie</label>
+        <br/>
+        <input type="radio" name="sandwich" value="Friday,Tuna Salad" id="tuna"/>
+        <label for="tuna">Tuna Salad</label>
+      </div>
     </fieldset>
     <fieldset>
     <legend>Sandwich Options</legend>
+      <div>
+        <strong>Breads</strong>
+        <br/>
+        <input type="radio" name="bread" value="7 Grain" id="7"/>
+        <label for="7">7 Grain</label>
+        <br/>
+        <input type="radio" name="bread" value="French" id="oui" checked/>
+        <label for="oui">French</label>
+        <br/>
+        <input type="radio" name="bread" value="Wheat Wrap" id="ww" />
+        <label for="ww">Wheat Wrap</label>
+        <br/>
     
-    Breads
-    7 Grain
-    French
-    Wheat Wrap
-    
-    Cheeses
-    No Cheese
-    Feta
-    Fresh Mozzarella
-    Swiss
-    
-    Spreads
-    Mayonaise
-    Honey Mustard
-    Pesto
-    Olive Oil
-    
-    Fillings
-    Tomato
-    Mixed Greens
-    Cucumber
-    Red Onion
+        <strong>Cheeses</strong>
+        <br/>
+        <input type="radio" name="cheeses" value="No Cheese" id="none" checked />
+        <label for="none">No Cheese</label>
+        <br/>
+        <input type="radio" name="cheeses" value="Feta" id="feta"/>
+        <label for="feta">Feta</label>
+        <br/>
+        <input type="radio" name="cheeses" value="Fresh Mozzarella" id="mozz" />
+        <label for="mozz">Fresh Mozzarella</label>
+        <br/>
+        <input type="radio" name="cheeses" value="Swiss" id="swiss"/>
+        <label for="swiss">Swiss</label>
+        <br/>
+        
+        <strong>Spreads</strong>
+        <br/>
+        <input type="checkbox" name="bread" value="Mayonaise" id="mayo"/>
+        <label for="mayo">Mayonaise</label>
+        <br/>
+        <input type="checkbox" name="bread" value="Honey Mustard" id="hm"/>
+        <label for="hm">Honey Mustard</label>
+        <br/>
+        <input type="checkbox" name="bread" value="Pesto" id="pesto"/>
+        <label for="pesto">Pesto</label>
+        <br/>
+        <input type="checkbox" name="bread" value="Olive Oil" id="oo" />
+        <label for="oo">Olive Oil</label>
+        <br/>
+        
+        <strong>Fillings</strong>
+        <br/>
+        <input type="checkbox" name="fillings" value="Tomato" id="tom"/>
+        <label for="tom">Tomato</label>
+        <br/>
+        <input type="checkbox" name="fillings" value="Mixed Greens" id="greens"/>
+        <label for="greens">Mixed Greens</label>
+        <br/>
+        <input type="checkbox" name="fillings" value="Cucumber" id="cuc" />
+        <label for="cuc">Cucumber</label>
+        <br/>
+        <input type="checkbox" name="fillings" value="Red Onion" id="onion"/>
+        <label for="onion">Red Onion</label>
+      </div>
     </fieldset>
     <fieldset>
     <legend>Snack and Drink</legend>
-    
-    Snacks
-    Apple
-    Banana
-    Potato Chip
-    
-    Drinks
-    
-    Black Tea
-    Hot Black Tea - Keemum
-    Hot Black Tea - Decaf Keemum
-    Iced Black Tea - Keemum
-    Iced Black Tea - Decaf Keemum
-    
-    Green Tea
-    Hot Green Tea - Sencha
-    Hot Greed Tea - Decaf Sencha
-    Iced Green Tea - Sencha
-    Iced Greed Tea - Decaf Sencha
-    
-    Coffee
-    Hot Coffee
-    Hot Decaf Coffee
-    Iced Coffee
-    Iced Decaf Coffee
-    
-    Large drink (add 50&cent)
+      <div>
+        <strong>Snacks</strong>
+        <br/>
+        <input type="radio" name="snacks" value="Apple" id="apple" />
+        <label for="apple">Apple</label>
+        <br/>
+        <input type="radio" name="snacks" value="Banana" id="banana"/>
+        <label for="banana">Banana</label>
+        <br/>
+        <input type="radio" name="snacks" value="Potato Chip" id="chip"/>
+        <label for="chip">Potato Chip</label>
+        <br/>
+        
+        <strong>Drinks</strong>
+        <br/>
+        <select name="drink">
+          <optgroup label="Black Tea">
+            <option>Hot Black Tea - Keemum</option>
+            <option>Hot Black Tea - Decaf Keemum</option>
+            <option>Iced Black Tea - Keemum</option>
+            <option>Iced Black Tea - Decaf Keemum</option>
+          </optgroup>
+          <optgroup label="Green Tea">
+           <option>Hot Green Tea - Sencha</option>
+            <option>Hot Greed Tea - Decaf Sencha</option>
+            <option>Iced Green Tea - Sencha</option>
+            <option>Iced Greed Tea - Decaf Sencha</option>
+          </optgroup>"
+          <optgroup label="Coffee">
+            <option>Hot Coffee</option>
+            <option>Hot Decaf Coffee</option>
+            <option>Iced Coffee</option>
+            <option>Iced Decaf Coffee</option>
+          </optgroup>"
+        </select>
+        <br/>
+        <input type="checkbox" name="drink size"value="Large Drink" id="large"/>
+        <label for="large">Large drink (add 50&cent)</label>
+      </div>
     </fieldset>
+    <input type="submit" name="action" value="Place Order" class="submit"/>
   </form>
 </body>
 </html>

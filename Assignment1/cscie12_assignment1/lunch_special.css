@@ -1,0 +1,42 @@
+body {
+  margin-right: auto;
+  width: 35%;
+  height: 100%;
+  font-family: sans-serif;
+  color: #505050;
+}
+
+h1 {
+  border-bottom: solid #FF6700; 
+  font-size: xx-large;
+  font-variant: small-caps;
+  text-align: center;
+}
+
+legend {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-style: oblique;
+  border: 0px;
+  background-color: white;
+  text-align: center;
+}
+
+fieldset {
+   border: 2px solid #FF6700;
+   background-color: #ffddc6;
+}
+
+.top {
+  margin-right: auto;
+  margin-left: auto;
+  width: 50%;
+}
+
+.submit {
+  border:1px solid;
+  border-radius:7px;
+  color: #505050;
+  box-shadow: 4px 4px 2px #505050;
+  font-size: 14pt;
+}
