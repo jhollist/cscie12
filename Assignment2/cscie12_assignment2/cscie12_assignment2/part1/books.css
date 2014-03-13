@@ -1,3 +1,51 @@
 /*
   CSS file for books.html
 */
+
+body{
+  background-color: LawnGreen;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+h1 {
+  color: orange;
+  background: white;
+  border: medium solid orange;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.bookcover img {
+  float: right;
+  border: thin solid red; 
+  margin: 5px;
+  padding: 5px;
+}
+.book {
+  clear: right; 
+  padding: 5px;
+  margin: 10px;
+  border: medium solid red;
+  background-color: white;
+}
+
+.clearme {
+  clear: both; 
+  padding: 0; 
+  margin: 0; 
+  visibility: hidden;
+}
+
+.author {
+  color: red;
+  font-style: italic;
+}
