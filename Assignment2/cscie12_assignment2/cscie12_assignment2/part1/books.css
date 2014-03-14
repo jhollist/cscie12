@@ -30,6 +30,7 @@ ul {
   margin: 5px;
   padding: 5px;
 }
+
 .book {
   clear: right; 
   padding: 5px;
@@ -48,4 +49,35 @@ ul {
 .author {
   color: red;
   font-style: italic;
+}
+
+.publisher {
+  font-variant: small-caps;
+}
+
+.date {
+  margin-top: 15px;
+  font-size: 80%;
+}
+
+.isbn {
+  font-size: 80%;
+}
+
+.title a:link {
+  color: blue;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:visited {
+  color: blue;
+}
+
+a:hover{
+  background-color: fuchsia;
+}
+
+a:active{
+  background-color: PapayaWhip;
 }
