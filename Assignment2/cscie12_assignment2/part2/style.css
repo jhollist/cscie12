@@ -1,0 +1,101 @@
+/* CSS File for you to author for Assignment 2 Part 2 */
+
+
+body {
+  background-color: #3D4D7A;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 80%;
+}
+
+h1,h2,h3 {
+  color: #FFFFFF
+}
+
+a:link {
+  color: #00207;
+}
+
+
+
+#content {
+  background-color: #FFFFFF;
+  padding: 10px 10px 10px 10px;
+
+}
+
+#header {
+  background-color: #00207A;
+  font-family: Calibri,Tahoma,Verdana,Arial,Helvetica,sans-serif;
+  margin-top: 11px;
+}
+
+#header h2 {
+  clear: left;
+  font-size: 115%;
+  font-weight: bold;
+  font-style: italic;
+  margin: 1px 1px 1px 1px;
+  padding: 10px 10px 20px 10px;
+}
+#header-title h1 {
+  font-size: 200%;
+  font-weight: bold;
+  margin: 1px 1px 1px 1px;
+  padding: 22px 0px 10px 10px;
+
+}
+
+#header-title img {
+  float: left;
+  margin: 1px 1px 1px 1px;
+  padding: 10px 10px 10px 10px;
+}
+
+#header #header-title {
+   margin: 0 auto;
+   width:40%;
+}
+
+.article {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.title {
+  font-size: 115%;
+  background-color: #990000;
+  font-family: "Times New Roman",Times,serif;
+  text-align: center;
+  margin: 11px 11px 5px 11px;
+  padding: 2px 2px 2px 2px;
+  font-weight: bold;
+}
+
+.datetime {
+  text-align: center;
+  font-style: italic;
+}
+
+.lede {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.article a {
+  display: block;
+  text-align: center;
+  
+}
+
+.article hr {
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+  border: 1px solid grey;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
