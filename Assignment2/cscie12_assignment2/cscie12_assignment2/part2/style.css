@@ -1,1 +1,25 @@
 /* CSS File for you to author for Assignment 2 Part 2 */
+
+body {
+  background-color: #3D4D7A;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 70%;
+}
+
+.header {
+  background-color: #00207A;
+  border: thin solid #FFFFFF;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.content {
+  background-color: #FFFFFF;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+a:link {
+  color: #00207;
+}
