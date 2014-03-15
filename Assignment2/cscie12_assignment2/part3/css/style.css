@@ -1,0 +1,33 @@
+/*
+* Assignment 2, Part 3 Style Sheet
+* Harvard CSCI e-12
+* J.W. Hollister
+* March 14, 2014
+*/
+
+
+nav#site ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+nav#site ul li {
+  display: inline;
+  padding-left: 1px;
+}
+
+nav#page ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+nav#breadcrumb ul {
+  list-style: none;
+  display: inline;
+  padding-left: 0;
+}
+
+nav#breadcrumb li {
+  display: inline;
+  padding-left: 1px;
+}
