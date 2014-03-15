@@ -5,29 +5,111 @@
 * March 14, 2014
 */
 
+body {
+  font-family: sans-serif;
+}
+
+hr {
+  color: #121f1f;
+}
+
+strong {
+  font-weight: 600;
+  color: #121f1f;
+}
+
+h2, h3, h4, h5, h6 {
+  color: #691818;
+  font-weight: bold;
+}
+a:visited {
+  color: #172727;
+}
+
+a {
+  color: #172727;
+  text-decoration: none;
+  font-variant: small-caps;
+  font-size: 88%;
+}
+
+a:hover {
+  color: #691818;
+  border-bottom: thin solid #691818;
+}
+
+nav#site {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+nav#site a:active {
+  color: #D23030;
+  border-bottom: thin solid #D23030;
+}
 
 nav#site ul {
   list-style: none;
-  padding-left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 nav#site ul li {
   display: inline;
-  padding-left: 1px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 nav#page ul {
+  margin-top: 0px;
   list-style: none;
   padding-left: 0;
 }
+
+nav#page li {
+  padding-bottom: 10px;
+}
+
+li.de {
+  padding-left: 25px;
+}
+
+#navtitle {
+  color: #691818;
+  font-weight: bold;
+  font-size: 110%;
+}
+
 
 nav#breadcrumb ul {
-  list-style: none;
-  display: inline;
-  padding-left: 0;
+    display: inline;
+    margin-left: 0;
+    padding-left: 0;
 }
 
-nav#breadcrumb li {
-  display: inline;
-  padding-left: 1px;
+nav#breadcrumb ul li {
+    display: inline;
+}
+
+nav#breadcrumb ul ul li {
+    background-image: url(../images/arrow.gif);
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left: 25px;
+}
+
+header#masthead h1 {
+  text-indent: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-image: url(../images/masthead.png);
+  background-repeat: no-repeat;
+  background-color: black;
+  height: 50px;
+  margin: 0px 0px 0px 0px;
+}
+
+footer {
+  font-size: 70%;
 }
