@@ -12,10 +12,36 @@ body { font-family: calibri, verdana, tahoma, helvetica, sans-serif;}
 <script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="../js/events.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function() {
 	$('#optin').click(function(e) {
 		doOnClick(e);
 	});
+  $(document).ready(function(e) {
+    doOnLoad(e);
+  });
+  $('#mylink').click(function(e) {
+    doOnClick(e);
+  });
+  $('#mypara').mouseover(function(e) {
+    doOnMouseOver(e);
+  });
+  $('#mypara').mouseout(function(e) {
+    doOnMouseOut(e);
+  });
+  $('#myform').submit(function(e) {
+    doOnSubmit(e);
+  });
+  $('#myname').focus(function(e) {
+    doOnFocus(e);
+  });
+  $('#myname').blur(function(e) {
+    doOnBlur(e);
+  });
+  $('#mydirection').change(function(e) {
+    doOnChange(e);
+  });
+  
 	/* add your jQuery selectors and event handlers here */
 });
 </script>
@@ -26,7 +52,7 @@ $(document).ready(function() {
 <span id="statuscaption">Event images and messages will display here.</span></p>
 <p><a id="mylink" href="#" >Lorem ipsum dolor</a></p>
 <p id="mypara" class="p1" >Mouseover and out of this paragraph.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel risus at augue semper hendrerit.</p>
-<form id="myform" action="http://morpheus.dce.harvard.edu/cgi-bin/echo.cgi" >
+<form id="myform" action="" >
   <fieldset>
   <legend>Form</legend>
   <p>

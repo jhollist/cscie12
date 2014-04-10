@@ -1,0 +1,99 @@
+<!DOCTYPE html >
+<html>
+  <head>
+    <title>Datepicker Example</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script>
+    $(function() {
+      $( ".datepicker" ).datepicker();
+    });
+    </script>
+  </head>
+  <body>
+  <h1>Travel Plans</h1>
+  <form id="myform" action="http://morpheus.dce.harvard.edu/cgi-bin/echo.cgi">
+    <fieldset>
+      <legend>Airport</legend>
+      <p>
+        <label for="departAirport">Leaving From</label>: 
+        <input id="departAirport" type="text"/>
+      </p>
+      <p>
+        <label for="arriveAirport">Arriving at</label>: 
+        <input id="arriveAirport" type="text"/>
+      </p>
+    </fieldset>
+    <fieldset>
+      <legend>Dates and Times</legend>
+      <p>
+        <label for="departDateTime">Departing on:</label>: 
+        <input id="departDateTime" type="text" class="datepicker"/>
+        <select id="departTime"  name="depart">
+          <option value="0">Any</option>
+          <option value="1">1am</option>
+          <option value="2">2am</option>
+          <option value="3">3am</option>
+          <option value="4">4am</option>
+          <option value="5">5am</option>
+          <option value="6">6am</option>
+          <option value="7">7am</option>
+          <option value="8">8am</option>
+          <option value="9">9am</option>
+          <option value="10">10am</option>
+          <option value="11">11am</option>
+          <option value="12">12pm</option>
+          <option value="13">1pm</option>
+          <option value="14">2pm</option>
+          <option value="15">3pm</option>
+          <option value="16">4pm</option>
+          <option value="17">5pm</option>
+          <option value="18">6pm</option>
+          <option value="19">7pm</option>
+          <option value="20">8pm</option>
+          <option value="21">9pm</option>
+          <option value="22">11pm</option>
+          <option value="23">11pm</option>
+          <option value="24">12am</option>
+        </select>
+      </p>
+      <p>
+        <label for="arriveDateTime">Arriving on:</label>: 
+        <input id="arriveDateTime" type="text" class="datepicker"/>
+        <select id="arriveTime"  name="arrive">
+          <option value="0">Any</option>
+          <option value="1">1am</option>
+          <option value="2">2am</option>
+          <option value="3">3am</option>
+          <option value="4">4am</option>
+          <option value="5">5am</option>
+          <option value="6">6am</option>
+          <option value="7">7am</option>
+          <option value="8">8am</option>
+          <option value="9">9am</option>
+          <option value="10">10am</option>
+          <option value="11">11am</option>
+          <option value="12">12pm</option>
+          <option value="13">1pm</option>
+          <option value="14">2pm</option>
+          <option value="15">3pm</option>
+          <option value="16">4pm</option>
+          <option value="17">5pm</option>
+          <option value="18">6pm</option>
+          <option value="19">7pm</option>
+          <option value="20">8pm</option>
+          <option value="21">9pm</option>
+          <option value="22">11pm</option>
+          <option value="23">11pm</option>
+          <option value="24">12am</option>
+        </select>
+      </p>
+    </fieldset>
+    <p>
+      <input type="submit" name="Submit" value="Submit"/>
+    </p>
+  </form>
+  </body>
+</html>
