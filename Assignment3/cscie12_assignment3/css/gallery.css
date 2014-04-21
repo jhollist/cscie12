@@ -1,0 +1,24 @@
+
+  h1 {
+    margin-bottom: 0.5em; 
+  }
+ 
+  .gallery img { 
+    margin: 5px;
+  }
+  
+  .gallery a:link, .gallery a:visited, .gallery a:hover, 
+  .gallery a:active{ 
+    text-decoration: none; 
+    background-color: inherit; 
+    color: inherit;
+  }
+  .gallery { 
+    margin-bottom: 2em; 
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    
+  }
+  
+ 
