@@ -1,0 +1,15 @@
+### CUSTOM 404 ERROR 
+ErrorDocument 404 /~jhollist/BeeR_is_Good/assign4/status404.html
+
+### CACHE CSS, JS, IMAGES
+
+### COMPRESS DOCUMENTS
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+
+### REDIRECT TO MY FAVORITE BOOK
