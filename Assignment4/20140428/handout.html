@@ -1,0 +1,1369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Server-side, Part 2</title>
+<meta name="lecture" content="13" />
+<meta name="date" content="April 28, 2014" />
+<link href="slide_spring2014.css" type="text/css" rel="stylesheet" />
+<link href="resources/jquery/css/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="resources/js/jquery-1.9.0.min.js"> </script>
+<script type="text/javascript" src="resources/js/jquery-ui-1.10.0.custom.min.js"> </script>
+<script src="syntaxhighlighter3/scripts/shCore.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shAutoloader.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushCss.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushJScript.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPhp.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPlain.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPython.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushRuby.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushSql.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXquery.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPerl.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXml.js" type="text/javascript"> </script>
+<link href="syntaxhighlighter3/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="syntaxhighlighter3/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+		SyntaxHighlighter.all();
+	</script>
+</head>
+<body>
+<div id="header">
+<div id="schoolname">
+<a href="http://www.extension.harvard.edu/">Harvard Extension School 2014</a>
+</div>
+<div id="coursename">
+<a href="http://cscie12.dce.harvard.edu/">CSCI E-12 Fundamentals of Website Development</a>
+</div>
+</div>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext" />
+</td>
+</tr>
+</table>
+</div>
+<h1>Server-side, Part 2</h1>
+<div style="text-align: left">
+<p>April 28, 2014</p>
+<p> Harvard University<br />Division of Continuing Education
+        <br />Extension School</p>
+<p>Course Web Site: <a href="http://cscie12.dce.harvard.edu/" shape="rect">
+<strong>http://cscie12.dce.harvard.edu/</strong>
+</a>
+</p>
+<p>Instructor email: <a href="mailto:david_heitmeyer@harvard.edu" shape="rect">
+        david_heitmeyer@harvard.edu</a>
+<br /> Course staff email: <a href="mailto:cscie12@dce.harvard.edu" shape="rect">
+        cscie12@dce.harvard.edu</a>
+</p>
+</div>
+<div style="display: none;">
+<ul>
+<li>
+<a href="images/satin.png" shape="rect">img</a>
+</li>
+<li>
+<a href="images/ext_shield.png" shape="rect">img</a>
+</li>
+<li>
+<a href="images/ext_masthead.png" shape="rect">img</a>
+</li>
+<li>
+<a href="images/harvard_dce_shield_50.png" shape="rect">img</a>
+</li>
+</ul>
+</div>
+<h2 id="slide2">Three things to do (after)</h2>
+<ol>
+<li>Get a shared web hosting account and a domain</li>
+<li>Run Apache locally</li>
+<li>Learn source code management tools</li>
+</ol>
+<h2 id="slide3">Run Apache Locally!</h2>
+<ul>
+<li>Install <a href="http://httpd.apache.org/" shape="rect">Apache HTTP Server</a> locally</li>
+<li>Edit <code>C:\Windows\System32\drivers\etc\hosts</code> (Windows) or <code>/etc/hosts</code> (Mac, Linux) so that you can use virtual hosts locally.
+<p>e.g.
+</p>
+<pre>
+127.0.0.1       localhost
+127.0.0.1       client1.localhost
+127.0.0.1       client2.localhost
+127.0.0.1       client3.localhost
+</pre>
+<p>and then you can define virutal hosts in Apache and access your different projects by:<br />
+<code>http://client1.localhost/</code> etc.<br />This let's you go seamlessly between your local 
+development and the "real" URL of <br />
+<code>http://client1.com/</code>
+</p>
+</li>
+</ul>
+<h2 id="slide4">Different environments</h2>
+<ul>
+<li>Local Development (client1.localhost)</li>
+<li>Test/Stage (test.client1.com)</li>
+<li>Production (www.client1.com)</li>
+</ul>
+<h2 id="slide5">Source Code Management</h2>
+<h3>Tools</h3>
+<ul>
+<li>
+<a href="http://git-scm.com/" shape="rect">Git</a>
+</li>
+<li>
+<a href="http://subversion.apache.org/" shape="rect">Subversion</a>
+</li>
+</ul>
+<hr />
+<p>
+<img src="http://assets.osteele.com/images/2008/git-workflow.png" alt="git workflow" />
+</p>
+<h2 id="slide6">Web Development: Platforms, Languages, Frameworks, and CMS</h2>
+<ul>
+<li>Non-Java Languages
+      <ul>
+<li>
+<a href="http://www.php.net/" shape="rect">PHP</a>: <a href="http://www.symfony-project.org/" shape="rect">Symfony</a>, <a href="http://www.zendframework.com/" shape="rect">Zend Framework</a>, <a href="http://codeigniter.com/" shape="rect">CodeIgniter</a>, <a href="http://cakephp.org/" shape="rect">CakePHP</a> (MVC),
+          <a href="http://www.drupal.org/" shape="rect">Drupal</a> (CMS), <a href="http://www.joomla.org/" shape="rect">Joomla</a> (CMS), <a href="http://www.concrete5.org/" shape="rect">Concrete5</a> (CMS)
+        </li>
+<li>
+<a href="http://www.ruby-lang.org/" shape="rect">Ruby</a>: <a href="http://www.rubyonrails.org/" shape="rect">Rails</a> (MVC)</li>
+<li>
+<a href="http://www.python.org/" shape="rect">Python</a>:  <a href="http://www.djangoproject.org/" shape="rect">Django</a> (MVC), <a href="http://www.zope.org/" shape="rect">Zope</a>, <a href="http://plone.org/" shape="rect">Plone (CMS)</a>
+</li>
+<li>
+<a href="http://www.perl.com" shape="rect">Perl</a>: <a href="http://www.catalystframework.org/" shape="rect">Catalyst</a> (MVC), <a href="http://www.jifty.org/" shape="rect">Jifty</a>, <a href="http://www.tt2.org/" shape="rect">Template Toolkit</a>, ... </li>
+<li>
+<a href="http://www.adobe.com/products/coldfusion/" shape="rect">ColdFusion</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="http://java.sun.com/" shape="rect">Java</a>:  Servlets, JSP, JSTL, JSF, Struts, Grails, Apache Wicket.
+      </li>
+<li>Microsoft
+      <ul>
+<li>
+<a href="http://www.asp.net/" shape="rect">Active Server Pages, C#, .NET</a>: Sharepoint (CMS)</li>
+</ul>
+</li>
+<li>Web "Content Management" Systems
+      <ul>
+<li>CMS systems - Drupal, Joomla, HippoCMS, MS Sharepoint, Apache Lenya, ...</li>
+<li>Blog software - Wordpress, TypePad, MovableType, ...</li>
+<li>Wiki software - Media Wiki, XWiki, TWiki, ...</li>
+</ul>
+</li>
+</ul>
+<h2 id="slide7">Dynamic Content:  Server Models</h2>
+<ul class="plain">
+<li style="border-bottom: thin solid black;">External, transient (CGI Model)<br />
+<img src="images/http-cgi.png" alt="cgi" />
+</li>
+<li style="border-bottom: thin solid black;">Internal and persistent (e.g. PHP in Apache)<br />
+<img src="images/dynamic-internal.png" alt="cgi" />
+</li>
+<li style="border-bottom: thin solid black;">External and persistent (e.g. Servlet, FastCGI, mongrel (RoR))<br />
+<img src="images/dynamic-external.png" alt="cgi" />
+</li>
+</ul>
+<h2 id="slide8">Dynamic Content:  How does it look?</h2>
+<div>
+<ul>
+<li>
+<strong>program that outputs Web content</strong>
+<br /> programs with XHTML embedded</li>
+<li>
+<strong>Web content that has embedded programming</strong>
+<br />XHTML with programs embedded</li>
+<li>
+<strong>Separation of Concerns (SOC)</strong>
+<br />MVC, Model-View-Controller.
+        </li>
+</ul>
+</div>
+<h2 id="slide9">Web Program Examples</h2>
+<p>Markup or content is embedded within a program; program embedded into markup</p>
+<div>
+<h3>first.pl - Perl</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.pl" shape="rect">first.pl</a>
+</p>
+<pre name="code" class="brush:perl">#!/usr/local/bin/perl
+print "Content-type: text/html\n\n";
+print "&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello, World!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;";</pre>
+</div>
+<div>
+<h3>first.py - Python</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.py" shape="rect">first.py</a>
+</p>
+<pre name="code" class="brush:py">#!/usr/bin/python
+print "Content-type: text/html\n\n";
+print "&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello World!&lt;/title&gt;&lt;/head&gt;";
+print "&lt;body&gt;&lt;h1&gt;Hello, World!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;";</pre>
+</div>
+<div>
+<h3>first.php - PHP</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.php" shape="rect">first.php</a>
+</p>
+<pre name="code" class="brush:php">&lt;?php
+echo('&lt;html&gt;&lt;head&gt;&lt;title&gt;First PHP&lt;/title&gt;&lt;/head&gt;&lt;body&gt;');
+echo('&lt;h1&gt;Hello!&lt;/h1&gt;');
+echo('&lt;/body&gt;&lt;/html&gt;');
+?&gt;</pre>
+</div>
+<div>
+<h3>second.php - PHP</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/second.php" shape="rect">second.php</a>
+<br />program statements within markup</p>
+<pre name="code" class="brush:php">&lt;?php
+      $title = "Hello World!";
+?&gt;
+&lt;!DOCTYPE html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;&lt;?php echo($title) ?&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;&lt;?php echo($title) ?&gt;&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<h2 id="slide10">A Personal Greeting</h2>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/third.cgi" shape="rect"> third.php</a>
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/third.php?name=John%20Harvard" shape="rect">
+      third.php?name=John%20Harvard</a>
+</li>
+</ul>
+<div>
+<pre name="code" class="brush:php;highlight:[2,11]">&lt;?php
+      $name = $_GET["name"];
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, &lt;?php echo($name) ?&gt;!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<h2 id="slide11">A Personal Greeting</h2>
+<div>
+<p>Without a "name", present the user a form. With a name, provide a greeting. </p>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php" shape="rect"> fourth.php</a>
+<br />
+<img src="images/cgi4-form.png" alt="cgi form" />
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php?name=John%20Harvard" shape="rect">
+        fourth.php?name=John%20Harvard</a>
+<br />
+<img src="images/cgi5-response.png" alt="cgi response" />
+</li>
+</ul>
+<pre name="code" class="brush:php">&lt;?php
+      $name = $_GET["name"];
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"/&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;?php
+    if ($name) {
+      echo("&lt;h1&gt;Hello, $name!&lt;/h1&gt;");
+    } else {
+      echo('&lt;h1&gt;&lt;label for="input_name"&gt;Enter name:&lt;/label&gt;&lt;/h1&gt;');
+      echo('&lt;form method="get"&gt;');
+      echo('&lt;input type="text" name="name" id="input_name"/&gt;');
+      echo('&lt;br /&gt;&lt;input type="submit" /&gt;');
+      echo('&lt;br /&gt;&lt;input type="reset" /&gt;');
+    }
+?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+</div>
+<h2 id="slide12">PHP Example with Courses from Database</h2>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/courses/departments.php" shape="rect">http://cscis12.dce.harvard.edu/cgi/courses/departments.php</a>
+</li>
+</ul>
+<p>
+<img src="images/courses1.png" alt="courses" />
+</p>
+<p>
+<img src="images/courses2.png" alt="courses" />
+</p>
+<h2 id="slide13">FAS Course Data</h2>
+<h3>Data Table</h3>
+<p>Course data for Faculty of Arts &amp; Sciences is in a mysql database on morpheus (username: class; database name: coursecatalog)</p>
+<pre name="code" class="brush:plain;">morpheus$ mysql -u class coursecatalog
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql&gt; describe courses;
++------------------------------+--------------+------+-----+---------+-------+
+| Field                        | Type         | Null | Key | Default | Extra |
++------------------------------+--------------+------+-----+---------+-------+
+| acad_year                    | year(4)      | YES  |     | NULL    |       |
+| cat_num                      | int(9)       | YES  |     | NULL    |       |
+| offered                      | char(1)      | YES  |     | NULL    |       |
+| department_code              | varchar(15)  | YES  |     | NULL    |       |
+| department_short             | varchar(80)  | YES  |     | NULL    |       |
+| department_long              | varchar(200) | YES  |     | NULL    |       |
+| course_group_code            | varchar(10)  | YES  |     | NULL    |       |
+| course_group_long            | varchar(200) | YES  |     | NULL    |       |
+| num_int                      | int(9)       | YES  |     | NULL    |       |
+| num_char                     | varchar(15)  | YES  |     | NULL    |       |
+| term_pattern_code            | int(5)       | YES  |     | NULL    |       |
+| fall_term                    | char(1)      | YES  |     | NULL    |       |
+| spring_term                  | char(1)      | YES  |     | NULL    |       |
+| term                         | varchar(100) | YES  |     | NULL    |       |
+| title                        | text         | YES  |     | NULL    |       |
+| course_type                  | varchar(100) | YES  |     | NULL    |       |
+| course_level_code            | char(1)      | YES  |     | NULL    |       |
+| course_level                 | varchar(200) | YES  |     | NULL    |       |
+| credit_code                  | int(5)       | YES  |     | NULL    |       |
+| credit                       | varchar(50)  | YES  |     | NULL    |       |
+| instructor_approval_required | char(1)      | YES  |     | NULL    |       |
+| meeting_time                 | text         | YES  |     | NULL    |       |
+| faculty_text                 | text         | YES  |     | NULL    |       |
+| description                  | text         | YES  |     | NULL    |       |
+| prerequisites                | text         | YES  |     | NULL    |       |
+| notes                        | text         | YES  |     | NULL    |       |
++------------------------------+--------------+------+-----+---------+-------+
+26 rows in set (0.00 sec)
+</pre>
+<h3>SQL</h3>
+<p>SQL statement:  <strong>
+<code>select distinct department_short from courses</code>
+</strong>
+</p>
+<pre name="code" class="brush:plain;">mysql&gt; select distinct department_short from courses;
++----------------------------------------------------------+
+| department_short                                         |
++----------------------------------------------------------+
+| African and African American Studies                     |
+| Anthropology                                             |
+| Architecture, Landscape Architecture, and Urban Planning |
+| Asian Studies Program                                    |
+| Astronomy                                                |
+| Biological Sciences in Dental Medicine                   |
+| Biological Sciences in Public Health                     |
+| Biophysics                                               |
+| Biostatistics                                            |
+| Celtic Languages and Literatures                         |
+| Chemical Biology                                         |
+| Chemical and Physical Biology                            |
+| Chemistry                                                |
+| Comparative Literature                                   |
+| Core Curriculum                                          |
+| Dramatic Arts                                            |
+| Earth and Planetary Sciences                             |
+| East Asian Languages and Civilizations                   |
+| Economics                                                |
+| Engineering and Applied Sciences                         |
+| English and American Literature and Language             |
+| Environmental Science and Public Policy                  |
+| Expository Writing                                       |
+| Folklore and Mythology                                   |
+| Freshman Seminars                                        |
+| Germanic Languages and Literatures                       |
+| Government                                               |
+| Health Policy                                            |
+| History                                                  |
+| History and Literature                                   |
+| History of American Civilization                         |
+| History of Art and Architecture                          |
+| History of Science                                       |
+| House Seminars                                           |
+| Humanities                                               |
+| Life Sciences                                            |
+| Linguistics                                              |
+| Literature                                               |
+| Mathematics                                              |
+| Medical Sciences                                         |
+| Medieval Studies                                         |
+| Molecular and Cellular Biology                           |
+| Music                                                    |
+| Near Eastern Languages and Civilizations                 |
+| Neurobiology                                             |
+| Organismic and Evolutionary Biology                      |
+| Philosophy                                               |
+| Physical Sciences                                        |
+| Physics                                                  |
+| Psychology                                               |
+| Romance Languages and Literatures                        |
+| Sanskrit and Indian Studies                              |
+| Slavic Languages and Literatures                         |
+| Social Policy                                            |
+| Social Studies                                           |
+| Sociology                                                |
+| Special Concentrations                                   |
+| Statistics                                               |
+| Studies of Women, Gender, and Sexuality                  |
+| Systems Biology                                          |
+| The Classics                                             |
+| The Study of Religion                                    |
+| Ukrainian Studies                                        |
+| Visual and Environmental Studies                         |
++----------------------------------------------------------+
+64 rows in set (0.07 sec)</pre>
+<h2 id="slide14">PHP Script to Connect to Database and Get List of Departments</h2>
+<pre name="code" class="brush:php;">#!/usr/bin/php
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd') or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// iterating through results
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+  echo $row['department_code'];
+  echo "\t";
+  echo $row['department_short'];
+  echo "\n";
+}
+?&gt;
+</pre>
+<h3>Output</h3>
+<textarea rows="10" cols="70">
+[dheitmey@morpheus]$ ./dept-txt.php 
+AAAS    African and African American Studies
+ANTH    Anthropology
+URBP    Architecture, Landscape Architecture, and Urban Planning
+ABEA    Asian Studies Program
+ASTR    Astronomy
+BSDM    Biological Sciences in Dental Medicine
+BSPH    Biological Sciences in Public Health
+BIPH    Biophysics
+BIST    Biostatistics
+CELT    Celtic Languages and Literatures
+CHPB    Chemical and Physical Biology
+CHBI    Chemical Biology
+CHEM    Chemistry
+CORE    Core Curriculum
+DRAM    Dramatic Arts
+EPS     Earth and Planetary Sciences
+EALC    East Asian Languages and Civilizations
+ECON    Economics
+DEAS    Engineering and Applied Sciences
+ENGH    English
+ESPP    Environmental Science and Public Policy
+EXPO    Expository Writing
+EDC     Extra-Departmental Courses
+FOLK    Folklore and Mythology
+FRSP    Freshman Seminars
+GENED   General Education
+GERM    Germanic Languages and Literatures
+GOVM    Government
+HPOL    Health Policy
+HIST    History
+HLIT    History and Literature
+HAMC    History of American Civilization
+HAA     History of Art and Architecture
+HSCI    History of Science
+HSEM    House Seminars
+HEB     Human Evolutionary Biology
+HUM     Humanities
+LSCI    Life Sciences
+LING    Linguistics
+CLTR    Literature and Comparative Literature
+MATH    Mathematics
+MDSC    Medical Sciences
+MDST    Medieval Studies
+MCB     Molecular and Cellular Biology
+MUSC    Music
+NELC    Near Eastern Languages and Civilizations
+NEURO   Neurobiology
+NEUROSCI        Neuroscience
+BIOE    Organismic and Evolutionary Biology
+PHIL    Philosophy
+PSCI    Physical Sciences
+PHYS    Physics
+PSYC    Psychology
+ROML    Romance Languages and Literatures
+RSEA    Russia, Eastern Europe, and Central Asia Program
+SANS    Sanskrit and Indian Studies
+SLAV    Slavic Languages and Literatures
+SPOL    Social Policy
+SOST    Social Studies
+SOCL    Sociology
+SPCN    Special Concentrations
+STAT    Statistics
+SCRB    Stem Cell and Regenerative Biology
+WMGS    Studies of Women, Gender, and Sexuality
+SBIO    Systems Biology
+CLAS    The Classics
+RELG    The Study of Religion
+UKRA    Ukrainian Studies
+VEST    Visual and Environmental Studies
+</textarea>
+<h2 id="slide15">Turn this into HTML Output</h2>
+<pre name="code" class="brush:php;">&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd') or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// Printing results in XHTML
+echo "&lt;ul&gt;\n";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    echo "&lt;li&gt;";
+    echo $row['department_short'];
+    echo "&lt;/li&gt;\n";
+ }
+echo "&lt;/ul&gt;\n";
+?&gt;</pre>
+<h2 id="slide16">The entire "departments-simple.php"</h2>
+<ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/departments-simple.php" shape="rect">http://cscie12.dce.harvard.edu/cgi/courses/departments-simple.php</a>
+</li>
+</ul>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;h2&gt;Departments&lt;/h2&gt;
+
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd') or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// iterating through results
+echo "&lt;ul&gt;\n";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    echo "&lt;li&gt;";
+    echo $row['department_short'];
+    echo "&lt;/li&gt;\n";
+ }
+echo "&lt;/ul&gt;\n";
+
+
+// Free resultset
+mysql_free_result($result);
+
+// Closing connection
+mysql_close($link);
+?&gt;
+
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide17">Another View - Department Course Listings</h2>
+<p>Create another PHP file that displays course information based upon a department_code parameter.</p>
+<ul>
+<li>
+<code>courses.php</code> - take a "department_code" parameter and produce alist of courses for that department.</li>
+</ul>
+<p>Need to link to to courses.php:</p>
+<ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=CHEM" shape="rect">courses.php?department_code=CHEM</a>
+</li>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=MCB" shape="rect">courses.php?department_code=MCB</a>
+</li>
+</ul>
+<p>Modify the department listing to include the hyperlink:</p>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;h2&gt;Departments&lt;/h2&gt;
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd')
+     or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// Printing results in XHTML
+echo "&lt;ul&gt;\n";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+  echo "&lt;li&gt;";
+  echo "&lt;a href=\"courses.php?department_code=$row[department_code]\"&gt;$row[department_short]&lt;/a&gt;";
+  echo "&lt;/li&gt;\n";
+}
+echo "&lt;/ul&gt;\n";
+
+// Free resultset
+mysql_free_result($result);
+
+// Closing connection
+mysql_close($link);
+?&gt; 
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide18">courses.php</h2>
+<ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=CHEM" shape="rect">courses.php?department_code=CHEM</a>
+</li>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=MCB" shape="rect">courses.php?department_code=MCB</a>
+</li>
+</ul>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;FAS Courses&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;p&gt;&lt;a href="departments.php"&gt;Return to Department List&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Department &lt;?php echo $_GET[department_code] ?&gt;&lt;/h2&gt;
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd')
+     or die('Could not connect: ' . mysql_error());
+     mysql_select_db('coursecatalog') or die('Could not select database');
+
+$dept_code = $_GET['department_code'];
+
+// Performing SQL query
+$query = 'SELECT course_group_long, num_int, num_char, term, title, description, faculty_text';
+$query .= ' from courses where department_code = ';
+$query .= "'".mysql_escape_string($dept_code)."'";
+$query .= ' order by course_group_long, num_int, num_char, title';
+
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+// Printing results in HTML
+     echo "&lt;table cellspacing='0' cellpadding='0'&gt;\n";
+$i = 0;
+     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+       $class = $i++ % 2 ? 'evenrow' : 'oddrow' ;
+       echo "\t&lt;tr class='$class'&gt;\n";
+       echo "&lt;td class='abbrev'&gt;$row[course_group_long] $row[num_int] $row[num_char]&lt;/td&gt;";
+       echo "&lt;td class='long'&gt;&lt;strong&gt;$row[title]&lt;/strong&gt;&lt;br/&gt;$row[faculty_text]";
+       echo "&lt;p class='description'&gt;$row[description]&lt;/p&gt;&lt;/td&gt;";
+       echo "\t&lt;/tr&gt;\n";
+     }
+echo "&lt;/table&gt;\n";
+
+// Free resultset
+mysql_free_result($result);
+
+// Closing connection
+mysql_close($link);
+?&gt; 
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide19">Model, View, Controller (MVC) Design Pattern</h2>
+<div>
+<p>
+<img src="images/mvc.png" alt="MVC" />
+</p>
+<p>
+<a href="http://en.wikipedia.org/wiki/Model-view-controller" shape="rect">MVC</a> design
+      pattern separates:</p>
+<ul>
+<li>
+<strong>Model</strong>. data model</li>
+<li>
+<strong>View</strong>. user interface</li>
+<li>
+<strong>Controller</strong>. control and flow logic</li>
+</ul>
+<hr />
+<p> You can adopt this design pattern regardless of language or server-architecture
+      (CGI, internal process, external process). Some frameworks make using MVC possible,
+      some hard, some easy, some insist on it. </p>
+</div>
+<h2 id="slide20">PHP Smarty Templates</h2>
+<ul>
+<li>
+<a href="http://smarty.php.net/" shape="rect">Smarty</a>
+<br />
+      is a Template Engine for PHP,
+    which allows you to write Templates for your PHP data (similar to Perl's Template Toolkit)
+</li>
+</ul>
+<p>
+<img src="images/smarty-depts.png" alt="smarty" />
+</p>
+<p>The template (<a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty_templates/departments.tpl" shape="rect">departments.tpl</a>):
+  </p>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;h2&gt;Departments&lt;/h2&gt;
+  &lt;ul&gt;
+    {foreach from=$dept item=d}
+	&lt;li&gt;
+	    &lt;a href="smarty-courses.php?department_code={$d.department_code}"&gt;{$d.department_short}&lt;/a&gt;
+    &lt;/li&gt;
+    {/foreach}
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Get the departments: <a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty-dept.php" shape="rect">smarty-dept.php</a>
+</p>
+<pre name="code" class="brush:php;">&lt;?php
+/* ==================================================
+    Database Stuff
+   ================================================== */
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', '')
+     or die('Could not connect: ' . mysql_error());
+
+mysql_select_db('coursecatalog') or die('Could not select database');
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$res = mysql_query($query) or die('Query failed: ' . mysql_error());
+$i=0;
+while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+  $results[$i++] = $row;
+}
+
+/* ==================================================
+    Smarty Template Stuff
+   ================================================== */
+require('/usr/local/lib/php/Smarty/Smarty.class.php');
+// create object
+$smarty = new Smarty;
+$smarty-&gt;template_dir = './smarty_templates';
+$smarty-&gt;compile_dir = '/tmp/smarty/templates_c';
+$smarty-&gt;cache_dir = '/tmp/smarty/cache';
+$smarty-&gt;config_dir = './smarty_configs';
+
+$smarty-&gt;assign('dept', $results);
+
+// display it
+$smarty-&gt;display('departments.tpl');
+
+/* ==================================================
+    Cleanup
+   ================================================== */
+// Free resultset
+mysql_free_result($res);
+// Closing connection
+mysql_close($link);
+?&gt; </pre>
+<h2 id="slide21">Smarty Template for Courses</h2>
+<p>
+<img src="images/smarty-courses.png" alt="smarty" />
+</p>
+<p>The template (<a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty_templates/courses.tpl" shape="rect">courses.tpl</a>):
+  </p>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;p&gt;&lt;a href="smarty-dept.php"&gt;Return to Department List&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Department {$department_code}&lt;/h2&gt;
+&lt;table cellspacing="0" cellpadding="0"&gt;
+{foreach from=$courses item=course name=courses}
+&lt;tr class="{cycle values="row1,row2,row3,row4"}"&gt;
+&lt;td class="abbrev"&gt;{$course.course_group_long} {$course.num_int}{$course.num_char}&lt;/td&gt;
+&lt;td class="long"&gt;
+  &lt;strong&gt;{$course.title}&lt;/strong&gt;&lt;br/&gt;
+  &lt;span class="faculty"&gt;{$course.faculty_text}&lt;/span&gt;
+  &lt;p class="description"&gt;
+    {$course.description}
+  &lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+{/foreach}
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Get the Courses for the CHEM department: <a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty-courses.php?department_code=CHEM" shape="rect">smarty-courses.php?department_code=CHEM</a>
+</p>
+<p>The SQL:</p>
+<pre name="code" class="brush:sql">SELECT course_group_long, 
+              num_int, num_char, term,
+              title, description </pre>
+<p>smarty-course.php:</p>
+<pre name="code" class="brush:php;">&lt;?php
+/* ==================================================
+    Database Stuff
+   ================================================== */
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', '')
+     or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT course_group_long, num_int, num_char, term, title, description, faculty_text';
+$query .= ' from courses where department_code = ';
+$query .= "'".mysql_escape_string($_GET['department_code'])."'";
+$query .= ' order by course_group_long, num_int, num_char, title';
+$res = mysql_query($query) or die('Query failed: ' . mysql_error());
+$i = 0;
+while ($row =  mysql_fetch_array($res, MYSQL_ASSOC)) {
+  $results[$i++] = $row;
+}
+
+    
+/* ==================================================
+    Smarty Template Stuff
+   ================================================== */
+require('/usr/local/lib/php/Smarty/Smarty.class.php');
+// create object
+$smarty = new Smarty;
+// pass the results to the template
+$smarty-&gt;assign('courses', $results); 
+$smarty-&gt;assign('department_code', $_GET['department_code']);
+    
+$smarty-&gt;template_dir = './smarty_templates';
+$smarty-&gt;compile_dir = '/tmp/smarty/templates_c';
+$smarty-&gt;cache_dir = '/tmp/smarty/cache';
+$smarty-&gt;config_dir = './smarty_configs';
+
+// display it
+$smarty-&gt;display('courses.tpl');
+
+/* ==================================================
+    Cleanup
+   ================================================== */
+// Free resultset
+mysql_free_result($res);
+// Closing connection
+mysql_close($link);
+?&gt; </pre>
+<h2 id="slide22">{{Mustache}}</h2>
+<p>
+<a href="http://mustache.github.com/" shape="rect">{{mustache}}</a> is another widely used template system for JavaScript (and other languages!).</p>
+<p>
+<img src="images/mustache1.png" alt="mustache" />
+</p>
+<h2 id="slide23">Mustache Departments</h2>
+<h3>Mustache Template</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/courses/mustache-dept.php" shape="rect">mustache-dept.php</a>
+</p>
+<h3>PHP</h3>
+<pre name="code" class="brush:php;">&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd')
+     or die('Could not connect: ' . mysql_error());
+     mysql_select_db('coursecatalog') or die('Could not select database');
+     // Performing SQL query
+     $query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+     $res = mysql_query($query) or die('Query failed: ' . mysql_error());
+$i=0;
+while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+  $results[$i++] = $row;
+}
+
+$template_data['departments'] = $results;
+
+// Process with Mustache Template
+include('lib/Mustache.php');
+
+$m = new Mustache;
+$template_file = 'mustache_templates/departments.html';
+$template_contents = file_get_contents($template_file);
+echo $m-&gt;render($template_contents, $template_data);
+
+// Free resultset
+mysql_free_result($res);
+// Closing connection
+mysql_close($link);
+?&gt; </pre>
+<h3>Mustache Template</h3>
+<p>mustache_templates/departments.html</p>
+<pre name="code" class="brush:xml;highlight:[12,13,14,15,16]">&lt;!DOCTYPE htmlnm
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;Departments&lt;/title&gt;
+    &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+   &lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+   &lt;h2&gt;Departments&lt;/h2&gt;
+&lt;ul&gt;
+{{#departments}}
+     &lt;li&gt;
+       &lt;a href="mustache-courses.php?department_code={{department_code}}"&gt;{{department_short}}&lt;/a&gt;
+     &lt;/li&gt;
+{{/departments}}
+&lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt; </pre>
+<h2 id="slide24">Mustache Courses</h2>
+<pre name="code" class="brush:xml;highlight:[12,13,14,15,16,17,18,19,20,21,22,23,24,4,10]">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Courses: {{department_name}}&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;p&gt;&lt;a href="mustache-dept.php"&gt;Return to Department List&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;{{department_name}}&lt;/h2&gt;
+&lt;table cellspacing="0" cellpadding="0"&gt;
+{{#courses}}
+&lt;tr&gt;
+&lt;td class="abbrev"&gt;{{course_group_long}} {{num_int}}{{num_char}}&lt;/td&gt;
+&lt;td class="long"&gt;
+  &lt;strong&gt;{{title}}&lt;/strong&gt;
+  &lt;br/&gt;
+  &lt;span class="faculty"&gt;{{faculty_text}}&lt;/span&gt;
+  &lt;p class="description"&gt;
+    {{description}}
+  &lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+{{/courses}}
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide25">Greeting</h2>
+<div>
+<p>Without a "name", present the user a form. With a name, provide a greeting. </p>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php" shape="rect"> fourth.php</a>
+<br />
+<img src="images/cgi4-form.png" alt="cgi form" />
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php?name=John%20Harvard" shape="rect">
+        fourth.php?name=John%20Harvard</a>
+<br />
+<img src="images/cgi5-response.png" alt="cgi response" />
+</li>
+</ul>
+<pre name="code" class="brush:php">&lt;?php
+      $name = $_GET["name"];
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;?php
+    if ($name) {
+      echo("&lt;h1&gt;Hello, $name!&lt;/h1&gt;");
+    } else {
+      echo('&lt;h1&gt;&lt;label for="input_name"&gt;Enter name:&lt;/label&gt;&lt;/h1&gt;');
+      echo('&lt;form method="get"&gt;');
+      echo('&lt;input type="text" name="name" id="input_name"/&gt;');
+      echo('&lt;br /&gt;&lt;input type="submit" /&gt;');
+      echo('&lt;br /&gt;&lt;input type="reset" /&gt;');
+    }
+c?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+</div>
+<h2 id="slide26">Greeting, Improved</h2>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/greeting/" shape="rect">greeting/index.php</a>
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/greeting/index.php?name=John+Harvard" shape="rect">greeting/index.php?John+Harvard</a>
+</li>
+</ul>
+<p>Three files:  one code; two templates</p>
+<ul>
+<li>index.php</li>
+<li>greeting.html</li>
+<li>form.html</li>
+</ul>
+<h3>index.php</h3>
+<pre name="code" class="brush:php;">&lt;?php 
+$name = $_GET["name"];
+
+// figure out which template is needed
+if ($name) {
+  $template_file = 'greeting.html';
+} else {
+  $template_file = 'form.html';
+}
+$template_contents = file_get_contents($template_file);
+$template_data['name'] = $name;
+
+// Process with Mustache Template
+include('lib/Mustache.php');
+$m = new Mustache;
+
+echo $m-&gt;render($template_contents, $template_data);
+
+?&gt;</pre>
+<h3>greeting.html</h3>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;Greeting Page for {{name}}&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+      &lt;h1&gt;Hello, {{name}}!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h3>form.html</h3>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+      &lt;h1&gt;&lt;label for="input_name"&gt;Enter name:&lt;/label&gt;&lt;/h1&gt;
+      &lt;form method="get"&gt;
+      &lt;input type="text" name="name" id="input_name"/&gt;
+      &lt;br /&gt;&lt;input type="submit" /&gt;
+      &lt;br /&gt;&lt;input type="reset" /&gt;
+  &lt;/body&gt;
+&lt;/html&gt; </pre>
+<h2 id="slide27">Content Management</h2>
+<ul>
+<li>Content Management Systems (CMS)</li>
+<li>Web Content Management (WCM)</li>
+</ul>
+<h3>Components</h3>
+<ul>
+<li>Non-technical
+      <ul>
+<li>Organizational</li>
+<li>Behavioral</li>
+</ul>
+</li>
+<li>Technical</li>
+</ul>
+<h2 id="slide28">The many meanings of "content management"</h2>
+<img src="images/arrow_spectrum.png" alt="spectrum" />
+<ul>
+<li>Add and Edit Content</li>
+<li>Workflow</li>
+<li>Versioning</li>
+<li>Diversity of content</li>
+</ul>
+<h3>Warnings and Admonitions</h3>
+<ul>
+<li>
+<a href="http://adaptivepath.com/ideas/essays/archives/000315.php" shape="rect">Why Content Management Fails</a>
+<p>Over and over I’ve heard the same complaint about these projects, "Turns out, after all the budget and time we spent, we really didn't need a content management system at all. We just needed some editors."</p>
+</li>
+<li>
+<a href="http://stupid.sharp.fm/2006/06/why_content_management_systems.html" shape="rect">Why Content Management Systems Suck!</a>
+<p>Going to the time, money and effort of installing the typical CMS is like fitting wheels to a tomato - time consuming and completely unnecessary.    </p>
+</li>
+</ul>
+<h2 id="slide29">Wikis</h2>
+<p>
+<img src="images/wiki-wikipedia.png" alt="wiki" />
+     <img src="images/wiki-javapedia.png" alt="blog" />
+     <img src="images/wiki-wikibooks.png" alt="blog" />
+     <img src="images/wiki-wikihow.png" alt="blog" />
+</p>
+<h3>Wiki Markup</h3>
+<p>
+<a href="http://www.mediawiki.org/wiki/Help:Formatting" shape="rect">Wiki Markup</a>
+</p>
+<table>
+<tr>
+<td rowspan="1" colspan="1">
+<pre class="terminal">* This is '''item one'''
+* [[ Items | Find out more information about Items ]]
+* Item the ''third''</pre>
+</td>
+<td rowspan="1" colspan="1">
+<p>
+<img src="images/wikimarkup.png" alt="wikimarkup" />
+</p>
+</td>
+</tr>
+</table>
+<h2 id="slide30">Desktop WYSIWG Tools</h2>
+<ul>
+<li>Adobe
+        <ul>
+<li>
+<a href="http://www.adobe.com/products/dreamweaver/" shape="rect">Adobe Dreamweaver</a>
+</li>
+<li>
+<a href="http://www.adobe.com/products/contribute/" shape="rect">Adobe Contribute</a>
+</li>
+</ul>
+</li>
+<li>Microsoft
+      <ul>
+<li>
+<a href="http://www.microsoft.com/products/expression/en/web_designer/default.mspx" shape="rect">Microsoft Expression Web</a>
+</li>
+</ul>
+</li>
+<li>Open Source
+<ul>
+<li>
+<a href="http://www.kompozer.net/" shape="rect">Kompozer</a>
+</li>
+<li>
+<a href="http://www.w3.org/Amaya" shape="rect">Amaya</a>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="slide31">Templates for Adobe Dreamweaver and Contribute</h2>
+<ul>
+<li>Common regions across pages</li>
+<li>"Editable" and "Protected" areas</li>
+</ul>
+<p>Using templates:</p>
+<ol>
+<li>Create template</li>
+<li>Create page based on template</li>
+<li>Template changes are propagated to pages</li>
+<li>Contribute/Dreamweaver editors recognize "editable" and "protected" areas of page which are defined by the template</li>
+</ol>
+<hr />
+<p>Templates simply use comments:</p>
+<pre name="code" class="brush:xml;" rows="5" cols="50">&lt;!-- TemplateBeginEditable name="EditRegion3" --&gt;
+&lt;p&gt; Lorem ipsum dolor sit amet, ...&lt;/p&gt;
+&lt;!-- TemplateEndEditable --&gt;</pre>
+<h2 id="slide32">Open Source WCM</h2>
+<p>Typical features:</p>
+<ul>
+<li>Content and media management</li>
+<li>Browser-based editing</li>
+<li>Menu and Navigation management</li>
+<li>Themes, Templates, or Skins</li>
+<li>User management</li>
+<li>Role-based permission model</li>
+<li>Multiple languages</li>
+<li>Search</li>
+<li>Syndication (RSS, Atom)</li>
+<li>Polls</li>
+<li>Blogs, threaded comments, discussion forums</li>
+<li>Functionality extended through modules/extensions that are optionally installed</li>
+</ul>
+<h2 id="slide33">Open Source WCM</h2>
+<p>Examples of types of sites:</p>
+<ul>
+<li>Corporate Web sites or portals
+    </li>
+<li>Corporate intranets and extranets
+   </li>
+<li>Online magazines, newspapers, and publications
+    </li>
+<li>E-commerce and online reservations
+    </li>
+<li>Government applications
+    </li>
+<li>Small business Web sites
+    </li>
+<li>Non-profit and organizational Web sites
+    </li>
+<li>Community-based portals
+    </li>
+<li>School and Church Web sites
+    </li>
+<li>Personal or family homepages</li>
+</ul>
+<h2 id="slide34">Open Source WCM</h2>
+<table style="width: 100%;">
+<tr>
+<td rowspan="1" colspan="1">
+<ul>
+<li>LAMP
+    <ul>
+<li>Bricolage
+</li>
+<li>concrete5
+</li>
+<li>Contao
+</li>
+<li>Drupal
+</li>
+<li>eZ Publish
+</li>
+<li>GetSimple
+</li>
+<li>Joomla
+</li>
+<li>Midgard
+</li>
+<li>MODx Evolution
+</li>
+<li>MovableType
+</li>
+<li>MySource Matrix
+
+</li>
+<li>Plone/Zope
+</li>
+<li>Splash Frot
+</li>
+<li>Textpattern CMS
+</li>
+<li>TYPO3
+</li>
+<li>WordPress
+</li>
+<li>Xaraya
+</li>
+</ul>
+</li>
+</ul>
+</td>
+<td rowspan="1" colspan="1">
+<ul>
+<li>Java
+    <ul>
+<li>Alfresco
+</li>
+<li>Apache Lenya
+      </li>
+<li>Hippo
+</li>
+<li>Magnolia
+</li>
+<li>MMBase
+</li>
+<li>OpenCms</li>
+</ul>
+</li>
+</ul>
+</td>
+<td rowspan="1" colspan="1">
+<ul>
+<li>.NET
+    <ul>
+<li>Cuyahoga
+</li>
+<li>DotNetNuke
+</li>
+<li>JMDCMS
+</li>
+<li>mojoPortal
+</li>
+<li>N2
+</li>
+<li>Umbraco
+</li>
+<li>Rainbow
+</li>
+<li>VWD-CMS
+</li>
+<li>XML Nuke</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<p>
+<strong>Known use at Harvard</strong>:  Drupal, Joomla, eZ Publish, WordPress, TypePad,
+  Apache Lenya/Cocoon, Concrete 5, Plone, SilverStripe</p>
+<h2 id="slide35">Browser Based WYSIWYG Editors</h2>
+<p>JavaScript-powered WYSIWYG editors</p>
+<p>
+<img src="images/joomla-edit.png" alt="joomla edit" />
+</p>
+<h2 id="slide36">Where to start?</h2>
+<ul>
+<li>GetSimple</li>
+<li>Wordpress</li>
+<li>Concrete 5</li>
+<li>Drupal</li>
+<li>Joomla</li>
+</ul>
+<h2 id="slide37">GetSimple Example</h2>
+<p>
+<img src="images/getsimple1.png" alt="getsimple" />
+<img src="images/getsimple2.png" alt="getsimple" />
+<img src="images/getsimple3.png" alt="getsimple" />
+</p>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext" />
+</td>
+</tr>
+</table>
+</div>
+<div>
+<p style="float: right; width: 40%; text-align: right; font-size: 80%;">Copyright © 1998-2014 David
+        P. Heitmeyer</p>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-2675499-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

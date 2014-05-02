@@ -1,0 +1,22 @@
+### CUSTOM 404 ERROR 
+ErrorDocument 404 /~jhollist/BeeR_is_Good/assign4/status404.html
+
+### CACHE CSS, JS, IMAGES
+ExpiresByType text/css   A86400
+ExpiresByType image/gif   A86400 
+ExpiresByType image/jpeg  A86400 
+ExpiresByType application/javascript   A86400 
+ExpiresByType application/x-javascript   A86400 
+
+### COMPRESS DOCUMENTS
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+
+### REDIRECT TO MY FAVORITE BOOK
+Redirect 302 /~jhollist/myfavoritebook http://adv-r.had.co.nz/
+Redirect 301 /~jhollist/myfavoritebook http://adv-r.had.co.nz/

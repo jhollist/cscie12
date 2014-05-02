@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CSCIS-12, Example: 10.4</title>
+</head>
+<body>
+<div>
+Last modified: <!--#echo var="LAST_MODIFIED"--><br />
+<!--#config timefmt="%B %e, %Y"-->
+Last modified: <!--#echo var="LAST_MODIFIED"--><br />
+</div>
+<!--
+    CSCI E-12, Fundamentals of Web Site Development
+    Copyright 1998-2014 David P. Heitmeyer
+    http://cscis12.dce.harvard.edu/
+    Harvard University Extension School
+    -->
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Slide 66 - The entire "departments-simple.php" § Server-side, Part 1</title>
+<meta name="lecture" content="10" />
+<meta name="date" content="April 14, 2014" />
+<link href="slide_spring2014.css" type="text/css" rel="stylesheet" />
+<link href="resources/jquery/css/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="resources/js/jquery-1.9.0.min.js"> </script>
+<script type="text/javascript" src="resources/js/jquery-ui-1.10.0.custom.min.js"> </script>
+<script src="syntaxhighlighter3/scripts/shCore.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shAutoloader.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushCss.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushJScript.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPhp.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPlain.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPython.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushRuby.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushSql.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXquery.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPerl.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXml.js" type="text/javascript"> </script>
+<link href="syntaxhighlighter3/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="syntaxhighlighter3/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+		SyntaxHighlighter.all();
+	</script>
+</head>
+<body>
+<div id="header">
+<div id="schoolname">
+<a href="http://www.extension.harvard.edu/">Harvard Extension School 2014</a>
+</div>
+<div id="coursename">
+<a href="http://cscie12.dce.harvard.edu/">CSCI E-12 Fundamentals of Website Development</a>
+</div>
+</div>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext">
+<a title="Turn this into XHTML Output" href="slide65.html" accesskey="&lt;">&lt;&lt;&lt; previous</a> |  Slide 66 | <a title="Another View - Department Course Listings" href="slide67.html" accesskey="&gt;">
+          next &gt;&gt;&gt;</a>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<h2>The entire "departments-simple.php"</h2>
+<ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/departments-simple.php" shape="rect">http://cscie12.dce.harvard.edu/cgi/courses/departments-simple.php</a>
+</li>
+</ul>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;h2&gt;Departments&lt;/h2&gt;
+
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd') or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// iterating through results
+echo "&lt;ul&gt;\n";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    echo "&lt;li&gt;";
+    echo $row['department_short'];
+    echo "&lt;/li&gt;\n";
+ }
+echo "&lt;/ul&gt;\n";
+
+
+// Free resultset
+mysql_free_result($result);
+
+// Closing connection
+mysql_close($link);
+?&gt;
+
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext">
+<a title="Turn this into XHTML Output" href="slide65.html">&lt;&lt;&lt; previous</a> |  Slide 66 | <a title="Another View - Department Course Listings" href="slide67.html">
+          next &gt;&gt;&gt;</a>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div>
+<p style="float: right; width: 40%; text-align: right; font-size: 80%;">Copyright © 1998-2014 David
+        P. Heitmeyer</p>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-2675499-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<html>
+<head><title>Navigation with JavaScript</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"> </script>
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log("Ready!");
+	var mybodyid = $('body').attr('id');
+	var mynavid = '#nav_' + mybodyid;
+	console.log("mybodyid is " + mybodyid);
+	console.log("mynavid is " + mynavid);
+	// Set iamhere id
+	$(mynavid).attr('id','iamhere');
+	// hide all nested lists
+	$('#navigation ul ul').hide();
+    // show parents of "iamhere"
+	$('#iamhere').parents().show();
+	// show children of "iamhere"
+	$('#iamhere').children().show();
+});
+</script> 
+</head><body id="ivy_harvard">
+<div id="header"><h1>Navigation with JavaScript</h1></div>
+<div id="navigation">
+<ul>
+  <li id="nav_big12"><a href="http://big12sports.collegesports.com/" >Big XII</a>
+    <ul>
+      <li id="nav_big12_baylor"><a href="http://www.baylor.edu/" >Baylor</a></li>
+      <li id="nav_big12_cu"><a href="http://www.cu.edu/" >Colorado</a></li>
+      <li id="nav_big12_isu"><a href="http://www.iastate.edu/" >Iowa State</a></li>
+      <li id="nav_big12_ku"><a href="http://www.ku.edu/" >Kansas</a></li>
+      <li id="nav_big12_ksu"><a href="http://www.ksu.edu/" >Kansas State</a></li>
+      <li id="nav_big12_mu"><a href="http://www.missouri.edu/" >Missouri</a></li>
+      <li id="nav_big12_nu"><a href="http://www.unl.edu/" >Nebraska</a></li>
+      <li id="nav_big12_ou"><a href="http://www.ou.edu/" >Oklahoma</a></li>
+      <li id="nav_big12_osu"><a href="http://www.okstate.edu/" >Oklahoma State</a></li>
+      <li id="nav_big12_texas"><a href="http://www.utexas.edu/" >Texas</a></li>
+      <li id="nav_big12_tamu"><a href="http://www.tamu.edu/" >Texas A&M</a></li>
+      <li id="nav_big12_tt"><a href="http://www.ttu.edu/" >Texas Tech</a></li>
+    </ul>
+  </li>
+  <li id="nav_ivy"><a href="http://www.ivyleaguesports.com/" >Ivy League</a>
+    <ul >
+      <li id="nav_ivy_brown"><a href="http://www.brown.edu/" >Brown</a></li>
+      <li id="nav_ivy_columbia"><a href="http://www.columbia.edu/" >Columbia</a></li>
+      <li id="nav_ivy_cornell"><a href="http://www.cornell.edu/" >Cornell</a></li>
+      <li id="nav_ivy_dartmouth"><a href="http://www.dartmouth.edu/" >Dartmouth</a></li>
+      <li id="nav_ivy_harvard"><a href="http://www.harvard.edu/" >Harvard</a>
+	  <ul>
+	  <li id="nav_ivy_harvard_college"><a href="#">Harvard College</a></li>
+	  <li id="nav_ivy_harvard_gsas"><a href="#">GSAS</a></li>
+	  </ul>
+	  </li>
+      <li id="nav_ivy_penn"><a href="http://www.upenn.edu/" >Penn</a></li>
+      <li id="nav_ivy_princeton"><a href="http://www.princeton.edu/" >Princeton</a></li>
+      <li id="nav_ivy_yale"><a href="http://www.yale.edu/" >Yale</a></li>
+    </ul>
+  </li>
+  <li><a href="http://www.pac-10.org/" >Pac 10</a>
+    <ul >
+      <li id="nav_pac10_az"><a href="http://www.arizona.edu/" >Arizona</a></li>
+      <li><a href="http://www.asu.edu/" >Arizona State</a></li>
+      <li><a href="http://www.berkeley.edu/" >California</a></li>
+      <li><a href="http://www.uoregon.edu/" >Oregon</a></li>
+      <li><a href="http://www.oregonstate.edu/" >Oregon State</a></li>
+      <li><a href="http://www.stanford.edu/" >Stanford</a></li>
+      <li><a href="http://www.ucla.edu/" >UCLA</a></li>
+      <li><a href="http://www.usc.edu/" >USC</a></li>
+      <li><a href="http://www.washington.edu/" >Washington</a></li>
+      <li><a href="http://www.wsu.edu/" >Washington State</a></li>
+    </ul>
+  </li>
+</ul>
+</div>
+<div id="main">
+<p> 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae quam arcu. Pellentesque condimentum, dui quis rutrum dignissim, ligula velit posuere ipsum, non faucibus erat ante ut urna. Sed aliquet malesuada nulla et blandit. Nulla vulputate lacus ornare nunc dapibus scelerisque. Aliquam iaculis malesuada metus, id lacinia erat hendrerit et. Vestibulum neque nunc, vehicula in pharetra non, feugiat eu mauris. Etiam ultricies hendrerit feugiat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis vitae purus enim, a pellentesque ante. Ut vitae lobortis ligula. Praesent sollicitudin sem nec lorem posuere vehicula. Quisque pulvinar accumsan leo non consectetur. Sed bibendum ante velit, sed ultrices eros. Cras aliquet, enim a ultricies porta, sapien velit faucibus neque, ac vehicula nisl mi in arcu. Nunc vitae justo nisl, a rutrum eros. Aliquam erat volutpat. Vivamus aliquet sem a justo lobortis volutpat.
+</p> 
+<p> 
+Aenean cursus odio eu nibh elementum dignissim. Praesent tempor mauris id leo scelerisque imperdiet ullamcorper ligula accumsan. Mauris ultricies, mi vitae scelerisque egestas, nisl nunc malesuada arcu, ac blandit mi est ut dolor. Quisque quis sollicitudin sapien. Fusce dapibus vulputate ipsum, id mattis nulla fermentum vitae. Vestibulum porta, magna et ornare malesuada, quam tortor ornare est, sed venenatis ante mi eu nisi. Vivamus tempus tristique pellentesque. Suspendisse et augue sed felis placerat rutrum at ac diam. Praesent a diam eu neque dictum dictum. Aliquam erat volutpat. Nam ultricies, magna vel imperdiet ullamcorper, eros est faucibus velit, eget convallis augue augue ut magna. Sed purus orci, egestas et tincidunt id, ultricies non arcu. In odio sem, fringilla at hendrerit in, lobortis in enim. Praesent ac purus nisl, nec euismod diam. Duis quis lacus dolor. In mi libero, vehicula vitae feugiat et, vulputate et orci.
+</p> 
+<p> 
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean vehicula nisl ac magna condimentum viverra. Fusce et nisl urna. Cras non nisi orci, sit amet posuere justo. Integer aliquet ultrices velit, at ornare diam porttitor non. Vestibulum pretium convallis magna et convallis. Sed eget erat eu justo lobortis rutrum sit amet at nulla. In id nisi vel arcu sodales tempor sed a tortor. Nam neque orci, lacinia scelerisque mollis at, volutpat sit amet mauris. Nunc rhoncus eleifend ligula, consequat aliquam ligula rutrum vitae. Aliquam vitae commodo velit. Suspendisse porttitor interdum metus quis tincidunt. Aenean euismod egestas ligula, quis gravida eros euismod non. Vivamus vestibulum augue non lacus pellentesque in sodales tellus consectetur. Donec libero urna, dictum at pharetra eu, suscipit in ligula. Phasellus lobortis fringilla nisi, eleifend semper ligula semper et. Ut turpis elit, fermentum vitae vestibulum et, tincidunt vitae odio. Quisque at libero ac elit interdum sagittis nec vitae libero. Sed lacus turpis, laoreet eu varius a, volutpat in tellus. Praesent vitae euismod nisl.
+</p> </div>
+</body></html>

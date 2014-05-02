@@ -1,0 +1,234 @@
+h1,h2,h3,h4,h5,h6 { 
+font-family: "Calibri", "Lucida Grande", Verdana, "Trebuchet MS", Geneva, Helvetica, Arial, sans-serif;
+background-color: #ffffff;
+text-align: left;
+clear: left;
+}
+h3 { padding-top: 0.25em; border-top: thin solid #ccc;}
+html { margin: 0px;  margin: 0px;
+font-family: "Calibri", "Lucida Grande", Verdana, "Trebuchet MS", Geneva, Helvetica, Arial, sans-serif;
+}
+body { 
+margin-left: 12pt;
+margin-right: 12pt;
+margin-top: 0px;
+font-family: "Calibri", "Lucida Grande", Verdana, "Trebuchet MS", Geneva, Helvetica, Arial, sans-serif;
+}
+.nav a:visited, .nav a:link {
+color: blue;
+text-decoration: none;
+}
+.nav a:hover {
+color: white;
+background-color: blue;
+text-decoration: none;
+}
+.nav a:link {  
+color: #000066; 
+}
+.nav a:visited { 
+color: #000066;
+}
+.nav a:hover { 
+color: #ffffff;
+background-color: #000066;
+}
+a:visited { color: blue; }
+h2 { page-break-before: always; clear: both;}
+div.nav {
+clear: both;
+font-family: "Calibri", "Lucida Grande", Verdana, "Trebuchet MS", Geneva, Helvetica, Arial, sans-serif;
+    margin-top: 4px;
+	font-size: 0.80em;
+	background-color: #eee;
+	border-top: thin solid #ccc;
+	border-bottom: thin solid #ccc;
+	margin-left: -12pt;
+	padding-left: 12pt;
+	margin-right: -12pt;
+	padding-right: 12pt;
+}
+div.navprevnext {
+	text-align: right;
+}
+div.navlinks {
+	text-align: left;
+}
+div.title {
+	font-weight: bold; 
+	margin-top: 0.5em; 
+font-family: "Calibri", "Lucida Grande", Verdana, "Trebuchet MS", Geneva, Helvetica, Arial, sans-serif;
+}
+div.link  {
+	margin-left: 2em; 
+	margin-top: 0.25em;
+}
+div.linkuri {
+	margin-left: 1em; 
+	font-family: "Lucida console", courier, monospace;
+	font-size: 75%;
+	}
+div.header {
+	background-color: #dddddd;
+	text-align: left;
+	font-variant:  small-caps;
+	font-size: 0.5em;
+	color: #990000;
+	border: solid thin #990000;
+}
+.elementcontent, .element { margin-left: 1em; }
+.bracket { font-weight: bold; }
+.ename   { color: blue; }
+.attr { color: green; }
+.attrv { color: green; }
+.pcdata { color: black; }
+.source, .htmlexample { border-style: solid; border-width: thin; padding: 0.5em; background-color: #eeeeee;}
+hr.examplehr { width: 100%; clear: both;}
+.center { text-align: center; }
+.comment { color: #888888; }
+.fasprompt { color: navy; margin-right: 1em;}
+.command { font-weight: bold; color: #990000; }
+.terminal {
+     background-color: #ffffdd;
+     border-style: solid;
+     border-width: thin;
+     padding: 1em 1em 1em 1em;
+}
+.highlight {
+	background-color: yellow;
+}
+.styleblock { font-size: 80%; font-family: courier, monospace; white-space: pre; }
+.highlight1, .highlight {padding: 0px; background-color: maroon; color: white; }
+.highlight2 { padding: 0px; background-color: olive; color: white;}
+.highlight0 {padding: 0px; background-color: orange; color: white;}
+.highlight3 {padding: 0px; background-color: purple; color: white;}
+.highlight4 {padding: 2px; background-color: green; color: white;}
+.highlight5 {padding: 1px; background-color: yellow; color: black; border-bottom: medium solid red; font-weight: bold;}
+.highlight6 {padding: 1px; background-color: green; color: white; border-bottom: medium solid orange; font-weight: bold;}
+.note { padding: 0.25em; margin: 1em; background-color: #eef; border: thin solid #ccc;}
+div.room { padding: .5em;}
+div.book div.bookcover img { float: right; }
+div.book { border: thin solid #ccc; padding: 0.25em; margin: 0.25em; }
+.callout { border: thin dashed black; background-color: #ffe; padding: 0.25em; margin: 1em; }
+tr.trhead { background-color: #fefecd;}
+tr.trhead th { border: thin solid black; }
+table.spreadsheet td {border-bottom: thin solid black; }
+.hint { margin: 1em; padding: 0.5em; background-color: #eeeeee; border: thin dashed black;}
+blockquote.box, pre.box { margin: 1em; padding: 0.5em; background-color: #eeeeee; border: thin dotted black;}
+pre.code { margin: 1em; padding: 0.5em; background-color: #eeeeee; border: thin dashed black;}
+img.screenshot { border-width: medium; border-style: double; border-color: black; }
+img.example_screenshot { border: thin dotted black; padding: 10px;}
+.box { padding: 0.25em; border: thin dotted black; }
+table tr td, table tr th { vertical-align: top; }
+table.bottom tr td, table.bottom tr th { vertical-align: bottom; }
+.updateme { padding: 1em; background:yellow; color: red; border: thin solid red;}
+div.rendered {padding: 0.25em; border: 1px solid #2B91AF;}
+table.grid {border: medium solid black; border-collapse: collapse; margin-bottom: 5px;}
+table.grid td, table.grid th {border-bottom: thin solid black; border-right: thin solid black; padding: .25em;}
+table.grid caption {  border: medium solid black; background-color: #ddd; }
+td.clientrequest { border: thin solid black; background-color: #f9f;}
+td.serverresponse { border: thin solid black; background-color: #ff9;}
+.border { border: thin dotted black; padding: 0.5em; margin: 0.5em;}
+.attributename, .elementname { font-family: lucida console, courier, monospace; }
+table.data td { padding: 3px; }
+table.data { border: thin solid black; margin: 1em;}
+ul li { margin-top: 0.5em; }
+/* transparency background-color */
+td.tbc { width: 150px; height: 150px; background-color: #999; text-align: center; vertical-align: middle;}
+/* transparency background-image*/
+td.tbi {  background-position: center; width: 150px; height: 150px; background-image: url(images/satin.png);  text-align: center; vertical-align: middle;}
+.internetarchive dt { font-weight: bold; font-size: 110%; }
+.internetarchive dl { margin-top: 1em; }
+.internetarchive dd { margin: 1em 1em 1em 3em;}
+.todo { background-color: #ff0; color: black; border: medium solid red; padding: 1em; }
+ul.plain { list-style: none; }
+ul.plaininline { list-style: none; }
+ul.plaininline li { display: inline; padding-left: 10px;}
+ul.room li { margin-top: 1em; }
+#header {
+	background: url(images/harvard_dce_shield_50.png) no-repeat;
+	font-size-adjust: none;
+	margin-left: -12pt; margin-right: -12pt;
+	background-color: #fff;
+	padding-left: 50px;}
+#header a {display: block;}
+#header  a:link,
+#header  a:visited
+{ text-decoration: none; color: #000;}
+#header #coursename a { 
+/*	float: left; width: 40%;
+	text-align: left;
+	*/	
+	font-size-adjust: none; 
+	/* orange for summer school; background-color: rgb(252,175,23); */
+	background-color: #fff; 
+	margin-top: 3px;
+	color: #444;
+	padding-left: 10px;
+	height: 25px;
+	font-size: 14pt; 
+	font-weight: bold; 
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+#header #schoolname a {
+/*	float: right; width: 40%;
+	text-align: right; */
+	font-size-adjust: none;  
+	/* orange for summer school; background-color: rgb(252,175,23); */
+	background-color: #fff; 
+	margin-top: 3px;
+	color: #444;
+	padding-left: 10px;
+	height: 25px;
+	font-size: 14pt; 
+	font-weight: bold; 
+	padding-top: 2px;
+	padding-bottom: 2px;
+		}
+#header #schoolbanner a { 
+	background: url(images/masthead_ext.png) no-repeat;
+	height: 25px;  font-weight: bold;
+	margin-top: 5px; text-indent: -5000px;
+	width: 305px; padding-right: 10px; }
+	
+p.thumbshotgrid img { border: thin solid #ccc; padding: 3px; }
+.ui-tabs .ui-tabs-nav li a { font-size: 80%; padding: 0.25em 0.25em ; }
+.ui-tabs .ui-tabs-panel { padding: 0.5em 0.5em 0em 0.5em;}
+.ui-widget-content .example a {color:blue;}
+.ui-widget { font-family: inherit; font-size: inherit; }
+.dp-highlighter { margin: 0.5em;}
+input { margin-bottom: 0.5em; }
+table.grid tbody tr th { text-align: left; }
+td.strict { background-color: #cce; }
+td.transitional{ background-color: #cec; }
+td.xml { background-color: #fcc; }
+td.sgml {background-color: #cff; }
+code { font-size: 100%; font-family: "lucida console", courier, monospace; }
+@media print {
+  .ui-tabs .ui-tabs-hide { display: block !important; }
+  font-size: 12pt;
+}
+dt { margin-top: 1em; }
+ul.resourcegrid {background-color: red;}
+ul.resourcegrid > li { margin: 1em; padding: 0.5em; border: thin solid #ccc; width: 20%; float: left; list-style: none; height: 200px;}
+ul.resourcegrid > li img { height: 120px; }
+.done { text-decoration: line-through; }
+ul.inline {background-color: white;}
+ul.inline > li { margin: 1em; padding: 0.5em; border: thin solid #ccc; float: left; list-style: none; ;}
+
+code {
+padding: 0 3px 2px;
+font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+font-size: 12px;
+color: #333333;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+-ms-border-radius: 3px;
+-o-border-radius: 3px;
+border-radius: 3px;
+padding: 2px 4px;
+color: #d14;
+background-color: #f7f7f9;
+border: 1px solid #e1e1e8;
+}
