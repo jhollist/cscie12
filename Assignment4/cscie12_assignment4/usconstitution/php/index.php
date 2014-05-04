@@ -7,11 +7,19 @@
 <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />
 <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+$(document).ready(function(){
+  var mybodyid = $('body').attr('id');
+  var mynavid = '#nav_' + mybodyid;
+  $(mynavid).attr('id','iamhere');
+});
+</script>
 </head>
 <body id="i">
 <div class="container">
   <?php include("includes/header.php"); ?>
-  <?php include("includes/navigagtion.php"); ?>
+  <?php include("includes/navigation.php"); ?>
   <div id="main" class="span-20 last">
     <h2>Preamble</h2>
     <p>We the People of the United States, in Order to form a more perfect Union, establish Justice, insure domestic Tranquility, provide for the common defence, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity, do ordain and establish this Constitution for the United States of America.</p>

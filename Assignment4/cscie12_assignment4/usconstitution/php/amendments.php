@@ -7,11 +7,19 @@
 <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />
 <!--[if lt IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+$(document).ready(function(){
+  var mybodyid = $('body').attr('id');
+  var mynavid = '#nav_' + mybodyid;
+  $(mynavid).attr('id','iamhere');
+});
+</script>
 </head>
 <body id="amendments">
 <div class="container">
   <?php include("includes/header.php"); ?>
-  <?php include("includes/navigagtion.php"); ?>
+  <?php include("includes/navigation.php"); ?>
   <div id="main" class="span-20 last">
     <p>Proposed by Congress, and ratified by the legislatures of the several states, purusant to the Fifth Article of the original Constitution.</p>
     <h2>Article I</h2>
