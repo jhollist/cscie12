@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CSCIS-12, Example: 10.1</title>
+</head>
+<body>
+<div>
+<p>
+     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+     Cras sollicitudin, orci nec facilisis vehicula, neque urna 
+     porta risus, ut sagittis enim velit at orci. Fusce velit. 
+     Integer sapien enim, rhoncus vitae, cursus non, commodo vitae, 
+     felis. Nulla convallis ante sit amet urna. Maecenas condimentum 
+     hendrerit turpis.
+  </p>
+<!--#include virtual="footer.inc" -->
+</div>
+<!--
+    CSCI E-12, Fundamentals of Web Site Development
+    Copyright 1998-2014 David P. Heitmeyer
+    http://cscis12.dce.harvard.edu/
+    Harvard University Extension School
+    -->
+</body>
+</html>

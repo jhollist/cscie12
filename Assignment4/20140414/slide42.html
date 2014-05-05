@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Slide 42 - Parts that Build the Page § Server-side, Part 1</title>
+<meta name="lecture" content="10" />
+<meta name="date" content="April 14, 2014" />
+<link href="slide_spring2014.css" type="text/css" rel="stylesheet" />
+<link href="resources/jquery/css/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="resources/js/jquery-1.9.0.min.js"> </script>
+<script type="text/javascript" src="resources/js/jquery-ui-1.10.0.custom.min.js"> </script>
+<script src="syntaxhighlighter3/scripts/shCore.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shAutoloader.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushCss.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushJScript.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPhp.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPlain.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPython.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushRuby.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushSql.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXquery.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPerl.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXml.js" type="text/javascript"> </script>
+<link href="syntaxhighlighter3/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="syntaxhighlighter3/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+		SyntaxHighlighter.all();
+	</script>
+</head>
+<body>
+<div id="header">
+<div id="schoolname">
+<a href="http://www.extension.harvard.edu/">Harvard Extension School 2014</a>
+</div>
+<div id="coursename">
+<a href="http://cscie12.dce.harvard.edu/">CSCI E-12 Fundamentals of Website Development</a>
+</div>
+</div>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext">
+<a title="File Includes with PHP" href="slide41.html" accesskey="&lt;">&lt;&lt;&lt; previous</a> |  Slide 42 | <a title="Recommendation:  Keep included files well-formed" href="slide43.html" accesskey="&gt;">
+          next &gt;&gt;&gt;</a>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<h2>Parts that Build the Page</h2>
+<p>
+<img src="images/iroquois_ssi_500.png" alt="Iroquois Constitution" />
+</p>
+<h3>Starting File (1.php)</h3>
+<pre name="code" class="brush:xml;highlight:[6,9,10,12,14]">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;The Great Binding Law, Gayanashagowa (Constitution of the Iroquois Nations)&lt;/title&gt;
+    &lt;?php include("inc/htmlhead.php"); ?&gt;
+  &lt;/head&gt;
+  &lt;body id="part1"&gt;
+    &lt;?php include("inc/header.php"); ?&gt;
+    &lt;?php include("inc/nav.php"); ?&gt;
+    &lt;div id="main"&gt;
+      &lt;?php include("inc/content1.php"); ?&gt;
+    &lt;/div&gt;
+    &lt;?php include("inc/footer.php"); ?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h3>HTML Head Content - htmlhead.php</h3>
+<pre name="code" class="brush:xml;">&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt; 
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"&gt; &lt;/script&gt;
+&lt;script type="text/javascript" src="js/highlightnavigation.js"&gt; &lt;/script&gt;
+   </pre>
+<h3>Header - header.php</h3>
+<pre name="code" class="brush:xml">&lt;div id="header"&gt;&lt;h1&gt;Constitution of the Iroquois Nations&lt;/h1&gt;&lt;/div&gt;
+   </pre>
+<h3>Navigation - nav.php</h3>
+<pre name="code" class="brush:xml">&lt;div id="navigation"&gt;
+&lt;ul id="mainnav"&gt;
+&lt;li id="navpart1"&gt;&lt;a href="1.php"&gt;The Great Binding Law, Gayanashagowa&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart2"&gt;&lt;a href="2.php"&gt;Rights, Duties and Qualifications of Lords&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart3"&gt;&lt;a href="3.php"&gt;Election of Pine Tree Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart4"&gt;&lt;a href="4.php"&gt;Names, Duties and Rights of War Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart5"&gt;&lt;a href="5.php"&gt;Clans and Consanguinity&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart6"&gt;&lt;a href="6.php"&gt;Official Symbolism&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart7"&gt;&lt;a href="7.php"&gt;Laws of Adoption&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart8"&gt;&lt;a href="8.php"&gt;Laws of Emigration&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart9"&gt;&lt;a href="9.php"&gt;Rights of Foreign Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart10"&gt;&lt;a href="10.php"&gt;Rights and Powers of War&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart11"&gt;&lt;a href="11.php"&gt;Treason or Secession of a Nation&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart12"&gt;&lt;a href="12.php"&gt;Rights of the People of the Five Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart13"&gt;&lt;a href="13.php"&gt;Religious Ceremonies Protected&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart14"&gt;&lt;a href="14.php"&gt;The Installation Song&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart15"&gt;&lt;a href="15.php"&gt;Protection of the House&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart16"&gt;&lt;a href="16.php"&gt;Funeral Addresses&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+   </pre>
+<h3>Footer - footer.php</h3>
+<pre name="code" class="brush:xml;highlight:[14]">&lt;div id="footer"&gt;
+Text form prepared by Gerald Murphy (The Cleveland Free-Net - aa300). Distributed by the Cybercasting Services Division of the National Public Telecomputing Network. Rendered into HTML by &lt;a href="mailto:jon.roland@the-spa.com"&gt;Jon Roland&lt;/a&gt; of the Constitution Society.  (NPTN). Permission is hereby granted to download, reprint, and/or otherwise redistribute this file, provided appropriate point of origin credit is given to the preparer(s), the National Public Telecomputing Network and the Constitution Society.
+&lt;div class="note"&gt;
+&lt;p&gt;Additional information about the Iroquois nations and their constitution are available:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.sixnations.org/"&gt;Haudenosaunee:  People Building a Long House&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.tuscaroras.com/graydeer/influenc/page1.htm"&gt;The Influence of the Great Law of Peace on the the United States constitution:  an Haudenosaunee (Iroquois) Perspective&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.ratical.org/many_worlds/6Nations/index.html"&gt;The Six Nations:  Oldest Living Participatory Democracy on Earth&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.carnegiemuseums.org/cmnh/exhibits/north-south-east-west/iroquois/"&gt;The Iroquois nations of the Northeast&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.iroquoismuseum.org/"&gt;Iroquois Indian Museum&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;
+   &lt;?php include("validate.php"); ?&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+   </pre>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext">
+<a title="File Includes with PHP" href="slide41.html">&lt;&lt;&lt; previous</a> |  Slide 42 | <a title="Recommendation:  Keep included files well-formed" href="slide43.html">
+          next &gt;&gt;&gt;</a>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div>
+<p style="float: right; width: 40%; text-align: right; font-size: 80%;">Copyright © 1998-2014 David
+        P. Heitmeyer</p>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-2675499-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

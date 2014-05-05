@@ -1,0 +1,2773 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Server-side, Part 1</title>
+<meta name="lecture" content="10" />
+<meta name="date" content="April 14, 2014" />
+<link href="slide_spring2014.css" type="text/css" rel="stylesheet" />
+<link href="resources/jquery/css/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="resources/js/jquery-1.9.0.min.js"> </script>
+<script type="text/javascript" src="resources/js/jquery-ui-1.10.0.custom.min.js"> </script>
+<script src="syntaxhighlighter3/scripts/shCore.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shAutoloader.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushCss.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushJScript.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPhp.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPlain.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPython.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushRuby.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushSql.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXquery.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPerl.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXml.js" type="text/javascript"> </script>
+<link href="syntaxhighlighter3/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="syntaxhighlighter3/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+		SyntaxHighlighter.all();
+	</script>
+</head>
+<body>
+<div id="header">
+<div id="schoolname">
+<a href="http://www.extension.harvard.edu/">Harvard Extension School 2014</a>
+</div>
+<div id="coursename">
+<a href="http://cscie12.dce.harvard.edu/">CSCI E-12 Fundamentals of Website Development</a>
+</div>
+</div>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext" />
+</td>
+</tr>
+</table>
+</div>
+<h1>Server-side, Part 1</h1>
+<p>
+<img src="images/wordle-httpapache.png" alt="HTTP/Apache Wordle" />
+</p>
+<div style="text-align: left">
+<p>April 14, 2014</p>
+<p> Harvard University<br />Division of Continuing Education
+        <br />Extension School</p>
+<p>Course Web Site: <a href="http://cscie12.dce.harvard.edu/" shape="rect">
+<strong>http://cscie12.dce.harvard.edu/</strong>
+</a>
+</p>
+<p>Instructor email: <a href="mailto:david_heitmeyer@harvard.edu" shape="rect">
+        david_heitmeyer@harvard.edu</a>
+<br /> Course staff email: <a href="mailto:cscie12@dce.harvard.edu" shape="rect">
+        cscie12@dce.harvard.edu</a>
+</p>
+</div>
+<div style="display: none;">
+<ul>
+<li>
+<a href="images/satin.png" shape="rect">img</a>
+</li>
+<li>
+<a href="images/ext_shield.png" shape="rect">img</a>
+</li>
+<li>
+<a href="images/ext_masthead.png" shape="rect">img</a>
+</li>
+<li>
+<a href="images/harvard_dce_shield_50.png" shape="rect">img</a>
+</li>
+</ul>
+</div>
+<h2 id="slide2">Announcements</h2>
+<ul>
+<li>Assignment 4
+ <ul>
+<li>Apache HTTPD</li>
+<li>PHP includes</li>
+<li>Video</li>
+</ul>
+</li>
+<li>Final Project</li>
+<li>Next week, 4/21:  No on-campus class<br />
+Screencast for everyone!</li>
+</ul>
+<h2 id="slide3">The Internet and the Web</h2>
+<div>
+<p>
+<img style="padding-left: 20px;" src="images/internet_http_browser_server.png" alt="Internet Routing" />
+</p>
+</div>
+<h2 id="slide4">Domain Names: Top Level Domains (TLD)</h2>
+<div>
+<p>
+<strong>TLDs</strong> are managed by the <a href="http://www.iana.org/" shape="rect">Internet Assigned Numbers Authority (IANA)</a>
+</p>
+<p>Generic:  <code>.com</code>, <code>.org</code>, <code>.edu</code>, <code>.gov</code>, etc.</p>
+<p>Country codes:  <code>.ch</code>, <code>.cn</code>, <code>.de</code>, <code>.uk</code>, <code>.us</code>, etc.</p>
+<p>
+<a href="http://www.iana.org/domains/root/db" shape="rect">Full listing of TLDs</a>
+</p>
+</div>
+<h2 id="slide5">Getting Your Own Domain and Hosting</h2>
+<ol>
+<li>Domain Name
+        <ul>
+<li>Buy the domain through a "registrar"</li>
+<li>Provide name servers</li>
+<li>About $10/yr</li>
+</ul>
+</li>
+<li>Hosting
+      <ul>
+<li>Shared ($7-15/mo)</li>
+<li>Private / Cloud</li>
+</ul>
+</li>
+</ol>
+<div class="callout">
+<p>A very short list of <strong>hosting</strong> companies as a place to start.</p>
+<ul>
+<li>
+<a href="http://www.dreamhost.com/" shape="rect">DreamHost</a>
+</li>
+<li>
+<a href="http://siteground.com/" shape="rect">SiteGround</a>
+</li>
+<li>
+<a href="http://www.bluehost.com/" shape="rect">bluehost</a>
+</li>
+<li>
+<a href="http://www.godaddy.com/" shape="rect">Go Daddy</a>
+</li>
+</ul>
+</div>
+<h2 id="slide6">Web Server Software</h2>
+<ul>
+<li>Apache HTTP Server</li>
+<li>Microsoft IIS</li>
+<li>Other
+    <ul>
+<li>nginx</li>
+<li>Google (Google Sites)</li>
+</ul>
+</li>
+</ul>
+<h4>Web Server Market Share</h4>
+<p>
+<a href="http://news.netcraft.com/archives/2014/04/02/april-2014-web-server-survey.html" shape="rect">
+<img src="images/wpid-overallc-201404.png" alt="Netcraft HTTP Server Survey" />
+</a>
+<br />
+<a href="http://news.netcraft.com/archives/2013/04/02/april-2013-web-server-survey.html" shape="rect">Netcraft Web Server Survey</a>
+</p>
+<h2 id="slide7">HyperText Transfer Protocol</h2>
+<h3>GET /</h3>
+<pre name="code" class="brush:plain;highlight:[5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,22]">[dheitmey@morpheus ~]$ telnet www.whitehouse.gov 80
+Trying 204.2.199.72...
+Connected to www.whitehouse.gov.
+Escape character is '^]'.
+GET / HTTP/1.1
+Host: www.whitehouse.gov
+Connection: close
+
+HTTP/1.1 200 OK
+Content-Length: 70068
+Content-Type: text/html; charset=utf-8
+X-Drupal-Cache: HIT
+P3P: CP="NON DSP COR ADM DEV IVA OTPi OUR LEG"
+X-Varnish: 1657129680
+X-AH-Environment: prod
+X-PF-Uncompressing: 1
+ETag: "1397511076-0"
+Expires: Mon, 14 Apr 2014 21:42:19 GMT
+Cache-Control: max-age=0, no-cache
+Pragma: no-cache
+Date: Mon, 14 Apr 2014 21:42:19 GMT
+Connection: close
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if lt IE 7]&gt;
+&lt;html
+  class="no-js lt-ie9 lt-ie8 lt-ie7 no-responsive"
+    lang="en"
+  dir="ltr"
+  prefix="og: http://ogp.me/ns#"
+  &gt;
+&lt;![endif]--&gt;
+&lt;!--[if IE 7]&gt;
+&lt;html
+  class="no-js lt-ie9 lt-ie8 no-responsive"
+    lang="en"
+  dir="ltr"
+  prefix="og: http://ogp.me/ns#"
+  &gt;
+  
+  &lt;!-- truncated for example --&gt;
+  </pre>
+<h2 id="slide8">HTTP Overview</h2>
+<h3>HTTP is Stateless</h3>
+<div>
+<p>Each requested resource is a separate, independent, request to the server -- it is a
+      <strong>stateless protocol</strong>. </p>
+</div>
+<h3>HTTP Versions</h3>
+<div>
+<a href="http://www.w3.org/" shape="rect">W3C</a> and <a href="http://www.ietf.org/" shape="rect">
+    Internet Engineering Task Force (IETF)</a> oversees the <a href="http://www.w3.org/Protocols/" shape="rect">Hypertext Transfer Protocol</a>.
+    <ul>
+<li>HTTP 1.0 (1996)</li>
+<li>HTTP 1.1 (1999)</li>
+<li>Extensions to HTTP
+        <ul>
+<li>WebDAV</li>
+<li>Web Sockets</li>
+</ul>
+</li>
+</ul>
+</div>
+<h3>An HTTP Conversation</h3>
+<ul>
+<li>
+<strong>Client Request</strong>
+<ul>
+<li>METHOD Resource HTTP Version</li>
+<li>Client Generated Headers</li>
+<li>Request Body</li>
+</ul>
+</li>
+<li>
+<strong>Server Response</strong>
+<ul>
+<li>Status Line</li>
+<li>Server Generated Headers</li>
+<li>Data</li>
+</ul>
+</li>
+</ul>
+<h3>HTTP 1.1 Methods</h3>
+<ul>
+<li>
+<strong>GET</strong>
+</li>
+<li>
+<strong>POST</strong>
+</li>
+<li>
+<strong>HEAD</strong>
+</li>
+<li>PUT</li>
+<li>DELETE</li>
+<li>TRACE</li>
+<li>OPTIONS</li>
+</ul>
+<h2 id="slide9">HTTP Response Codes</h2>
+<h3>HTTP 1.1 status codes commonly seen</h3>
+<ul>
+<li>200 OK</li>
+<li>301 Moved permanently</li>
+<li>302 Moved temporarily</li>
+<li>304 Not modified</li>
+<li>401 Unauthorized</li>
+<li>403 Forbidden</li>
+<li>404 Not found</li>
+<li>500 Internal server error</li>
+</ul>
+<p>
+<strong>The complete list:</strong>
+</p>
+<textarea rows="15" cols="60">100 Continue
+101 Switching protocols
+200 OK
+201 Created
+202 Accepted
+203 Non-authoritative information
+204 No content
+205 Reset content
+206 Partial content
+300 Multiple choices
+301 Moved permanently
+302 Moved temporarily
+303 See other
+304 Not modified
+305 Use proxy
+400 Bad request
+401 Unauthorized
+402 Payment required
+403 Forbidden
+404 Not found
+405 Method not allowed
+406 Not acceptable
+407 Proxy authentication required
+408 Request timeout
+409 Conflict
+410 Gone
+411 Length required
+412 Precondition failed
+413 Request entity too large
+414 Request-URI too long
+415 Unsupported media type
+500 Internal server error
+501 Not implemented
+502 Bad gateway
+503 Service unavailable
+504 Gateway timeout
+505 HTTP version not supported</textarea>
+<h2 id="slide10">Common Headers</h2>
+<h3>Request (Browser)</h3>
+<ul>
+<li>Host</li>
+<li>User-Agent</li>
+<li>Referer</li>
+<li>Accept</li>
+<li>Accept-Language</li>
+<li>Accept-Encoding</li>
+<li>Accept-Charset</li>
+<li>Cookie</li>
+<li>If-Modified-Since</li>
+</ul>
+<h3>Response (Server)</h3>
+<ul>
+<li>Last-Modified</li>
+<li>Content-Length</li>
+<li>Content-Type</li>
+<li>Connection</li>
+</ul>
+<h2 id="slide11">Looking at HTTP Under the Hood</h2>
+<h3>Viewing HTTP Request and Response Headers</h3>
+<ul>
+<li>Developer Tools for your Browser</li>
+<li>Firefox Extensions
+    <ul>
+<li>
+<a href="http://www.getfirebug.com/" shape="rect">Firebug</a>
+</li>
+<li>
+<a href="http://livehttpheaders.mozdev.org/" shape="rect">Live HTTP
+      Headers</a>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Command Line</h3>
+<ul>
+<li>
+<strong>telnet</strong>
+</li>
+<li>
+<strong>lwp-request</strong>
+<br />Documentation:
+      <ul>
+<li>
+<kbd>
+<span class="fasprompt">morpheus%</span>
+<span class="command">man lwp-request</span>
+</kbd>
+</li>
+<li>
+<kbd>
+<span class="fasprompt">morpheus%</span>
+<span class="command">lwp-request -h</span>
+</kbd>
+<br />An example:
+          <p>
+<kbd>
+<span class="fasprompt">morpheus%</span>
+<span class="command">lwp-request -USed http://www.harvard.edu/</span>
+</kbd>
+</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="slide12">HTTP Header: Host</h2>
+<div>Problem: "Infinite" domain names; finite IP addresses.
+    <p>Solution: "Virtual Hosts"</p>
+<p>Example: all of the following names map to 140.247.197.241</p>
+<ul>
+<li>morpheus.dce.harvard.edu</li>
+<li>cscie12.dce.harvard.edu</li>
+<li>cscie18.dce.harvard.edu</li>
+<li>cscie153.dce.harvard.edu</li>
+<li>cscisl.dce.harvard.edu</li>
+<li>cscis12.dce.harvard.edu</li>
+<li>csci12.dce.harvard.edu</li>
+</ul>
+</div>
+<h3>Host Header</h3>
+<p>This is required for HTTP 1.1 requests.</p>
+<div>
+<pre name="code" class="brush:plain;highlight:[2]" rows="15" cols="60">HEAD /http/raspberry.gif HTTP/1.1
+Host: cscie12.dce.harvard.edu 
+
+HTTP/1.1 200 OK
+Date: Tue, 8 Apr 2014 20:23:14 GMT
+Server: Apache/2.2 (Fedora)
+Last-Modified: Wed, 06 Apr 2005 19:30:42 GMT
+ETag: "461fb8-348c-a0f67c80"
+Accept-Ranges: bytes
+Content-Length: 13452
+Connection: close
+Content-Type: image/gif
+
+Connection closed by foreign host.
+  </pre>
+</div>
+<h2 id="slide13">Apache HTTP Server</h2>
+<div>
+<img src="images/httpd_logo_wide.gif" alt="apache httpd" />
+<ul>
+<li>
+<a href="http://www.apache.org/" shape="rect">Apache Software Foundation</a>
+<ul>
+<li>
+<a href="http://httpd.apache.org/" shape="rect">Apache HTTP Server Project</a>
+<ul>
+<li>Apache 1.3</li>
+<li>Apache 2.x</li>
+</ul>
+</li>
+<li>Apache Modules<ul>
+<li>PHP</li>
+<li>Perl</li>
+<li>Python</li>
+<li>many, many others</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="slide14">Apache Configuration Overview</h2>
+<div>
+<ul>
+<li>
+<strong>Server Configuration
+(<code>httpd.conf</code>)</strong>
+<br />
+Unless you are the server administrator, you generally will not
+have access to this account. On the DCE systems, you do not have
+read or write access to this file. Server configuration is read at
+server start or restart.</li>
+<li>
+<strong>Per Directory (<code>.htaccess</code>)</strong>
+<br />
+Certain configuration directives for Apache can be placed within
+<em>per-directory</em>
+<code>.htaccess</code> files.
+<code>.htaccess</code> file is read on a per request basis.</li>
+</ul>
+</div>
+<h2 id="slide15">Scope of .htaccess files</h2>
+<div> Directives within <code>.htaccess</code> files apply to the directory that
+    contains the <code>.htaccess</code> file and all its descendants.
+    <p>Directives within the file,
+      <br />
+<strong>
+<code>/home/courses/j/h/jharvard/public_html/.htaccess</code>
+</strong>
+<br /> would apply to all files within and "under" the public_html directory for the user
+      jharvard.</p>
+<p>Directives within the file,
+      <br />
+<strong>
+<code>/home/courses/j/h/jharvard/public_html/books/.htaccess</code>
+</strong>
+<br /> would apply to all files within and "under" the public_html/books
+      directory for the user jharvard.</p>
+</div>
+<h2 id="slide16">Problems You Will Have with .htaccess files</h2>
+<ul>
+<li>Internal Server Error</li>
+<li>Can't "see" the file</li>
+<li>Incorrect Permissions</li>
+</ul>
+<h2 id="slide17">Problems You will encounter when using .htaccess files (Internal Server Error 500)</h2>
+<div>
+<strong>500 Internal Server Error</strong>
+<br /> If you see begin seeing <strong>500 Internal Server Error</strong> responses from
+    the server after you have created or edited an <code>.htaccess</code> file, the most
+    likely cause of the problem is incorrect permissions and/or an error in the directive
+    syntax.
+    <ul>
+<li>
+<strong>Permissions</strong> on the <code>.htaccess</code> file are not set
+        correctly. Just like HTML and image files, the server must be able to read the
+        <code>.htaccess</code> file. The simplest way to allow that is to make your
+        <code>.htaccess</code> file readable by "other".</li>
+</ul>
+<pre name="code" class="brush:plain;" rows="15" cols="60">morpheus% pwd
+/home/courses/j/h/jharvard/public_html
+morpheus% ls -l .htaccess
+-rw-------   1 jharvard  founder         349 Nov 27 00:03 .htaccess
+morpheus% chmod o+r .htaccess
+morpheus% ls -l ~/public_html/.htaccess
+-rw----r--   1 jharvard  founder         349 Nov 27 00:03 .htaccess
+</pre>
+<ul>
+<li>
+<strong>Syntax Error</strong>. An error in the syntax of a directive the
+        <code>.htaccess</code> file will result in a <strong>500 Internal Server
+        Error</strong>. In addition, correct usage of a directive that is not allowed in the
+        <code>.htaccess</code> file will result in a <strong>500</strong> status code.
+        Whether or not a directive is allowed depends upon the server configuration file
+        (httpd.conf; AllowOverride) and the directive itself.</li>
+</ul>
+</div>
+<h2 id="slide18">Problems You will encounter when using .htaccess files (Can't see the .htaccess file)</h2>
+<strong>You can't "see"
+  your .htaccess file.</strong>
+<ul>
+<li>
+<strong>HTTP</strong>
+<br /> The web server is typically configured to deny requests for
+      <code>.htaccess</code> files.
+       For example, the file corresponding to the URL, <a href="http://cscie12.dce.harvard.edu/.htaccess" shape="rect">
+      http://cscie12.dce.harvard.edu/.htaccess</a> exists and is readable by the Web
+      server, but if we try to follow the link, we get a <strong>403 Forbidden</strong>
+      response.</li>
+<li>
+<strong>UNIX</strong>
+<br /> The <code>ls</code> command will not list files or directories that begin with a
+      '<strong>.</strong>' (dot). In order to see the <code>.htaccess</code> file when you
+      do a directory listing, use the <strong>-a</strong> (all) option:</li>
+<li>
+<strong>SFTP</strong>
+<br /> Sometimes your SFTP program will hide the "dot" files unless explicitly told to
+      show them.</li>
+</ul>
+<h2 id="slide19">Apache Configuration Sections</h2>
+<div> Configuration directives can be limited by using "sections", such as
+    <ul>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#directory" shape="rect">
+        Directory</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#location" shape="rect">
+        Location</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#files" shape="rect">Files</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#virtualhost" shape="rect">
+        VirtualHost</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#directorymatch" shape="rect">
+        DirectoryMatch</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#locationmatch" shape="rect">
+        LocationMatch</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#filesmatch" shape="rect">
+        FilesMatch</a>
+</li>
+</ul>
+<h3>Within .htaccess</h3> Note that only <code>Files</code> and
+    <code>FilesMatch</code> can be used within <code>.htaccess</code> files.
+    <p>Examples:</p>
+<pre name="code" class="brush:plain;" rows="15" cols="60">&lt;Files .htaccess&gt;
+    Order allow,deny
+    Deny from all
+&lt;/Files&gt;</pre>
+<p>Examples:</p>
+<pre name="code" class="brush:plain;" rows="15" cols="60"># deny access to any tilde backup files
+&lt;Files *~&gt;
+    Order allow,deny
+    Deny from all
+&lt;/Files&gt;</pre>
+</div>
+<h2 id="slide20">Caching - Don't deliver content unnecessarily</h2>
+<ul>
+<li>Faster Load Times == Happier Users <code>:)</code>
+</li>
+<li>Less Bandwidth == Lower Co$ts</li>
+</ul>
+<h3>Types of Caching</h3>
+<ul>
+<li>Local (user's computer)</li>
+<li>Proxy-server</li>
+</ul>
+<h2 id="slide21">Caching Related Headers</h2>
+<p>
+<strong>Local cache</strong> and <strong>proxy-server</strong> cache.</p>
+<ul>
+<li>If-Modified-Since</li>
+<li>Age</li>
+<li>Expires</li>
+<li>Last-Modified</li>
+<li>Cache-Control</li>
+<li>ETag</li>
+</ul>
+<h3>Proxy Servers</h3>
+<div>
+<p>
+<img src="images/proxy_server.png" alt="Proxy Server" />
+</p>
+</div>
+<h2 id="slide22">If-Modified-Since</h2>
+<p>A request for the Apache Software Foundation feather logo (http://apache.org/images/feather-small.gif) that is part of loading 
+  <a href="http://apache.org/foundation/" shape="rect">http://apache.org/foundation/</a>
+<br />
+<img src="http://apache.org/images/feather-small.gif" alt="asf logo" />
+</p>
+<p>Initial request:</p>
+<pre name="code" class="brush:plain;highlight:[1,13,17,21]" rows="15" cols="60">
+GET /images/feather-small.gif HTTP/1.1
+Host: apache.org
+User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:20.0) Gecko/20100101 Firefox/20.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://apache.org/foundation/
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+HTTP/1.1 200 OK
+Cache-Control: max-age=3600
+Connection: close
+Date: Mon, 14 Apr 2014 22:18:31 GMT
+Accept-Ranges: bytes
+ETag: "1bd9-4dd36d855f936"
+Server: Apache/2.4.9 (Unix) OpenSSL/1.0.1g
+Content-Length: 7129
+Content-Type: image/gif
+Expires: Mon, 14 Apr 2014 23:18:31 GMT
+Last-Modified: Tue, 21 May 2013 09:12:14 GMT
+Client-Date: Mon, 14 Apr 2014 22:18:31 GMT
+Client-Peer: 192.87.106.229:80
+Client-Response-Num: 1
+
+</pre>
+<p>After expiration, if still located in local cache, browser
+will make a conditional request:</p>
+<pre name="code" class="brush:plain;highlight:[1,9,11,13,19,20]" rows="15" cols="60">GET /images/feather-small.gif HTTP/1.1
+Host: apache.org
+User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:20.0) Gecko/20100101 Firefox/20.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://apache.org/foundation/
+Connection: keep-alive
+If-Modified-Since: Mon, 14 Apr 2014 22:18:31 GMT
+If-None-Match: "1bd9-4dd36d855f936"
+Cache-Control: max-age=0 
+
+HTTP/1.1 304 Not Modified
+Date: Mon, 14 Apr 2014 22:18:31 GMT
+Server: Apache/2.4.4 (Unix) OpenSSL/1.0.0g
+Connection: Keep-Alive
+Keep-Alive: timeout=5, max=97
+Etag: "1bd9-4dd36d855f936"
+Expires: Mon, 14 Apr 2014 23:18:31 GMT
+Cache-Control: max-age=3600
+</pre>
+<h2 id="slide23">Expires HTTP Header</h2>
+<ul>
+<li>
+<a href="http://www.apache.org/docs/current/mod/mod_expires.html" shape="rect">Module
+      mod_expires</a>
+</li>
+</ul>
+<code>.htaccess</code>
+<pre name="code" class="brush:plain;" rows="15" cols="60">ExpiresActive On
+
+ExpiresByType text/html   A3600    
+# HTML expires in 1 hour
+
+ExpiresByType image/gif   A2592000 
+# GIF  expires in 30 days
+
+ExpiresByType image/jpeg  A2592000 
+# JPEG expires in 30 days
+
+ExpiresByType image/png   A2592000 
+# PNG  expires in 30 days
+
+# types not specified
+ExpiresDefault "now plus 1 day"    
+#  expires in 1 day  </pre>
+<div>Or, expire based upon modification time of document: </div>
+<pre name="code" class="brush:plain;" rows="15" cols="60">ExpiresActive On
+ExpiresByType text/html   M86400   
+# HTML expires 1 day after it was last modified
+ExpiresDefault M86400  </pre>
+<h2 id="slide24">Do not cache</h2>
+<p>If you do not want your page cached, set these HTTP response headers:</p>
+<pre name="code" class="brush:plain;" rows="15" cols="60">Cache-control: no-cache
+Pragma: no-cache
+Expires: &lt;set to now&gt;  </pre>
+<p>In .htaccess in Apache, this would translate to:</p>
+<pre name="code" class="brush:plain;" rows="15" cols="60">ExpiresDefault "now"    
+Header set Pragma "no-cache"</pre>
+<h2 id="slide25">Minify and Compress Content</h2>
+<ul>
+<li>Fewer bytes == faster load time</li>
+<li>Happier Users <code>:)</code>
+</li>
+<li>Less Bandwidth</li>
+</ul>
+<h2 id="slide26">Compress Content</h2>
+<p>
+<a href="http://httpd.apache.org/docs/current/mod/mod_deflate.html" shape="rect">mod_deflate</a> compresses content before sending to web browser.</p>
+<p>Simple use:</p>
+<pre name="code" class="brush:plain;" rows="15" cols="60">AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE text/plain 
+AddOutputFilterByType DEFLATE text/xml 
+AddOutputFilterByType DEFLATE text/css 
+AddOutputFilterByType DEFLATE application/x-javascript</pre>
+<h2 id="slide27">Does Compressing Help?</h2>
+<ul>
+<li>70 to 75% reduction for text files (markup, CSS, non-minified JS)</li>
+<li>50% reduction for 'minified' JS</li>
+</ul>
+<hr />
+<p>
+<strong>Harvard Summer School CSCI Course Listing</strong>
+</p>
+<ul>
+<li>70% smaller for compressed files</li>
+<li>27% smaller for total page weight</li>
+</ul>
+<p>
+<img src="images/hss-csci.png" alt="csci hss" />
+</p>
+<p>
+<img src="images/hss-csci-firebug.png" alt="firebug - page weight is 172 KB" />
+</p>
+<p>
+<img src="images/hss-csci-chart.png" alt="Savings with Apache DEFLATE output filter" />
+</p>
+<h2 id="slide28">Friendly Errors</h2>
+<p>Apache Default "Not Found" 404 document:<br />
+<img src="images/apache404.png" alt="404" />
+</p>
+<p>"Not Found" 404 for Whitehouse<br />
+<img src="images/whitehouse404.png" alt="404 Not Found for Whitehouse" />
+</p>
+<h2 id="slide29">Custom Error Documents</h2>
+<code>.htaccess</code>
+<pre name="code" class="brush:plain;" rows="15" cols="60">ErrorDocument 401 /~jharvard/error/status401.html
+ErrorDocument 403 /~jharvard/error/status403.html
+ErrorDocument 404 /~jharvard/error/status404.html  </pre>
+<ul>
+<li>
+<a href="http://www.apache.org/docs/current/mod/core.html#errordocument" shape="rect">
+      ErrorDocument directive</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/custom-error.html" shape="rect">Custom Error
+      Responses</a>
+</li>
+</ul>
+<h2 id="slide30">Friendly Ways to Get There</h2>
+<ul>
+<li>Short URLs</li>
+<li>Memorable URLs</li>
+<li>Don't break old URLs</li>
+</ul>
+<h2 id="slide31">HTTP Redirect</h2>
+<ul>
+<li>Publish "clean" URLs, and redirect</li>
+<li>Site reorganization changes URL -- redirect old to new</li>
+</ul>
+<ul>
+<li>Redirect</li>
+<li>Rewrite</li>
+<li>Meta http-equiv refresh</li>
+<li>URL shortener services</li>
+</ul>
+<h3>Redirecting Requests</h3>
+<div> HTTP Status Codes:
+    <br />
+<strong>301 Moved permanently
+    <br /> 302 Moved temporarily</strong>
+<p>Redirecting client requests can be very useful:</p>
+<ul>
+<li>
+<strong>URL moves to a new location</strong>
+<br />
+<a href="http://www.useit.com/alertbox/980614.html" shape="rect">
+        Fight Linkrot</a>, Jakob Nielson's Alertbox
+        <ul>
+<li>resource removed</li>
+<li>site structure is reorganized</li>
+</ul>
+</li>
+<li>
+<strong>Provide "friendly" URLs to advertise, publish, or refer to foot-long URLs.</strong>
+</li>
+</ul>
+</div>
+<h2 id="slide32">Redirect</h2>
+<ul>
+<li>
+<a href="http://www.apache.org/docs/current/mod/mod_alias.html#redirect" shape="rect">
+      Redirect directive</a>
+</li>
+</ul>
+<p>For <code>cscie12.dce.harvard.edu</code> the <code>.htaccess</code> file contains:</p>
+<pre name="code" class="brush:plain;">Redirect 302 /syllabus    https://harvard.instructure.com/courses/310/assignments/syllabus  [R=302]
+</pre>
+<div>Try it:
+    <ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/syllabus" shape="rect">
+        http://cscie12.dce.harvard.edu/syllabus</a>
+</li>
+</ul>
+</div>
+<h2 id="slide33">Rewrite</h2>
+<p>mod_rewrite uses regular expressions to match on a pattern and rewrite incoming
+URLs to a new URL location.</p>
+<ul>
+<li>
+<a href="http://httpd.apache.org/docs/current/rewrite/" shape="rect">Apache mod_rewrite</a>
+</li>
+<li>
+<a href="http://www.apache.org/docs/current/mod/mod_rewrite.html" shape="rect">
+        mod_rewrite reference</a>
+</li>
+</ul>
+<hr />
+<div>
+<h4>Using mod_rewrite from within <code>.htaccess</code>
+</h4>
+<p>If you use <code>RewriteRule</code> from within an <code>.htaccess</code> files, you <em>must</em>
+        use the <code>RewriteBase</code> directive.<br />See: <a href="http://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritebase" shape="rect">http://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritebase</a>
+</p>
+</div>
+<h2 id="slide34">Meta Refresh in XHTML/HTML</h2>
+<div>Note: redirection may also be achieved on some browsers by using the
+    <code>http-equiv</code> attribute of the <code>&lt;meta&gt;</code> element.  The recommended method is to do it at the server level.</div>
+<p>In <code>html</code>
+<code>head</code> element:</p>
+<pre name="code" class="brush:xml" rows="15" cols="60">&lt;!-- in head --&gt;
+&lt;!-- will redirect in 10 seconds --&gt;
+&lt;meta http-equiv="Refresh" content="10; URL=http://www.harvard.edu/"/&gt;</pre>
+<h2 id="slide35">URL Shortener Services</h2>
+<ul>
+<li>
+<a href="http://bitly.com" shape="rect">bitly.com</a>
+</li>
+<li>
+<a href="http://tinyurl.com/" shape="rect">TinyURL.com</a>
+</li>
+<li>
+<a href="http://ow.ly/" shape="rect">ow.ly</a>
+</li>
+<li>
+<a href="http://simurl.us" shape="rect">Simple URL</a> (simurl.us)</li>
+</ul>
+<h2 id="slide36">The Server:  Delivering a File</h2>
+<p>
+<img src="images/web_server_simple.png" alt="simple http transaction" />
+</p>
+<h2 id="slide37">Building a Page from Parts</h2>
+<p>
+<img src="images/pages_from_parts1.png" alt="simple http transaction" />
+</p>
+<h2 id="slide38">Building a Page from Parts</h2>
+<p>
+<img src="images/prise_ssi_600.png" alt="PRISE" />
+</p>
+<h3>Why?</h3>
+<ul>
+<li>
+<strong>Common elements of site are in one place and included throughout the site</strong>
+<br />
+ Useful to include documents or information that is used repeatedly throughout a site, such as common headers, footers, and navigation elements.  You can change these chunks in one place and have an effect on the entire site!</li>
+<li>
+<strong>Documents (or parts of pages) that change often</strong>
+<br />
+ Useful to include documents or information that change frequently; only the "included" file needs to be updated, not the page itself. Also the person or program editing the file need only have permissions to edit the "included" file, not the actual XHTML document that includes it; only the data in the "include" file needs to be written, not the entire XHTML page.</li>
+<li>
+<strong>Document Information</strong>
+<br />
+Useful to include information specific about a document, such as last modified date, URI, size.</li>
+</ul>
+<h3>Techniques</h3>
+<ul>
+<li>PHP and file include</li>
+<li>Apache Server Side Includes (SSI)</li>
+</ul>
+<h2 id="slide39">Iroquois Constitution</h2>
+<p>
+<a href="http://cscie12.dce.harvard.edu/ssi/iroquois/simple/" shape="rect">Iroquois Constitution</a>
+</p>
+<p>Iroquois Constitution <a href="http://cscie12.dce.harvard.edu/ssi/iroquois.zip" shape="rect">Zip File</a> containing XHTML, CSS, and "Include" files.</p>
+<p>
+<img src="images/iroquois_500.png" alt="Iroquois Constitution" />
+<img src="images/iroquois_ssi_500.png" alt="Iroquois Constitution" />
+</p>
+<h2 id="slide40">PHP:  Hypertext Processor</h2>
+<ul>
+<li>
+<a href="http://www.php.net/" shape="rect">PHP: Hypertext Processor</a>
+</li>
+</ul>
+<p>From the <a href="http://us.php.net/manual/en/index.php" shape="rect">PHP manual</a>:</p>
+<p>PHP, which stands for "PHP: Hypertext Preprocessor" is a widely-used Open Source general-purpose scripting language that is especially suited for Web development and can be embedded into HTML. Its syntax draws upon C, Java, and Perl, and is easy to learn. The main goal of the language is to allow web developers to write dynamically generated web pages quickly, but you can do much more with PHP.
+    </p>
+<p>
+<img src="images/dynamic-internal.png" alt="cgi" />
+</p>
+<h3>PHP Example</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/hello.php" shape="rect">hello.php</a>
+</p>
+<pre name="code" class="brush:php;">&lt;?php
+  $greeting = "Hello, World!";
+?&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;&lt;?php echo($greeting) ?&gt;&lt;/h1&gt;
+&lt;/body&gt;                                                                                               
+&lt;/html&gt;</pre>
+<h2 id="slide41">File Includes with PHP</h2>
+<p>
+<img src="images/iroquois_ssi_500.png" alt="Iroquois Constitution" />
+</p>
+<pre name="code" class="brush:xml">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;The Great Binding Law, Gayanashagowa (Constitution of the Iroquois Nations)&lt;/title&gt;
+   &lt;?php include("inc/htmlhead.php"); ?&gt;
+  &lt;/head&gt;
+  &lt;body id="part1"&gt;
+   &lt;?php include("inc/header.php"); ?&gt;
+   &lt;?php include("inc/nav.php"); ?&gt;
+    &lt;div id="main"&gt;
+   &lt;?php include("inc/content1.php"); ?&gt;
+    &lt;/div&gt;
+    &lt;?php include("inc/footer.php"); ?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h3>Files</h3>
+<pre name="code" class="brush:plain;">
+.
+|-- 1.php
+|-- 10.php
+|-- 11.php
+|-- 12.php
+|-- 13.php
+|-- 14.php
+|-- 15.php
+|-- 16.php
+|-- 2.php
+|-- 3.php
+|-- 4.php
+|-- 5.php
+|-- 6.php
+|-- 7.php
+|-- 8.php
+|-- 9.php
+|-- inc
+|   |-- content1.php
+|   |-- content10.php
+|   |-- content11.php
+|   |-- content12.php
+|   |-- content13.php
+|   |-- content14.php
+|   |-- content15.php
+|   |-- content16.php
+|   |-- content2.php
+|   |-- content3.php
+|   |-- content4.php
+|   |-- content5.php
+|   |-- content6.php
+|   |-- content7.php
+|   |-- content8.php
+|   |-- content9.php
+|   |-- footer.php
+|   |-- header.php
+|   |-- htmlhead.php
+|   |-- nav.php
+|   `-- validate.php
+|-- js
+|   `-- highlightnavigation.js
+`-- style.css</pre>
+<h2 id="slide42">Parts that Build the Page</h2>
+<p>
+<img src="images/iroquois_ssi_500.png" alt="Iroquois Constitution" />
+</p>
+<h3>Starting File (1.php)</h3>
+<pre name="code" class="brush:xml;highlight:[6,9,10,12,14]">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;The Great Binding Law, Gayanashagowa (Constitution of the Iroquois Nations)&lt;/title&gt;
+    &lt;?php include("inc/htmlhead.php"); ?&gt;
+  &lt;/head&gt;
+  &lt;body id="part1"&gt;
+    &lt;?php include("inc/header.php"); ?&gt;
+    &lt;?php include("inc/nav.php"); ?&gt;
+    &lt;div id="main"&gt;
+      &lt;?php include("inc/content1.php"); ?&gt;
+    &lt;/div&gt;
+    &lt;?php include("inc/footer.php"); ?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h3>HTML Head Content - htmlhead.php</h3>
+<pre name="code" class="brush:xml;">&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt; 
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"&gt; &lt;/script&gt;
+&lt;script type="text/javascript" src="js/highlightnavigation.js"&gt; &lt;/script&gt;
+   </pre>
+<h3>Header - header.php</h3>
+<pre name="code" class="brush:xml">&lt;div id="header"&gt;&lt;h1&gt;Constitution of the Iroquois Nations&lt;/h1&gt;&lt;/div&gt;
+   </pre>
+<h3>Navigation - nav.php</h3>
+<pre name="code" class="brush:xml">&lt;div id="navigation"&gt;
+&lt;ul id="mainnav"&gt;
+&lt;li id="navpart1"&gt;&lt;a href="1.php"&gt;The Great Binding Law, Gayanashagowa&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart2"&gt;&lt;a href="2.php"&gt;Rights, Duties and Qualifications of Lords&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart3"&gt;&lt;a href="3.php"&gt;Election of Pine Tree Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart4"&gt;&lt;a href="4.php"&gt;Names, Duties and Rights of War Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart5"&gt;&lt;a href="5.php"&gt;Clans and Consanguinity&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart6"&gt;&lt;a href="6.php"&gt;Official Symbolism&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart7"&gt;&lt;a href="7.php"&gt;Laws of Adoption&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart8"&gt;&lt;a href="8.php"&gt;Laws of Emigration&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart9"&gt;&lt;a href="9.php"&gt;Rights of Foreign Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart10"&gt;&lt;a href="10.php"&gt;Rights and Powers of War&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart11"&gt;&lt;a href="11.php"&gt;Treason or Secession of a Nation&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart12"&gt;&lt;a href="12.php"&gt;Rights of the People of the Five Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart13"&gt;&lt;a href="13.php"&gt;Religious Ceremonies Protected&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart14"&gt;&lt;a href="14.php"&gt;The Installation Song&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart15"&gt;&lt;a href="15.php"&gt;Protection of the House&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart16"&gt;&lt;a href="16.php"&gt;Funeral Addresses&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+   </pre>
+<h3>Footer - footer.php</h3>
+<pre name="code" class="brush:xml;highlight:[14]">&lt;div id="footer"&gt;
+Text form prepared by Gerald Murphy (The Cleveland Free-Net - aa300). Distributed by the Cybercasting Services Division of the National Public Telecomputing Network. Rendered into HTML by &lt;a href="mailto:jon.roland@the-spa.com"&gt;Jon Roland&lt;/a&gt; of the Constitution Society.  (NPTN). Permission is hereby granted to download, reprint, and/or otherwise redistribute this file, provided appropriate point of origin credit is given to the preparer(s), the National Public Telecomputing Network and the Constitution Society.
+&lt;div class="note"&gt;
+&lt;p&gt;Additional information about the Iroquois nations and their constitution are available:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.sixnations.org/"&gt;Haudenosaunee:  People Building a Long House&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.tuscaroras.com/graydeer/influenc/page1.htm"&gt;The Influence of the Great Law of Peace on the the United States constitution:  an Haudenosaunee (Iroquois) Perspective&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.ratical.org/many_worlds/6Nations/index.html"&gt;The Six Nations:  Oldest Living Participatory Democracy on Earth&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.carnegiemuseums.org/cmnh/exhibits/north-south-east-west/iroquois/"&gt;The Iroquois nations of the Northeast&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.iroquoismuseum.org/"&gt;Iroquois Indian Museum&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;
+   &lt;?php include("validate.php"); ?&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+   </pre>
+<h2 id="slide43">Recommendation:  Keep included files well-formed</h2>
+<h3>Breaking a page in half</h3>
+<p>This technique is not recommended.  The first include file contains the top "half" of the page; the content follows; the 
+    second include file contains the bottom "half" of the page.  In this technique, the <code>html</code>
+      ,<code>body</code>, and perhaps other elements are started in the <code>header.shtml</code> and their end tags are in <code>footer.shtml</code>.
+      The page delivered to the browser does validate, but the individual parts on the server are not well-formed, which can
+      cause some confusion when editing a file.</p>
+<pre name="code" class="brush:php;">&lt;?php include("header-tophalf.html"); ?&gt;
+      Lorem ipsum dolor sit amet, consectetuer adipiscing ...
+&lt;?php include("footer-bottomhalf.html"); ?&gt;</pre>
+<p>
+<img src="images/ssi-inhalf-annotated.png" alt="ssi" />
+</p>
+<h3>Keeping things well-formed</h3>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;Lecture Notes&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="header"&gt;
+      &lt;?php include("inc/header.php") ?&gt;
+    &lt;/div&gt;
+    &lt;div id="navigation"&gt;
+      &lt;?php include("inc/nav.php") ?&gt;
+    &lt;/div&gt;
+    &lt;div id="main"&gt;
+      Lorem ipsum dolor sit amet, consectetuer adipiscing ...
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide44">Server Side Includes (SSI)</h2>
+<div>
+SSI commands are embedded into the XHTML/HTML document.  The HTTP server processes the file for any SSI statements, executes the SSI commands, and then returns content to the HTTP client.
+</div>
+<p>
+<img src="images/ssi-processing.png" alt="ssi processing" />
+</p>
+<h3>What files are processed?</h3>
+<div>
+This is set in the HTTP server configuration, and is typically done by file extension.
+<ul>
+<li>.shtml</li>
+</ul>
+<p>On <strong>morpheus.dce.harvard.edu</strong>, the server will parse only  <strong>.shtml</strong> documents. </p>
+</div>
+<h2 id="slide45">An Example:  &lt;!--#include virtual="footer.inc" --&gt;</h2>
+<p>
+  The "include" SSI command is a very useful to insert the contents of one file into another.  In the example below, the SSI directive is replace by the contents of the file <a href="footer.inc" shape="rect">footer.inc</a>.
+</p>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="1">Example
+            10.1</a> - SSI 'include' directive</strong> - <a href="example1.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container1').tabs({ selected: 0 });});</script>
+<div id="container1">
+<ul>
+<li>
+<a href="#fragment-1-source">
+<span>Markup</span>
+</a>
+</li>
+</ul>
+<div id="fragment-1-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+&lt;div&gt;
+  &lt;p&gt;
+     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+     Cras sollicitudin, orci nec facilisis vehicula, neque urna 
+     porta risus, ut sagittis enim velit at orci. Fusce velit. 
+     Integer sapien enim, rhoncus vitae, cursus non, commodo vitae, 
+     felis. Nulla convallis ante sit amet urna. Maecenas condimentum 
+     hendrerit turpis.
+  &lt;/p&gt;
+  &lt;!--#include virtual="footer.inc" --&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-1-display">
+         
+      </div>
+</div>
+<div>
+<p>footer.inc is:</p>
+<pre name="code" class="brush:xml;" rows="15" cols="60">&lt;div&gt;
+  &lt;p&gt;Copyright &amp;#169; 2013 President and Fellows of Harvard College&lt;/p&gt;
+  &lt;p&gt;
+    &lt;a href="http://www.harvard.edu/privacy-statement"&gt;Privacy Statement&lt;/a&gt;
+    &amp;#8226;
+    &lt;a href="http://www.trademark.harvard.edu/trademark_protection/notice.php"
+      target="_blank"&gt;Harvard Trademark Notice&lt;/a&gt;
+  &lt;/p&gt;
+  &lt;p&gt;Page Last Reviewed:  April 1, 2013&lt;/p&gt;
+&lt;/div&gt;</pre>
+</div>
+<h2 id="slide46">include</h2>
+<div>Remember:  the content of the included document is inserted into the document containing the SSI command.  The included document should not be a complete XHTML document.  It is common practice (although not a requirement) to give these files an extension like:  .inc, .fhtml, or .phtml.
+</div>
+<div>
+<p>The parameters for <strong>include</strong> are:</p>
+<ul>
+<li>
+<strong>virtual</strong>.  This is the parameter you will use most.  The argument is a <em>virtual path</em> to a document on the server.  Examples are:
+<ul>
+<li>
+<kbd>virtual="/~jharvard/inc/footer.inc"</kbd>
+</li>
+<li>
+<kbd>virtual="/includes/navigation.fhtml"</kbd>
+</li>
+<li>
+<kbd>virtual="../includes/disclaimer.phtml"</kbd>
+</li>
+</ul>
+</li>
+<li>
+<strong>file</strong>.  The argument is a relative path to a document that is within the current directory or any of its descendent directories (i.e. can't have "../")</li>
+</ul>
+</div>
+<h3>A note about SSI and file contents and file extensions</h3>
+<ul>
+<li>
+<strong>Extension(s) parsed for SSI directives (e.g. ".shtml").</strong>  On morpheus and by default with Apache,
+      the file extension that is processed for SSI directives is <code>.shtml</code>.  SSI directives that occur in
+      files that are not processed for SSI will simply appear as comments in the output.  You can configure the file extensions
+      that Apache will process.</li>
+<li>
+<strong>Extensions that are sometimes used for XHTML/HTML fragments (e.g. ".inc", ".fhtml", ".phtml").</strong>
+      Since included files are only document fragments, sometimes these files are given a different extension.  These different extensions
+      provide a reminder to the authors that the content should not be full XHTML/HTML documents.
+      Common file extensions that serve as a reminder are:
+      <ul>
+<li>.phtml - 'partial' HTML</li>
+<li>.fhtml - 'fragment' HTML</li>
+<li>.inc - 'include' file</li>
+</ul>
+</li>
+</ul>
+<h2 id="slide47">echo</h2>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="2">Example
+            10.2</a> - SSI example with variables</strong> - <a href="example2.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container2').tabs({ selected: 1 });});</script>
+<div id="container2">
+<ul>
+<li>
+<a href="#fragment-2-source">
+<span>Markup</span>
+</a>
+</li>
+<li>
+<a href="#fragment-2-screenshot">
+<span>Screenshot</span>
+</a>
+</li>
+</ul>
+<div id="fragment-2-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+&lt;div&gt;
+Document URI: &lt;!--#echo var="DOCUMENT_URI"--&gt;&lt;br/&gt;
+Server Name:  &lt;!--#echo var="SERVER_NAME"--&gt;&lt;br/&gt;
+Last Modified:  &lt;!--#echo var="LAST_MODIFIED"--&gt;&lt;br/&gt;
+Server Admin:  &lt;!--#echo var="SERVER_ADMIN"--&gt;&lt;br/&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-2-display">
+         
+      </div>
+<div id="fragment-2-screenshot">
+<p>
+<img alt="ssi echo" src="images/ssi-echo.png" class="example_screenshot" />
+</p>
+</div>
+</div>
+<h2 id="slide48">fsize</h2>
+<p>File size.  <a href="constitution/us_constitution.pdf" shape="rect">US Constitution PDF</a>
+</p>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="3">Example
+            10.3</a> - SSI with 'fsize'</strong> - <a href="example3.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container3').tabs({ selected: 1 });});</script>
+<div id="container3">
+<ul>
+<li>
+<a href="#fragment-3-source">
+<span>Markup</span>
+</a>
+</li>
+<li>
+<a href="#fragment-3-screenshot">
+<span>Screenshot</span>
+</a>
+</li>
+</ul>
+<div id="fragment-3-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+
+&lt;div&gt;Constitution of the United States of America as Amended: Unratified Amendments,
+  Analytical Index (U.S. House of Representatives, via GPO Access) July 25, 2007 (H. Doc. 110-50): &lt;a href="constitution/us_constitution.pdf" shape="rect"&gt;Download PDF&lt;/a&gt; (Size:
+  &lt;!--#fsize virtual="constitution/us_constitution.pdf"--&gt;) &lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-3-display">
+         
+      </div>
+<div id="fragment-3-screenshot">
+<p>
+<img alt="ssi echo" src="images/ssi-fsize.png" class="example_screenshot" />
+</p>
+</div>
+</div>
+<h2 id="slide49">config</h2>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="4">Example
+            10.4</a> - SSI 'config'</strong> - <a href="example4.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container4').tabs({ selected: 1 });});</script>
+<div id="container4">
+<ul>
+<li>
+<a href="#fragment-4-source">
+<span>Markup</span>
+</a>
+</li>
+<li>
+<a href="#fragment-4-screenshot">
+<span>Screenshot</span>
+</a>
+</li>
+</ul>
+<div id="fragment-4-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+&lt;div&gt;
+Last modified: &lt;!--#echo var="LAST_MODIFIED"--&gt;&lt;br/&gt;
+&lt;!--#config timefmt="%B %e, %Y"--&gt;
+Last modified: &lt;!--#echo var="LAST_MODIFIED"--&gt;&lt;br/&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-4-display">
+         
+      </div>
+<div id="fragment-4-screenshot">
+<p>
+<img alt="ssi config" src="images/ssi-config1.png" class="example_screenshot" />
+</p>
+</div>
+</div>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="5">Example
+            10.5</a>
+</strong> - <a href="example5.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container5').tabs({ selected: 1 });});</script>
+<div id="container5">
+<ul>
+<li>
+<a href="#fragment-5-source">
+<span>Markup</span>
+</a>
+</li>
+<li>
+<a href="#fragment-5-screenshot">
+<span>Screenshot</span>
+</a>
+</li>
+</ul>
+<div id="fragment-5-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+&lt;div&gt;&lt;a href="constitution/us_consitution.pdf" shape="rect"&gt;US Constitution in PDF&lt;/a&gt;
+  (&lt;!--#fsize virtual="constitution/us_constitution.pdf"--&gt;)&lt;br/&gt;
+&lt;!--#config sizefmt="bytes"--&gt;
+&lt;a href="constitution/us_consitution.pdf" shape="rect"&gt;US Constitution in PDF&lt;/a&gt; 
+  (&lt;!--#fsize virtual="constitution/us_constitution.pdf"--&gt; bytes)&lt;br/&gt;
+&lt;!--#config sizefmt="abbrev"--&gt;
+&lt;a href="constitution/us_consitution.pdf" shape="rect"&gt;US Constitution in PDF&lt;/a&gt; 
+  (&lt;!--#fsize virtual="constitution/us_constitution.pdf"--&gt;)&lt;br/&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-5-display">
+         
+      </div>
+<div id="fragment-5-screenshot">
+<p>
+<img alt="ssi config" src="images/ssi-config2.png" class="example_screenshot" />
+</p>
+</div>
+</div>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="6">Example
+            10.6</a> - SSI and errors</strong> - <a href="example6.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container6').tabs({ selected: 1 });});</script>
+<div id="container6">
+<ul>
+<li>
+<a href="#fragment-6-source">
+<span>Markup</span>
+</a>
+</li>
+<li>
+<a href="#fragment-6-screenshot">
+<span>Screenshot</span>
+</a>
+</li>
+</ul>
+<div id="fragment-6-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+&lt;div&gt;
+&lt;p&gt;The first SSI error:&lt;br/&gt;
+&lt;!--#include file="blahblahblah.inc"--&gt;&lt;/p&gt;
+&lt;p&gt;The second SSI error, with a configured message:&lt;br/&gt;
+&lt;!--#config errmsg="File not found"--&gt;
+&lt;!--#include file="blahblahblah.inc"--&gt;&lt;br/&gt;
+&lt;/p&gt;
+&lt;p&gt;The third SSI error, with a configured message of "null":&lt;br/&gt;
+&lt;!--#config errmsg=""--&gt;
+&lt;!--#include file="blahblahblah.inc"--&gt;
+&lt;/p&gt;&lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-6-display">
+         
+      </div>
+<div id="fragment-6-screenshot">
+<p>
+<img alt="ssi config" src="images/ssi-config3.png" class="example_screenshot" />
+</p>
+</div>
+</div>
+<h2 id="slide50">SSI commands within included documents</h2>
+<div>
+<p>Files are parsed for SSI commands based upon their extension.  If <em>.shtml</em> files are parsed for SSI commands, then included files with the extension <em>.shtml</em> are also parsed for SSI commands.
+</p>
+<p>
+Files are parsed for SSI commands based upon their extension.  If <em>.inc</em> files are parsed for SSI commands, then included files with the extension <em>.inc</em> are also parsed for SSI commands.
+</p>
+</div>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="7">Example
+            10.7</a> - SSI directives within files included by SSI</strong> - <a href="example7.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container7').tabs({ selected: 1 });});</script>
+<div id="container7">
+<ul>
+<li>
+<a href="#fragment-7-source">
+<span>Markup</span>
+</a>
+</li>
+<li>
+<a href="#fragment-7-screenshot">
+<span>Screenshot</span>
+</a>
+</li>
+</ul>
+<div id="fragment-7-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+&lt;div&gt;
+&lt;!--#include virtual="footer.shtml"--&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-7-display">
+         
+      </div>
+<div id="fragment-7-screenshot">
+<p>
+<img alt="ssi footer" src="images/ssi-footershtml.png" class="example_screenshot" />
+</p>
+</div>
+</div>
+<p>Contents of <em>
+<a href="footer.shtml" shape="rect">footer.shtml</a>
+</em> contains SSI commands:</p>
+<div style="margin-top: 1.5em;">
+<strong>
+<a name="8">Example
+            10.8</a> - footer.shtml</strong> - <a href="example8.shtml">View example
+           by itself</a>
+</div>
+<script type="text/javascript">$(document).ready(function(){$('#container8').tabs({ selected: 1 });});</script>
+<div id="container8">
+<ul>
+<li>
+<a href="#fragment-8-source">
+<span>Markup</span>
+</a>
+</li>
+<li>
+<a href="#fragment-8-screenshot">
+<span>Screenshot</span>
+</a>
+</li>
+</ul>
+<div id="fragment-8-source">
+<pre cols="100" rows="15" class="brush:xml" name="code">
+&lt;div class="footer"&gt;
+&lt;!--#config timefmt="%B %e, %Y"--&gt;
+Location:  http://&lt;!--#echo var="SERVER_NAME"--&gt;&lt;!--#echo var="DOCUMENT_URI"--&gt;&lt;br/&gt;
+Last modified: &lt;!--#echo var="LAST_MODIFIED"--&gt;&lt;br/&gt;
+Contact:  &lt;!--#echo var="SERVER_ADMIN"--&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div id="fragment-8-display">
+         
+      </div>
+<div id="fragment-8-screenshot">
+<p>
+<img alt="ssi footer" src="images/ssi-footershtml.png" class="example_screenshot" />
+</p>
+</div>
+</div>
+<h2 id="slide51">PRISE Website</h2>
+<p>
+<img src="images/prise_ssi_600.png" alt="PRISE" />
+</p>
+<pre name="code" class="brush:xml;" rows="15" cols="60">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"&gt;
+&lt;head&gt;
+  &lt;meta http-equiv="content-type" content="text/html; charset=utf-8" /&gt;
+  &lt;title&gt;PRISE: About PRISE&lt;/title&gt;
+  &lt;link rel="stylesheet" href="prise.css" type="text/css" /&gt;
+&lt;/head&gt;
+&lt;body id="about"&gt;
+  &lt;div id="container"&gt;
+    &lt;div id="logobanner"&gt;
+      &lt;!--#include virtual="banner.shtml" --&gt;
+    &lt;/div&gt;
+    &lt;div id="content"&gt;
+      &lt;!--#include virtual="leftmenu.shtml" --&gt;
+      &lt;div id="main"&gt;
+        &lt;div id="notices"&gt;
+          &lt;!--#include virtual="notices.shtml" --&gt;
+        &lt;/div&gt;
+        &lt;h2&gt;About PRISE&lt;/h2&gt;&lt;!--begin content--&gt;
+        &lt;p&gt;The May 2007 Report ...&lt;/p&gt;
+        &lt;p&gt;For more information ...&lt;/p&gt;&lt;!--end content--&gt;
+        &lt;div class="footer"&gt;
+          &lt;!--#include virtual="footer.shtml" --&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;    
+</pre>
+<h2 id="slide52">Iroquois Constitution</h2>
+<p>
+<a href="http://cscie12.dce.harvard.edu/ssi/iroquois/simple/" shape="rect">Iroquois Constitution</a>
+</p>
+<p>Iroquois Constitution <a href="http://cscie12.dce.harvard.edu/ssi/iroquois.zip" shape="rect">Zip File</a> containing XHTML, CSS, and "Include" files.</p>
+<p>
+<img src="images/iroquois_500.png" alt="Iroquois Constitution" />
+<img src="images/iroquois_ssi_500.png" alt="Iroquois Constitution" />
+</p>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;The Great Binding Law, Gayanashagowa (Constitution of the Iroquois Nations)&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="style.css" /&gt; 
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!--#include virtual="inc/header.shtml"--&gt;
+    &lt;!--#include virtual="inc/nav.shtml"--&gt;
+    &lt;div id="main"&gt;
+      &lt;!--#include virtual="inc/content1.shtml"--&gt;
+    &lt;/div&gt;
+    &lt;!--#include virtual="inc/footer.shtml" --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Layout of files:</p>
+<pre>.
+|-- 1.shtml
+|-- 2.shtml
+|-- 3.shtml
+|-- 4.shtml
+|-- 5.shtml
+|-- 6.shtml
+|-- 7.shtml
+|-- 8.shtml
+|-- 9.shtml
+|-- 10.shtml
+|-- 11.shtml
+|-- 12.shtml
+|-- 13.shtml
+|-- 14.shtml
+|-- 15.shtml
+|-- 16.shtml
+|-- inc
+|   |-- content1.shtml
+|   |-- content2.shtml
+|   |-- content3.shtml
+|   |-- content4.shtml
+|   |-- content5.shtml
+|   |-- content6.shtml
+|   |-- content7.shtml
+|   |-- content8.shtml
+|   |-- content9.shtml
+|   |-- content10.shtml
+|   |-- content11.shtml
+|   |-- content12.shtml
+|   |-- content13.shtml
+|   |-- content14.shtml
+|   |-- content15.shtml
+|   |-- content16.shtml
+|   |-- footer.shtml
+|   |-- header.shtml
+|   |-- nav.shtml
+|   `-- validate.shtml
+`-- style.css</pre>
+<h2 id="slide53">Pros and Cons of SSI</h2>
+<table>
+<tr>
+<td width="50%" rowspan="1" colspan="1">
+<h3>Pros</h3>
+<ul>
+<li>Easy to use </li>
+<li>Widespread server support for SSI</li>
+<li>Server-side; not browser-dependent</li>
+<li>Less resource intensive than CGI</li>
+<li>Simple, yet powerful.</li>
+</ul>
+</td>
+<td width="50%" rowspan="1" colspan="1">
+<h3>Cons</h3>
+<ul>
+<li>Used appropriately, virtually none.</li>
+<li>Limiting (compared to other, more complex and full-featured mechanisms to
+            produce dynamic content)</li>
+</ul>
+</td>
+</tr>
+</table>
+<h3>Apache SSI Documentation</h3>
+<ul>
+<li>
+<a href="http://httpd.apache.org/docs/current/howto/ssi.html" shape="rect">Apache Tutorial: Introduction to Server Side Includes<br />
+</a>
+</li>
+<li>
+<a href="http://httpd.apache.org/docs/current/mod/mod_include.html" shape="rect">Apache module mod_include</a>
+</li>
+</ul>
+<h2 id="slide54">Navigation with Pages from Parts</h2>
+<p>
+<img src="images/iroquois_ssi_500.png" alt="Iroquois Constitution" />
+</p>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;The Great Binding Law, Gayanashagowa (Constitution of the Iroquois Nations)&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="style.css" /&gt; 
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!--#include virtual="inc/header.shtml"--&gt;
+    &lt;!--#include virtual="inc/nav.shtml"--&gt;
+    &lt;div id="main"&gt;
+      &lt;!--#include virtual="inc/content1.shtml"--&gt;
+    &lt;/div&gt;
+    &lt;!--#include virtual="inc/footer.shtml" --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide55">"You are Here" Navigation with SSI</h2>
+<p>Strategy:  Use <code>id</code> attribute on <code>body</code> element to 
+      identify each page.  Use <code>id</code> attributes to uniquely identify navigation
+      items.  </p>
+<p>Options:</p>
+<ul>
+<li>CSS rules for each page can be produced</li>
+<li>Change id/class of navigation markup through JavaScript</li>
+</ul>
+<h2 id="slide56">"You are Here" with SSI</h2>
+<p>
+<a href="http://cscie12.dce.harvard.edu/ssi/iroquois/version1/3.shtml" shape="rect">&gt;<img src="images/iroquois-1.png" alt="Navigation with SSI" />
+</a>
+</p>
+<ol>
+<li>Each <code>body</code> is uniquely identified (<code>id</code>)</li>
+<li>Each navigation list item gets an <code>id</code>
+</li>
+<li>CSS rules are built </li>
+</ol>
+<p>Note the <code>id</code> of the <code>body</code>:</p>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+&lt;title&gt;Election of Pine Tree Chiefs (Constitution of the Iroquois Nations)&lt;/title&gt;
+&lt;link rel="stylesheet" type="text/css" href="style.css" /&gt;
+&lt;/head&gt;
+&lt;body id="part3"&gt;
+    &lt;!--#include virtual="inc/header.shtml"--&gt;
+    &lt;!--#include virtual="inc/nav.shtml"--&gt;
+    &lt;div id="main"&gt;
+      &lt;!--#include virtual="inc/content3.shtml"--&gt;
+    &lt;/div&gt;
+    &lt;!--#include virtual="inc/footer.shtml" --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Each navigation item has an <code>id</code>:</p>
+<pre name="code" class="brush:xml;">&lt;div id="navigation"&gt;
+&lt;ul id="mainnav"&gt;
+&lt;li id="navpart1"&gt;&lt;a href="1.shtml"&gt;The Great Binding Law, Gayanashagowa&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart2"&gt;&lt;a href="2.shtml"&gt;Rights, Duties and Qualifications of Lords&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart3"&gt;&lt;a href="3.shtml"&gt;Election of Pine Tree Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart4"&gt;&lt;a href="4.shtml"&gt;Names, Duties and Rights of War Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart5"&gt;&lt;a href="5.shtml"&gt;Clans and Consanguinity&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart6"&gt;&lt;a href="6.shtml"&gt;Official Symbolism&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart7"&gt;&lt;a href="7.shtml"&gt;Laws of Adoption&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart8"&gt;&lt;a href="8.shtml"&gt;Laws of Emigration&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart9"&gt;&lt;a href="9.shtml"&gt;Rights of Foreign Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart10"&gt;&lt;a href="10.shtml"&gt;Rights and Powers of War&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart11"&gt;&lt;a href="11.shtml"&gt;Treason or Secession of a Nation&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart12"&gt;&lt;a href="12.shtml"&gt;Rights of the People of the Five Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart13"&gt;&lt;a href="13.shtml"&gt;Religious Ceremonies Protected&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart14"&gt;&lt;a href="14.shtml"&gt;The Installation Song&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart15"&gt;&lt;a href="15.shtml"&gt;Protection of the House&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart16"&gt;&lt;a href="16.shtml"&gt;Funeral Addresses&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</pre>
+<p>And the CSS:</p>
+<pre name="code" class="brush:css;">#navigation a {
+  /* Rules for navigation items */
+}
+#navigation a:hover {
+  /* Rules for navigation items */
+}  
+
+/* Rules specific for "you are here" for each page */
+#part1 #navigation #mainnav #navpart1 a, #part1 #navigation #mainnav #navpart1 a:hover, 
+#part2 #navigation #mainnav #navpart2 a, #part2 #navigation #mainnav #navpart2 a:hover,
+#part3 #navigation #mainnav #navpart3 a, #part3 #navigation #mainnav #navpart3 a:hover, 
+#part4 #navigation #mainnav #navpart4 a, #part4 #navigation #mainnav #navpart4 a:hover, 
+#part5 #navigation #mainnav #navpart5 a, #part5 #navigation #mainnav #navpart5 a:hover, 
+#part6 #navigation #mainnav #navpart6 a, #part6 #navigation #mainnav #navpart6 a:hover, 
+#part7 #navigation #mainnav #navpart7 a, #part7 #navigation #mainnav #navpart7 a:hover, 
+#part8 #navigation #mainnav #navpart8 a, #part8 #navigation #mainnav #navpart8 a:hover, 
+#part9 #navigation #mainnav #navpart9 a, #part9 #navigation #mainnav #navpart9 a:hover, 
+#part10 #navigation #mainnav #navpart10 a, #part10 #navigation #mainnav #navpart10 a:hover, 
+#part11 #navigation #mainnav #navpart11 a, #part11 #navigation #mainnav #navpart11 a:hover, 
+#part12 #navigation #mainnav #navpart12 a, #part12 #navigation #mainnav #navpart12 a:hover, 
+#part13 #navigation #mainnav #navpart13 a, #part13 #navigation #mainnav #navpart13 a:hover, 
+#part14 #navigation #mainnav #navpart14 a, #part14 #navigation #mainnav #navpart14 a:hover, 
+#part15 #navigation #mainnav #navpart15 a, #part15 #navigation #mainnav #navpart15 a:hover, 
+#part16 #navigation #mainnav #navpart16 a, #part16 #navigation #mainnav #navpart16 a:hover 
+{ 
+   /* Rules for the "you are here" item */
+    background-color: white; 
+	color: #006;	
+	border-top: 1px outset #333; 
+	border-right: 1px outset #333; 
+	border-bottom: 1px outset #333; 
+	border-left: 5px outset blue;
+}</pre>
+<h2 id="slide57">"You are here" with SSI and JavaScript</h2>
+<p>
+<a href="http://cscie12.dce.harvard.edu/ssi/iroquois/version2/3.shtml" shape="rect">View this technique in action.</a>
+</p>
+<ol>
+<li>Each <code>body</code> is uniquely identified (<code>id</code>)</li>
+<li>Each navigation list item gets an <code>id</code>
+</li>
+<li>CSS rule for <code>id="iamhere"</code>
+</li>
+<li>JavaScript to set the "iamhere" <code>id</code>
+</li>
+</ol>
+<p>Note the <code>id</code> of the <code>body</code>:</p>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+    &lt;title&gt;Election of Pine Tree Chiefs (Constitution of the Iroquois Nations)&lt;/title&gt;
+    &lt;!--#include virtual="inc/htmlhead.shtml" --&gt;
+&lt;/head&gt;
+&lt;body id="part3"&gt;
+    &lt;!--#include virtual="inc/header.shtml"--&gt;
+    &lt;!--#include virtual="inc/nav.shtml"--&gt;
+    &lt;div id="main"&gt;
+      &lt;!--#include virtual="inc/content3.shtml"--&gt;
+    &lt;/div&gt;
+    &lt;!--#include virtual="inc/footer.shtml" --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Each navigation item has an <code>id</code>:</p>
+<pre name="code" class="brush:xml;">&lt;div id="navigation"&gt;
+&lt;ul id="mainnav"&gt;
+&lt;li id="navpart1"&gt;&lt;a href="1.shtml"&gt;The Great Binding Law, Gayanashagowa&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart2"&gt;&lt;a href="2.shtml"&gt;Rights, Duties and Qualifications of Lords&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart3"&gt;&lt;a href="3.shtml"&gt;Election of Pine Tree Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart4"&gt;&lt;a href="4.shtml"&gt;Names, Duties and Rights of War Chiefs&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart5"&gt;&lt;a href="5.shtml"&gt;Clans and Consanguinity&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart6"&gt;&lt;a href="6.shtml"&gt;Official Symbolism&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart7"&gt;&lt;a href="7.shtml"&gt;Laws of Adoption&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart8"&gt;&lt;a href="8.shtml"&gt;Laws of Emigration&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart9"&gt;&lt;a href="9.shtml"&gt;Rights of Foreign Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart10"&gt;&lt;a href="10.shtml"&gt;Rights and Powers of War&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart11"&gt;&lt;a href="11.shtml"&gt;Treason or Secession of a Nation&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart12"&gt;&lt;a href="12.shtml"&gt;Rights of the People of the Five Nations&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart13"&gt;&lt;a href="13.shtml"&gt;Religious Ceremonies Protected&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart14"&gt;&lt;a href="14.shtml"&gt;The Installation Song&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart15"&gt;&lt;a href="15.shtml"&gt;Protection of the House&lt;/a&gt;&lt;/li&gt;
+&lt;li id="navpart16"&gt;&lt;a href="16.shtml"&gt;Funeral Addresses&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</pre>
+<p>And the CSS:</p>
+<pre name="code" class="brush:css;">#navigation a {
+  /* Rules for navigation items */
+}
+#navigation a:hover {
+  /* Rules for navigation items */
+}  
+
+/* Rules specific for "you are here" */
+#navigation #iamhere a, 
+#navigation #iamhere a:hover {
+  /* Rules for the "you are here" item */
+}</pre>
+<p>And the JavaScript (using jQuery) that finds the correct navigation item and sets
+    the <code>id</code> attribute value to "iamhere":</p>
+<pre name="code" class="brush:css;">$(document).ready(function(){
+	var mybodyid = $('body').attr('id');
+	var mynavid = '#nav' + mybodyid;
+	/* e.g. for 3.shtml:
+      mybodyid is 'part3'
+      mynavid  is '#navpart3'
+   */
+	$(mynavid).attr('id','iamhere');
+});</pre>
+<h2 id="slide58">Pages from Parts and Clamshell Navigation</h2>
+<ul>
+<li>Set "iamhere" id</li>
+<li>Close all nested lists</li>
+<li>Show parents of "iamhere"</li>
+<li>Show children of "iamhere"</li>
+</ul>
+<p>
+<img src="images/js_clamshell_nav1.png" alt="clamshell" />
+</p>
+<pre class="brush:js;" name="code">&lt;script type="text/javascript"&gt;
+$(document).ready(function(){
+	console.log("Ready!");
+	var mybodyid = $('body').attr('id');
+	var mynavid = '#nav_' + mybodyid;
+	console.log("mybodyid is " + mybodyid);
+	console.log("mynavid is " + mynavid);
+	// Set iamhere id
+	$(mynavid).attr('id','iamhere');
+	// hide all nested lists
+	$('#navigation ul ul').hide();
+    // show parents of "iamhere"
+	$('#iamhere').parents().show();
+	// show children of "iamhere"
+	$('#iamhere').children().show();
+});
+&lt;/script&gt; </pre>
+<h3>Files</h3>
+<ul>
+<li>
+<a href="navigation_includes/test.html" shape="rect">test.html</a>
+</li>
+<li>
+<a href="navigation_includes/style.css" shape="rect">style.css</a>
+</li>
+</ul>
+<h2 id="slide59">Web Program Examples</h2>
+<p>Markup or content is embedded within a program; program embedded into markup</p>
+<div>
+<h3>first.pl - Perl</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.pl" shape="rect">first.pl</a>
+</p>
+<pre name="code" class="brush:perl">#!/usr/local/bin/perl
+print "Content-type: text/html\n\n";
+print "&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello, World!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;";</pre>
+</div>
+<div>
+<h3>first.py - Python</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.py" shape="rect">first.py</a>
+</p>
+<pre name="code" class="brush:py">#!/usr/bin/python
+print "Content-type: text/html\n\n";
+print "&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello World!&lt;/title&gt;&lt;/head&gt;";
+print "&lt;body&gt;&lt;h1&gt;Hello, World!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;";</pre>
+</div>
+<div>
+<h3>first.php - PHP</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.php" shape="rect">first.pl</a>
+</p>
+<pre name="code" class="brush:php">&lt;?php
+echo('&lt;html&gt;&lt;head&gt;&lt;title&gt;First PHP&lt;/title&gt;&lt;/head&gt;&lt;body&gt;');
+echo('&lt;h1&gt;Hello!&lt;/h1&gt;');
+echo('&lt;/body&gt;&lt;/html&gt;');
+?&gt;</pre>
+</div>
+<div>
+<h3>second.php - PHP</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/second.php" shape="rect">second.php</a>
+<br />program statements within markup</p>
+<pre name="code" class="brush:php">&lt;?php
+      $title = "Hello World!";
+?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;&lt;?php echo($title) ?&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;&lt;?php echo($title) ?&gt;&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<h2 id="slide60">A Personal Greeting</h2>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/third.cgi" shape="rect"> third.php</a>
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/third.php?name=John%20Harvard" shape="rect">
+      third.php?name=John%20Harvard</a>
+</li>
+</ul>
+<div>
+<pre name="code" class="brush:php;highlight:[2,12]">&lt;?php
+      $name = $_GET["name"];
+?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, &lt;?php echo($name) ?&gt;!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<h2 id="slide61">A Personal Greeting</h2>
+<div>
+<p>Without a "name", present the user a form. With a name, provide a greeting. </p>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php" shape="rect"> fourth.php</a>
+<br />
+<img src="images/cgi4-form.png" alt="cgi form" />
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php?name=John%20Harvard" shape="rect">
+        fourth.php?name=John%20Harvard</a>
+<br />
+<img src="images/cgi5-response.png" alt="cgi response" />
+</li>
+</ul>
+<pre name="code" class="brush:php">&lt;?php
+      $name = $_GET["name"];
+?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;?php
+    if ($name) {
+      echo("&lt;h1&gt;Hello, $name!&lt;/h1&gt;");
+    } else {
+      echo('&lt;h1&gt;&lt;label for="input_name"&gt;Enter name:&lt;/label&gt;&lt;/h1&gt;');
+      echo('&lt;form method="get"&gt;');
+      echo('&lt;input type="text" name="name" id="input_name"/&gt;');
+      echo('&lt;br /&gt;&lt;input type="submit" /&gt;');
+      echo('&lt;br /&gt;&lt;input type="reset" /&gt;');
+    }
+?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+</div>
+<h2 id="slide62">PHP Example with Courses from Database</h2>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/courses/departments.php" shape="rect">http://cscis12.dce.harvard.edu/cgi/courses/departments.php</a>
+</li>
+</ul>
+<p>
+<img src="images/courses1.png" alt="courses" />
+</p>
+<p>
+<img src="images/courses2.png" alt="courses" />
+</p>
+<h2 id="slide63">FAS Course Data</h2>
+<h3>Data Table</h3>
+<p>Course data for Faculty of Arts &amp; Sciences is in a mysql database on morpheus (username: class; database name: coursecatalog)</p>
+<pre name="code" class="brush:plain;">morpheus$ mysql -u class coursecatalog
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql&gt; describe courses;
++------------------------------+--------------+------+-----+---------+-------+
+| Field                        | Type         | Null | Key | Default | Extra |
++------------------------------+--------------+------+-----+---------+-------+
+| acad_year                    | year(4)      | YES  |     | NULL    |       |
+| cat_num                      | int(9)       | YES  |     | NULL    |       |
+| offered                      | char(1)      | YES  |     | NULL    |       |
+| department_code              | varchar(15)  | YES  |     | NULL    |       |
+| department_short             | varchar(80)  | YES  |     | NULL    |       |
+| department_long              | varchar(200) | YES  |     | NULL    |       |
+| course_group_code            | varchar(10)  | YES  |     | NULL    |       |
+| course_group_long            | varchar(200) | YES  |     | NULL    |       |
+| num_int                      | int(9)       | YES  |     | NULL    |       |
+| num_char                     | varchar(15)  | YES  |     | NULL    |       |
+| term_pattern_code            | int(5)       | YES  |     | NULL    |       |
+| fall_term                    | char(1)      | YES  |     | NULL    |       |
+| spring_term                  | char(1)      | YES  |     | NULL    |       |
+| term                         | varchar(100) | YES  |     | NULL    |       |
+| title                        | text         | YES  |     | NULL    |       |
+| course_type                  | varchar(100) | YES  |     | NULL    |       |
+| course_level_code            | char(1)      | YES  |     | NULL    |       |
+| course_level                 | varchar(200) | YES  |     | NULL    |       |
+| credit_code                  | int(5)       | YES  |     | NULL    |       |
+| credit                       | varchar(50)  | YES  |     | NULL    |       |
+| instructor_approval_required | char(1)      | YES  |     | NULL    |       |
+| meeting_time                 | text         | YES  |     | NULL    |       |
+| faculty_text                 | text         | YES  |     | NULL    |       |
+| description                  | text         | YES  |     | NULL    |       |
+| prerequisites                | text         | YES  |     | NULL    |       |
+| notes                        | text         | YES  |     | NULL    |       |
++------------------------------+--------------+------+-----+---------+-------+
+26 rows in set (0.00 sec)
+</pre>
+<h3>SQL</h3>
+<p>SQL statement:  <strong>
+<code>select distinct department_short from courses</code>
+</strong>
+</p>
+<pre name="code" class="brush:plain;">mysql&gt; select distinct department_short from courses;
++----------------------------------------------------------+
+| department_short                                         |
++----------------------------------------------------------+
+| African and African American Studies                     |
+| Anthropology                                             |
+| Architecture, Landscape Architecture, and Urban Planning |
+| Asian Studies Program                                    |
+| Astronomy                                                |
+| Biological Sciences in Dental Medicine                   |
+| Biological Sciences in Public Health                     |
+| Biophysics                                               |
+| Biostatistics                                            |
+| Celtic Languages and Literatures                         |
+| Chemical Biology                                         |
+| Chemical and Physical Biology                            |
+| Chemistry                                                |
+| Comparative Literature                                   |
+| Core Curriculum                                          |
+| Dramatic Arts                                            |
+| Earth and Planetary Sciences                             |
+| East Asian Languages and Civilizations                   |
+| Economics                                                |
+| Engineering and Applied Sciences                         |
+| English and American Literature and Language             |
+| Environmental Science and Public Policy                  |
+| Expository Writing                                       |
+| Folklore and Mythology                                   |
+| Freshman Seminars                                        |
+| Germanic Languages and Literatures                       |
+| Government                                               |
+| Health Policy                                            |
+| History                                                  |
+| History and Literature                                   |
+| History of American Civilization                         |
+| History of Art and Architecture                          |
+| History of Science                                       |
+| House Seminars                                           |
+| Humanities                                               |
+| Life Sciences                                            |
+| Linguistics                                              |
+| Literature                                               |
+| Mathematics                                              |
+| Medical Sciences                                         |
+| Medieval Studies                                         |
+| Molecular and Cellular Biology                           |
+| Music                                                    |
+| Near Eastern Languages and Civilizations                 |
+| Neurobiology                                             |
+| Organismic and Evolutionary Biology                      |
+| Philosophy                                               |
+| Physical Sciences                                        |
+| Physics                                                  |
+| Psychology                                               |
+| Romance Languages and Literatures                        |
+| Sanskrit and Indian Studies                              |
+| Slavic Languages and Literatures                         |
+| Social Policy                                            |
+| Social Studies                                           |
+| Sociology                                                |
+| Special Concentrations                                   |
+| Statistics                                               |
+| Studies of Women, Gender, and Sexuality                  |
+| Systems Biology                                          |
+| The Classics                                             |
+| The Study of Religion                                    |
+| Ukrainian Studies                                        |
+| Visual and Environmental Studies                         |
++----------------------------------------------------------+
+64 rows in set (0.07 sec)</pre>
+<h2 id="slide64">PHP Script to Connect to Database and Get List of Departments</h2>
+<pre name="code" class="brush:php;">#!/usr/bin/php
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd') or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// iterating through results
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+  echo $row['department_code'];
+  echo "\t";
+  echo $row['department_short'];
+  echo "\n";
+}
+?&gt;
+</pre>
+<h3>Output</h3>
+<textarea rows="10" cols="70">
+[dheitmey@morpheus]$ ./dept-txt.php 
+AAAS    African and African American Studies
+ANTH    Anthropology
+URBP    Architecture, Landscape Architecture, and Urban Planning
+ABEA    Asian Studies Program
+ASTR    Astronomy
+BSDM    Biological Sciences in Dental Medicine
+BSPH    Biological Sciences in Public Health
+BIPH    Biophysics
+BIST    Biostatistics
+CELT    Celtic Languages and Literatures
+CHPB    Chemical and Physical Biology
+CHBI    Chemical Biology
+CHEM    Chemistry
+CORE    Core Curriculum
+DRAM    Dramatic Arts
+EPS     Earth and Planetary Sciences
+EALC    East Asian Languages and Civilizations
+ECON    Economics
+DEAS    Engineering and Applied Sciences
+ENGH    English
+ESPP    Environmental Science and Public Policy
+EXPO    Expository Writing
+EDC     Extra-Departmental Courses
+FOLK    Folklore and Mythology
+FRSP    Freshman Seminars
+GENED   General Education
+GERM    Germanic Languages and Literatures
+GOVM    Government
+HPOL    Health Policy
+HIST    History
+HLIT    History and Literature
+HAMC    History of American Civilization
+HAA     History of Art and Architecture
+HSCI    History of Science
+HSEM    House Seminars
+HEB     Human Evolutionary Biology
+HUM     Humanities
+LSCI    Life Sciences
+LING    Linguistics
+CLTR    Literature and Comparative Literature
+MATH    Mathematics
+MDSC    Medical Sciences
+MDST    Medieval Studies
+MCB     Molecular and Cellular Biology
+MUSC    Music
+NELC    Near Eastern Languages and Civilizations
+NEURO   Neurobiology
+NEUROSCI        Neuroscience
+BIOE    Organismic and Evolutionary Biology
+PHIL    Philosophy
+PSCI    Physical Sciences
+PHYS    Physics
+PSYC    Psychology
+ROML    Romance Languages and Literatures
+RSEA    Russia, Eastern Europe, and Central Asia Program
+SANS    Sanskrit and Indian Studies
+SLAV    Slavic Languages and Literatures
+SPOL    Social Policy
+SOST    Social Studies
+SOCL    Sociology
+SPCN    Special Concentrations
+STAT    Statistics
+SCRB    Stem Cell and Regenerative Biology
+WMGS    Studies of Women, Gender, and Sexuality
+SBIO    Systems Biology
+CLAS    The Classics
+RELG    The Study of Religion
+UKRA    Ukrainian Studies
+VEST    Visual and Environmental Studies
+</textarea>
+<h2 id="slide65">Turn this into XHTML Output</h2>
+<pre name="code" class="brush:php;">&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd') or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// Printing results in XHTML
+echo "&lt;ul&gt;\n";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    echo "&lt;li&gt;";
+    echo $row['department_short'];
+    echo "&lt;/li&gt;\n";
+ }
+echo "&lt;/ul&gt;\n";
+?&gt;</pre>
+<h2 id="slide66">The entire "departments-simple.php"</h2>
+<ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/departments-simple.php" shape="rect">http://cscie12.dce.harvard.edu/cgi/courses/departments-simple.php</a>
+</li>
+</ul>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;h2&gt;Departments&lt;/h2&gt;
+
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd') or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// iterating through results
+echo "&lt;ul&gt;\n";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    echo "&lt;li&gt;";
+    echo $row['department_short'];
+    echo "&lt;/li&gt;\n";
+ }
+echo "&lt;/ul&gt;\n";
+
+
+// Free resultset
+mysql_free_result($result);
+
+// Closing connection
+mysql_close($link);
+?&gt;
+
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide67">Another View - Department Course Listings</h2>
+<p>Create another PHP file that displays course information based upon a department_code parameter.</p>
+<ul>
+<li>
+<code>courses.php</code> - take a "department_code" parameter and produce alist of courses for that department.</li>
+</ul>
+<p>Need to link to to courses.php:</p>
+<ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=CHEM" shape="rect">courses.php?department_code=CHEM</a>
+</li>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=MCB" shape="rect">courses.php?department_code=MCB</a>
+</li>
+</ul>
+<p>Modify the department listing to include the hyperlink:</p>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;h2&gt;Departments&lt;/h2&gt;
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd')
+     or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+// Printing results in XHTML
+echo "&lt;ul&gt;\n";
+while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+  echo "&lt;li&gt;";
+  echo "&lt;a href=\"courses.php?department_code=$row[department_code]\"&gt;$row[department_short]&lt;/a&gt;";
+  echo "&lt;/li&gt;\n";
+}
+echo "&lt;/ul&gt;\n";
+
+// Free resultset
+mysql_free_result($result);
+
+// Closing connection
+mysql_close($link);
+?&gt; 
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide68">courses.php</h2>
+<ul>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=CHEM" shape="rect">courses.php?department_code=CHEM</a>
+</li>
+<li>
+<a href="http://cscie12.dce.harvard.edu/cgi/courses/courses.php?department_code=MCB" shape="rect">courses.php?department_code=MCB</a>
+</li>
+</ul>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head&gt;
+  &lt;title&gt;FAS Courses&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;p&gt;&lt;a href="departments.php"&gt;Return to Department List&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Department &lt;?php echo $_GET[department_code] ?&gt;&lt;/h2&gt;
+&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'dbpasswd')
+     or die('Could not connect: ' . mysql_error());
+     mysql_select_db('coursecatalog') or die('Could not select database');
+
+$dept_code = $_GET['department_code'];
+
+// Performing SQL query
+$query = 'SELECT course_group_long, num_int, num_char, term, title, description, faculty_text';
+$query .= ' from courses where department_code = ';
+$query .= "'".mysql_escape_string($dept_code)."'";
+$query .= ' order by course_group_long, num_int, num_char, title';
+
+$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+// Printing results in HTML
+     echo "&lt;table cellspacing='0' cellpadding='0'&gt;\n";
+$i = 0;
+     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+       $class = $i++ % 2 ? 'evenrow' : 'oddrow' ;
+       echo "\t&lt;tr class='$class'&gt;\n";
+       echo "&lt;td class='abbrev'&gt;$row[course_group_long] $row[num_int] $row[num_char]&lt;/td&gt;";
+       echo "&lt;td class='long'&gt;&lt;strong&gt;$row[title]&lt;/strong&gt;&lt;br/&gt;$row[faculty_text]";
+       echo "&lt;p class='description'&gt;$row[description]&lt;/p&gt;&lt;/td&gt;";
+       echo "\t&lt;/tr&gt;\n";
+     }
+echo "&lt;/table&gt;\n";
+
+// Free resultset
+mysql_free_result($result);
+
+// Closing connection
+mysql_close($link);
+?&gt; 
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide69">PHP Smarty Templates</h2>
+<ul>
+<li>
+<a href="http://smarty.php.net/" shape="rect">Smarty</a>
+<br />
+      is a Template Engine for PHP,
+    which allows you to write Templates for your PHP data (similar to Perl's Template Toolkit)
+</li>
+</ul>
+<p>
+<img src="images/smarty-depts.png" alt="smarty" />
+</p>
+<p>The template (<a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty_templates/departments.tpl" shape="rect">departments.tpl</a>):
+  </p>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;h2&gt;Departments&lt;/h2&gt;
+  &lt;ul&gt;
+    {foreach from=$dept item=d}
+  &lt;li&gt;
+      &lt;a href="smarty-courses.php?department_code={$d.department_code}"&gt;{$d.department_short}&lt;/a&gt;
+    &lt;/li&gt;
+    {/foreach}
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Get the departments: <a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty-dept.php" shape="rect">smarty-dept.php</a>
+</p>
+<pre name="code" class="brush:php;">&lt;?php
+/* ==================================================
+    Database Stuff
+   ================================================== */
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', '')
+     or die('Could not connect: ' . mysql_error());
+
+mysql_select_db('coursecatalog') or die('Could not select database');
+// Performing SQL query
+$query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+$res = mysql_query($query) or die('Query failed: ' . mysql_error());
+$i=0;
+while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+  $results[$i++] = $row;
+}
+
+/* ==================================================
+    Smarty Template Stuff
+   ================================================== */
+require('/usr/local/lib/php/Smarty/Smarty.class.php');
+// create object
+$smarty = new Smarty;
+$smarty-&gt;template_dir = './smarty_templates';
+$smarty-&gt;compile_dir = '/tmp/smarty/templates_c';
+$smarty-&gt;cache_dir = '/tmp/smarty/cache';
+$smarty-&gt;config_dir = './smarty_configs';
+
+$smarty-&gt;assign('dept', $results);
+
+// display it
+$smarty-&gt;display('departments.tpl');
+
+/* ==================================================
+    Cleanup
+   ================================================== */
+// Free resultset
+mysql_free_result($res);
+// Closing connection
+mysql_close($link);
+?&gt; </pre>
+<h2 id="slide70">Smarty Template for Courses</h2>
+<p>
+<img src="images/smarty-courses.png" alt="smarty" />
+</p>
+<p>The template (<a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty_templates/courses.tpl" shape="rect">courses.tpl</a>):
+  </p>
+<pre name="code" class="brush:php;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Departments&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;p&gt;&lt;a href="smarty-dept.php"&gt;Return to Department List&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Department {$department_code}&lt;/h2&gt;
+&lt;table cellspacing="0" cellpadding="0"&gt;
+{foreach from=$courses item=course name=courses}
+&lt;tr class="{cycle values="row1,row2,row3,row4"}"&gt;
+&lt;td class="abbrev"&gt;{$course.course_group_long} {$course.num_int}{$course.num_char}&lt;/td&gt;
+&lt;td class="long"&gt;
+  &lt;strong&gt;{$course.title}&lt;/strong&gt;&lt;br/&gt;
+  &lt;span class="faculty"&gt;{$course.faculty_text}&lt;/span&gt;
+  &lt;p class="description"&gt;
+    {$course.description}
+  &lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+{/foreach}
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Get the Courses for the CHEM department: <a href="http://cscie12.dce.harvard.edu/cgi/courses/smarty-courses.php?department_code=CHEM" shape="rect">smarty-courses.php?department_code=CHEM</a>
+</p>
+<p>The SQL:</p>
+<pre name="code" class="brush:sql">SELECT course_group_long, 
+              num_int, num_char, term,
+              title, description </pre>
+<p>smarty-course.php:</p>
+<pre name="code" class="brush:php;">&lt;?php
+/* ==================================================
+    Database Stuff
+   ================================================== */
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', '')
+     or die('Could not connect: ' . mysql_error());
+mysql_select_db('coursecatalog') or die('Could not select database');
+
+// Performing SQL query
+$query = 'SELECT course_group_long, num_int, num_char, term, title, description, faculty_text';
+$query .= ' from courses where department_code = ';
+$query .= "'".mysql_escape_string($_GET['department_code'])."'";
+$query .= ' order by course_group_long, num_int, num_char, title';
+$res = mysql_query($query) or die('Query failed: ' . mysql_error());
+$i = 0;
+while ($row =  mysql_fetch_array($res, MYSQL_ASSOC)) {
+  $results[$i++] = $row;
+}
+
+    
+/* ==================================================
+    Smarty Template Stuff
+   ================================================== */
+require('/usr/local/lib/php/Smarty/Smarty.class.php');
+// create object
+$smarty = new Smarty;
+// pass the results to the template
+$smarty-&gt;assign('courses', $results); 
+$smarty-&gt;assign('department_code', $_GET['department_code']);
+    
+$smarty-&gt;template_dir = './smarty_templates';
+$smarty-&gt;compile_dir = '/tmp/smarty/templates_c';
+$smarty-&gt;cache_dir = '/tmp/smarty/cache';
+$smarty-&gt;config_dir = './smarty_configs';
+
+// display it
+$smarty-&gt;display('courses.tpl');
+
+/* ==================================================
+    Cleanup
+   ================================================== */
+// Free resultset
+mysql_free_result($res);
+// Closing connection
+mysql_close($link);
+?&gt; </pre>
+<h2 id="slide71">{{Mustache}}</h2>
+<p>
+<a href="http://mustache.github.com/" shape="rect">{{mustache}}</a> is another widely used template system for JavaScript (and other languages!).</p>
+<p>
+<img src="images/mustache1.png" alt="mustache" />
+</p>
+<h2 id="slide72">Mustache Departments</h2>
+<h3>Mustache Template</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/courses/mustache-dept.php" shape="rect">mustache-dept.php</a>
+</p>
+<h3>PHP</h3>
+<pre name="code" class="brush:php;">&lt;?php
+// Connecting, selecting database
+$link = mysql_connect('localhost', 'class', 'fall2008')
+     or die('Could not connect: ' . mysql_error());
+     mysql_select_db('coursecatalog') or die('Could not select database');
+     // Performing SQL query
+     $query = 'SELECT distinct department_short, department_code FROM courses order by department_short';
+     $res = mysql_query($query) or die('Query failed: ' . mysql_error());
+$i=0;
+while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+  $results[$i++] = $row;
+}
+
+$template_data['departments'] = $results;
+
+// Process with Mustache Template
+include('lib/Mustache.php');
+
+$m = new Mustache;
+$template_file = 'mustache_templates/departments.html';
+$template_contents = file_get_contents($template_file);
+echo $m-&gt;render($template_contents, $template_data);
+
+// Free resultset
+mysql_free_result($res);
+// Closing connection
+mysql_close($link);
+?&gt; </pre>
+<h3>Mustache Template</h3>
+<p>mustache_templates/departments.html</p>
+<pre name="code" class="brush:xml;highlight:[13,14,15,16,17]">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;Departments&lt;/title&gt;
+    &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+   &lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+   &lt;h2&gt;Departments&lt;/h2&gt;
+&lt;ul&gt;
+{{#departments}}
+     &lt;li&gt;
+       &lt;a href="mustache-courses.php?department_code={{department_code}}"&gt;{{department_short}}&lt;/a&gt;
+     &lt;/li&gt;
+{{/departments}}
+&lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt; </pre>
+<h2 id="slide73">Mustache Courses</h2>
+<pre name="code" class="brush:xml;highlight:[13,14,15,16,17,18,19,20,21,22,23,24,25,5,11]">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head&gt;
+  &lt;title&gt;Courses: {{department_name}}&lt;/title&gt;
+  &lt;link rel="stylesheet" href="site.css" type="text/css"/&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+&lt;h1&gt;Faculty of Arts &amp;amp; Sciences&lt;/h1&gt;
+&lt;p&gt;&lt;a href="mustache-dept.php"&gt;Return to Department List&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;{{department_name}}&lt;/h2&gt;
+&lt;table cellspacing="0" cellpadding="0"&gt;
+{{#courses}}
+&lt;tr&gt;
+&lt;td class="abbrev"&gt;{{course_group_long}} {{num_int}}{{num_char}}&lt;/td&gt;
+&lt;td class="long"&gt;
+  &lt;strong&gt;{{title}}&lt;/strong&gt;
+  &lt;br/&gt;
+  &lt;span class="faculty"&gt;{{faculty_text}}&lt;/span&gt;
+  &lt;p class="description"&gt;
+    {{description}}
+  &lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+{{/courses}}
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2 id="slide74">Greeting</h2>
+<div>
+<p>Without a "name", present the user a form. With a name, provide a greeting. </p>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php" shape="rect"> fourth.php</a>
+<br />
+<img src="images/cgi4-form.png" alt="cgi form" />
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/fourth.php?name=John%20Harvard" shape="rect">
+        fourth.php?name=John%20Harvard</a>
+<br />
+<img src="images/cgi5-response.png" alt="cgi response" />
+</li>
+</ul>
+<pre name="code" class="brush:php">&lt;?php
+      $name = $_GET["name"];
+?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;?php
+    if ($name) {
+      echo("&lt;h1&gt;Hello, $name!&lt;/h1&gt;");
+    } else {
+      echo('&lt;h1&gt;&lt;label for="input_name"&gt;Enter name:&lt;/label&gt;&lt;/h1&gt;');
+      echo('&lt;form method="get"&gt;');
+      echo('&lt;input type="text" name="name" id="input_name"/&gt;');
+      echo('&lt;br /&gt;&lt;input type="submit" /&gt;');
+      echo('&lt;br /&gt;&lt;input type="reset" /&gt;');
+    }
+c?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+</div>
+<h2 id="slide75">Greeting, Improved</h2>
+<ul>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/greeting/" shape="rect">greeting/index.php</a>
+</li>
+<li>
+<a href="http://cscis12.dce.harvard.edu/cgi/greeting/index.php?name=John+Harvard" shape="rect">greeting/index.php?John+Harvard</a>
+</li>
+</ul>
+<p>Three files:  one code; two templates</p>
+<ul>
+<li>index.php</li>
+<li>greeting.html</li>
+<li>form.html</li>
+</ul>
+<h3>index.php</h3>
+<pre name="code" class="brush:php;">&lt;?php 
+$name = $_GET["name"];
+
+// figure out which template is needed
+if ($name) {
+  $template_file = 'greeting.html';
+} else {
+  $template_file = 'form.html';
+}
+$template_contents = file_get_contents($template_file);
+$template_data['name'] = $name;
+
+// Process with Mustache Template
+include('lib/Mustache.php');
+$m = new Mustache;
+
+echo $m-&gt;render($template_contents, $template_data);
+
+?&gt;</pre>
+<h3>greeting.html</h3>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;Greeting Page for {{name}}&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+      &lt;h1&gt;Hello, {{name}}!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h3>form.html</h3>
+<pre name="code" class="brush:xml;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;Greeting Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+      &lt;h1&gt;&lt;label for="input_name"&gt;Enter name:&lt;/label&gt;&lt;/h1&gt;
+      &lt;form method="get"&gt;
+      &lt;input type="text" name="name" id="input_name"/&gt;
+      &lt;br /&gt;&lt;input type="submit" /&gt;
+      &lt;br /&gt;&lt;input type="reset" /&gt;
+  &lt;/body&gt;
+&lt;/html&gt; </pre>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext" />
+</td>
+</tr>
+</table>
+</div>
+<div>
+<p style="float: right; width: 40%; text-align: right; font-size: 80%;">Copyright © 1998-2014 David
+        P. Heitmeyer</p>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-2675499-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

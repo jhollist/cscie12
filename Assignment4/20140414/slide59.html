@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Slide 59 - Web Program Examples § Server-side, Part 1</title>
+<meta name="lecture" content="10" />
+<meta name="date" content="April 14, 2014" />
+<link href="slide_spring2014.css" type="text/css" rel="stylesheet" />
+<link href="resources/jquery/css/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="resources/js/jquery-1.9.0.min.js"> </script>
+<script type="text/javascript" src="resources/js/jquery-ui-1.10.0.custom.min.js"> </script>
+<script src="syntaxhighlighter3/scripts/shCore.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shAutoloader.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushCss.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushJScript.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPhp.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPlain.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPython.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushRuby.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushSql.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXquery.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushPerl.js" type="text/javascript"> </script>
+<script src="syntaxhighlighter3/scripts/shBrushXml.js" type="text/javascript"> </script>
+<link href="syntaxhighlighter3/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="syntaxhighlighter3/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+		SyntaxHighlighter.all();
+	</script>
+</head>
+<body>
+<div id="header">
+<div id="schoolname">
+<a href="http://www.extension.harvard.edu/">Harvard Extension School 2014</a>
+</div>
+<div id="coursename">
+<a href="http://cscie12.dce.harvard.edu/">CSCI E-12 Fundamentals of Website Development</a>
+</div>
+</div>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext">
+<a title="Pages from Parts and Clamshell Navigation" href="slide58.html" accesskey="&lt;">&lt;&lt;&lt; previous</a> |  Slide 59 | <a title="A Personal Greeting" href="slide60.html" accesskey="&gt;">
+          next &gt;&gt;&gt;</a>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<h2>Web Program Examples</h2>
+<p>Markup or content is embedded within a program; program embedded into markup</p>
+<div>
+<h3>first.pl - Perl</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.pl" shape="rect">first.pl</a>
+</p>
+<pre name="code" class="brush:perl">#!/usr/local/bin/perl
+print "Content-type: text/html\n\n";
+print "&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello, World!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;";</pre>
+</div>
+<div>
+<h3>first.py - Python</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.py" shape="rect">first.py</a>
+</p>
+<pre name="code" class="brush:py">#!/usr/bin/python
+print "Content-type: text/html\n\n";
+print "&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello World!&lt;/title&gt;&lt;/head&gt;";
+print "&lt;body&gt;&lt;h1&gt;Hello, World!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;";</pre>
+</div>
+<div>
+<h3>first.php - PHP</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/first.php" shape="rect">first.pl</a>
+</p>
+<pre name="code" class="brush:php">&lt;?php
+echo('&lt;html&gt;&lt;head&gt;&lt;title&gt;First PHP&lt;/title&gt;&lt;/head&gt;&lt;body&gt;');
+echo('&lt;h1&gt;Hello!&lt;/h1&gt;');
+echo('&lt;/body&gt;&lt;/html&gt;');
+?&gt;</pre>
+</div>
+<div>
+<h3>second.php - PHP</h3>
+<p>
+<a href="http://cscis12.dce.harvard.edu/cgi/second.php" shape="rect">second.php</a>
+<br />program statements within markup</p>
+<pre name="code" class="brush:php">&lt;?php
+      $title = "Hello World!";
+?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;&lt;?php echo($title) ?&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;&lt;?php echo($title) ?&gt;&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+<div class="nav">
+<table width="100%">
+<tr>
+<td align="left">
+<div class="navlinks">
+<a title="Table of Contents" href="toc.html">Table of Contents</a> | <a title="All Slides in a Single Document" href="handout.html">All-in-One</a> | <a title="URI References" href="links.html">Link List</a> | <a title="List of Examples" href="examples.html">Examples</a> | <a title="CSCI E-12 Lecture Notes" href="../">
+        Lecture Notes Home
+      </a> | <a title="CSCI E-12 Home Page" href="http://cscie12.dce.harvard.edu/" accesskey="1">CSCI E-12 Home</a>
+</div>
+</td>
+<td align="right">
+<div class="navprevnext">
+<a title="Pages from Parts and Clamshell Navigation" href="slide58.html">&lt;&lt;&lt; previous</a> |  Slide 59 | <a title="A Personal Greeting" href="slide60.html">
+          next &gt;&gt;&gt;</a>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div>
+<p style="float: right; width: 40%; text-align: right; font-size: 80%;">Copyright © 1998-2014 David
+        P. Heitmeyer</p>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-2675499-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</html>
