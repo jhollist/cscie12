@@ -151,7 +151,7 @@ footer {
   font-size: 70%;
 }
 
-address ul {
+address ul li {
   display: inline;
   padding-left: 10px;
   padding-right: 10px;
