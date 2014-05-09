@@ -1,0 +1,94 @@
+/*
+* Project Style Sheet
+* Harvard CSCI e-12
+* J.W. Hollister
+* March 14, 2014
+*/
+
+body {
+  font-family: sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+hr {
+  color: #121f1f;
+}
+
+strong {
+  font-weight: 600;
+  color: #121f1f;
+}
+
+h2, h3, h4, h5, h6 {
+  color: #691818;
+  font-weight: bold;
+}
+a:visited {
+  color: #172727;
+}
+
+a {
+  color: #172727;
+  text-decoration: none;
+  font-variant: small-caps;
+  font-size: 88%;
+}
+
+a:hover {
+  color: #691818;
+  border-bottom: thin solid #691818;
+}
+
+nav#site {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+nav#site a:active {
+  color: #D23030;
+  border-bottom: thin solid #D23030;
+}
+
+nav#site ul {
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+nav#site ul li {
+  display: inline;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+nav#site {
+  text-indent: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-image: url(../images/jhlogo_darkblue_small.svg);
+  background-repeat: no-repeat;
+  background-color: black;
+  height: 50px;
+  margin: 0px 0px 0px 0px;
+}
+
+
+header#logo h1{
+  text-indent: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-image: url(../images/jhlogo_darkblue.svg);
+  background-repeat: no-repeat;
+  background-size: 300px 300px;
+  background-position:center; 
+  background-color: red;
+  margin: 0px 0px 0px 0px;
+  height: 300px;
+  
+}
+
+footer {
+  font-size: 70%;
+}
