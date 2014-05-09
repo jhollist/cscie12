@@ -36,9 +36,11 @@ a {
 }
 
 a:hover {
-  color: #691818;
-  border-bottom: thin solid #691818;
+  color: #162d50;
+  border-bottom: thin solid #162d50;
 }
+
+/* Site Navigation */
 
 nav#site {
   margin: 0px 0px 0px 0px;
@@ -46,8 +48,8 @@ nav#site {
 }
 
 nav#site a:active {
-  color: #D23030;
-  border-bottom: thin solid #D23030;
+  color: #162d50;
+  border-bottom: thin solid #162d50;
 }
 
 nav#site ul {
@@ -55,25 +57,71 @@ nav#site ul {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  height: 50px;
 }
 
 nav#site ul li {
+  display: inline;
+  padding-left: 100px;
+  padding-right: 10px;
+}
+
+nav#site {
+  overflow: hidden;
+  white-space: nowrap;
+  background-image: url(../images/jhlogo_darkblue.svg);
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: 80px 80px;
+  height: 100px;
+  margin: 0px 0px 0px 0px;
+ 
+}
+
+/* From Chris Coyeirs methdod*/
+nav select { display: none;}
+
+@media (max-width: 767px) {
+  nav ul     { display: none; }
+  nav select { 
+    display: inline-block;
+    float: right;
+    }
+}
+
+/* Home Page Navigation */
+nav#home {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+nav#home a:active {
+  color: #162d50;
+  border-bottom: thin solid #162d50;
+}
+
+nav#home ul {
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  
+}
+
+nav#home ul li {
   display: inline;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-nav#site {
-  text-indent: 100%;
+nav#home {
   overflow: hidden;
   white-space: nowrap;
-  background-image: url(../images/jhlogo_darkblue_small.svg);
-  background-repeat: no-repeat;
-  background-color: black;
   height: 50px;
   margin: 0px 0px 0px 0px;
+  border-top: thick black;
+  border-bottom: thick black;
 }
-
 
 header#logo h1{
   text-indent: 100%;
@@ -83,7 +131,6 @@ header#logo h1{
   background-repeat: no-repeat;
   background-size: 300px 300px;
   background-position:center; 
-  background-color: red;
   margin: 0px 0px 0px 0px;
   height: 300px;
   
@@ -91,4 +138,9 @@ header#logo h1{
 
 footer {
   font-size: 70%;
+}
+
+/* override hr in nav */
+hr {
+  display: none;
 }
