@@ -9,16 +9,16 @@ body {
   font-family: sans-serif;
   margin-left: auto;
   margin-right: auto;
-  background: -webkit-linear-gradient(#356595,#4A5B63); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#356595,#4A5B63); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#356595,#4A5B63); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#356595,#4A5B63); /* Standard syntax */
+  background: -webkit-linear-gradient(#162d50,#808080); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#162d50,#808080); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#162d50,#808080); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#162d50,#808080); /* Standard syntax */
   height: 100%;
 }
 
 .container {
   background: white;
-  height: 1200px;
+  height: 1000px;
   clear: both;
   margin: 0 auto;
 }
@@ -81,7 +81,7 @@ nav#site ul li {
 nav#site {
   overflow: hidden;
   white-space: nowrap;
-  background-image: url(../images/jhlogo_darkblue3.svg);
+  background-image: url(../images/jhlogo_darkblue3.png);
   background-repeat: no-repeat;
   background-position: top left;
   background-size: 80px 80px;
@@ -115,16 +115,19 @@ nav#home a:active {
 
 nav#home ul {
   list-style: none;
-  width: 100%;
   padding-left: 10%;
   padding-right: 10%;
+  text-align: center;
+  font-size: 150%;
+  margin-top: 15px;
   
 }
 
 nav#home ul li {
   display: inline;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-left: 45px;
+  padding-right: 45px;
+  
 }
 
 nav#home {
@@ -141,34 +144,55 @@ header#logo h1{
   text-indent: 100%;
   overflow: hidden;
   white-space: nowrap;
-  background-image: url(../images/jhlogo_darkblue3.svg);
+  background-image: url(../images/jhlogo_darkblue3.png);
   background-repeat: no-repeat;
-  background-size: 300px 300px;
+  background-size: auto 200px;
   background-position:center; 
-  margin: 10px 10px 10px 10px;
-  height: 300px;
+  text-align: center;
+  height: 200px;
+  margin-top:30px;
+  margin-bottom: 30px;
+}
+
+
+section {
+  min-height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  text-align: justify;
 }
 
 footer {
   font-size: 70%;
-  height: 
+  margin-top:10px;
 }
 
 address ul li {
-  display: inline;
-  padding-left: 10px;
-  padding-right: 10px;
+  display: block;
+  text-align: center;
+  margin-bottom: 0px;
   margin-left: auto;
   margin-right: auto;
+  width:50%;
+}
+
+footer .row {
+  margin-bottom: 0px;
+}
+
+#social_media {
+  margin-left:auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 0px;
+  height: 35px;
 }
 
 #social_media ul li {
   display: inline;
   padding-left: 10px;
   padding-right: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
 }
 
 #social_media ul li a:hover{
