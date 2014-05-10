@@ -103,7 +103,9 @@ nav select { display: none;}
 
 /* Home Page Navigation */
 nav#home {
-  
+  margin-left: auto;
+  margin-right: auto:
+  width: 10%;
 }
 
 nav#home a:active {
@@ -131,8 +133,8 @@ nav#home {
   height: 50px;
   margin: 2px 2px 2px 2px;
   padding: 2px 2px 2px 2px;
-  border-top: medium ridge #162d50;
-  border-bottom: medium ridge #162d50;
+  border-top: medium solid #162d50;
+  border-bottom: medium solid #162d50;
 }
 
 header#logo h1{
@@ -149,6 +151,7 @@ header#logo h1{
 
 footer {
   font-size: 70%;
+  height: 
 }
 
 address ul li {
@@ -158,6 +161,24 @@ address ul li {
   margin-left: auto;
   margin-right: auto;
 }
+
+#social_media ul li {
+  display: inline;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
+
+#social_media ul li a:hover{
+  border-bottom: none;
+}
+
+#social_media img{
+  height: 20px;
+}
+
 /* override hr in nav */
 nav hr {
   display: none;
