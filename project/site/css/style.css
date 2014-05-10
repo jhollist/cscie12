@@ -81,7 +81,7 @@ nav#site ul li {
 nav#site {
   overflow: hidden;
   white-space: nowrap;
-  background-image: url(../images/jhlogo_darkblue.svg);
+  background-image: url(../images/jhlogo_darkblue3.svg);
   background-repeat: no-repeat;
   background-position: top left;
   background-size: 80px 80px;
@@ -141,7 +141,7 @@ header#logo h1{
   text-indent: 100%;
   overflow: hidden;
   white-space: nowrap;
-  background-image: url(../images/jhlogo_darkblue.svg);
+  background-image: url(../images/jhlogo_darkblue3.svg);
   background-repeat: no-repeat;
   background-size: 300px 300px;
   background-position:center; 
