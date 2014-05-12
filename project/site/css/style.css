@@ -114,11 +114,6 @@ nav select { display: none;}
 }
 
 /* Home Page Navigation */
-nav#home {
-  margin-left: auto;
-  margin-right: auto:
-  width: 10%;
-}
 
 nav#home ul {
   list-style: none;
