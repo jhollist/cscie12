@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+
+#header {margin-top: 1em;}
+#header h1 { padding-left: 160px; padding-top: 20px; background-image: url(../images/flag.gif); background-repeat: no-repeat; background-position: left; height: 70px; background-color: #eeeeff;}
+
+#footer { font-size: smaller; background-color: #eeeeff;}
+#footer p { padding: 1em; }
+
+#navigation ul {list-style: none; padding: 0;}
+#navigation ul li a {display: block;text-decoration: none; padding-left: 1em; border: thin solid navy; font-weight: bold;}
+#navigation ul li a:link {display: block;}
+#navigation ul li a:visited {display: block;}
+#navigation ul li a:hover {display: block; border: thin solid white; background-color: navy; color: white;}
+#navigation ul li a:active {display: block;}
+
+#navigation ul li#iamhere a,
+#navigation ul li#iamhere a:link,
+#navigation ul li#iamhere a:visited,
+#navigation ul li#iamhere a:hover { color: #ff0000; background-color: #ffffff; border: thin solid navy;}
+

@@ -1,1 +1,23 @@
- 
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Video Download</title>
+<script type="text/javascript" src="jwplayer/jwplayer.js"></script>
+<script type="text/javascript">jwplayer.key="cHF1DZSSGONnrkVrQpsAIQrycWnmXizSTutAXw==";</script>
+</head>
+<body>
+<h1>Publishing a page on the course web server - Download</h1>
+
+<div id="myElement">Loading the player...</div>
+
+<script type="text/javascript">
+    jwplayer("myElement").setup({
+        height: 600,
+        width: 800,
+        file: "https://s3.amazonaws.com/cscie12/screencasts/publishing_on_web_server.mp4",
+        primary:"html5"
+    });
+</script>
+
+</body>
+</html>
