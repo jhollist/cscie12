@@ -18,7 +18,7 @@ body {
 
 .container {
   background: white;
-  height: 1000px;
+  height: 1200px;
   clear: both;
   margin: 0 auto;
 }
@@ -163,12 +163,13 @@ section {
   text-align: justify;
 }
 
-image {
-  height: 150px;
-  text-align: center;
+section img {
+  width: 150px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
-  width: 150px;
+  margin-bottom: 14px;
+  display: block;
 }
 
 footer {
