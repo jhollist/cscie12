@@ -18,7 +18,7 @@ body {
 
 .container {
   background: white;
-  height: 1200px;
+  height: 1300px;
   clear: both;
   margin: 0 auto;
 }
@@ -36,6 +36,11 @@ h2, h3, h4, h5, h6 {
   font-family: sans-serif;
   color: #162d50;
   font-weight: bold;
+}
+
+h3 {
+  font-size: 150%;
+  color: #808080;
 }
 a:visited {
   color: #162d50;
@@ -178,6 +183,12 @@ section img {
   margin-right: auto;
   margin-bottom: 14px;
   display: block;
+}
+
+form {
+  margin-left:auto;
+  margin-right: auto;
+  width:50%;
 }
 
 footer {

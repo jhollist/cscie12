@@ -29,6 +29,10 @@
   <!-- javascript -->
   <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
   <script type="text/javascript" src="js/selectmenu.js"></script>
+  <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="js/additional-methods.min.js"></script>
+  <script type="text/javascript" src="js/validation.js"></script>
+  
   
   <!-- My favicon -->
   <link rel="shortcut icon" href="images/favicon3.ico" />
@@ -47,7 +51,7 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="http://landeco2point0.wordpress.com/">Blog</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.html">Consulting</a></li>
         <li><a href="#">C.V.</a></li>
       </ul>
       <hr />
@@ -70,9 +74,40 @@
        <li>Basic Website Development</li>
        <li>Basic Python development</li>
     </ul>
-    <p><a href="mailto:jeff.w.hollister@gmail.com">Email me</a> about these and other services.</p>
   </section>
   <!-- End Contact content -->
+  <!-- Begin Contact Form -->
+  <section id="contactFrom">
+  <h3>Contact Jeff About Consulting</h3>
+    <p>If you would like to discuss some consulting opportunites with Jeff, please fill out and submit the form.</p>
+  <form id="contactForm" method="post" action="http://morpheus.dce.harvard.edu/cgi-bin/echo.cgi" enctype="application/x-www-form-urlencoded">
+    <label for="name">Name:</label>
+    <input type="text" name="name" placeholder="First Last" id="name" class="required"/>
+    
+    <label for="email">Email:</label>        
+    <input type="text" name="email" placeholder="Email Address" id="email" class="required email"/>
+    
+    <label for="tel">Telephone</label>        
+    <input type="text" name="tel" placeholder="(123) 456-7890" id="tel" class="required phoneUS"/>
+    
+    <label for="subject">Interesetd In:</label>
+    <select name="subject">
+      <option>General</option>
+      <option>Workshops</option>
+      <option>Basic Web Support</option>
+      <option>R Coding</option>
+      <option>Python Coding</option>
+      <option>Something Else</option>
+    </select>
+    
+    <label for="body" class="required">Message:</label>
+    <textarea name="body" placeholder="Type your message here:" rows="10"></textarea>      
+      
+    <input type="submit" name="action" value="Contact Jeff" class="submit"/>
+  </form>
+  </section>
+  <!-- End Contact Form -->
+  
   <footer>
     <div class="row" id="social_media">
       <ul>
