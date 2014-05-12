@@ -24,7 +24,7 @@ $().ready(function() {
 		messages: {
 			name: "Please enter your Name",
 			email: "Please enter a valid email address",
-			tel: "Please enter a valid telephone number"
+			tel: "Please enter a valid telephone number",
       body: "Please enter your message"
 		}
 	});
