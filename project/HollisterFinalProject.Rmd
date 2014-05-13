@@ -1,7 +1,7 @@
 ---
-title: "Hollister Project Report"
-author: "Jeff W. Hollister"
-date: "4/21/2014"
+title: 'Jeffrey W. Hollister: Project Report'
+author: "Jeffrey W. Hollister"
+date: "5/13/2014"
 output: pdf_document
 ---
 
@@ -9,7 +9,7 @@ output: pdf_document
 
 For this final project I am developing a personal home page.  The primary purpose of my site is to curate my professional online presence and provide basic information about myself, my research, provide links to a current curriculum vitae, and allow others to contact me. 
 
-I do have a current site that will be the source of the content.  This site is hosted for free on Github.  A secondary goal of my project is to develop a site that can still be hosted on Github.  As Github sites must be static, no server side scripting (e.g. PHP or .htacess) will be used on the site.
+I do have a current site that will be the source of the content.  This site is hosted for free on Github.  A secondary goal of my project is to develop a site that can still be hosted on Github.  As Github sites must be static, no server side scripting (e.g. PHP or .htaccess) will be used on the site.
 
 *Audience:*
 
@@ -17,7 +17,29 @@ The primary audience for this site is myself and my collaborators.  In my work, 
 
 ## Implementation
 
+Currently, I have 5 pages implemented or planned for this site.  One is to my external blog, one will be to an online version of my full C.V. The remaining three pages were implemented for this project and are as follows:
+
+- Home page: [The Home page](http://morpheus.dce.harvard.edu/~jhollist/BeeR_is_Good/project/index.html) for this site was designed to simply be a landing page with navigation to the rest of the site, plus contact information and links to relative social media as part of the page footer.  An additional purpose of the home page is to establish the look and feel for the rest of the site.
+
+- About page: [The About page](http://morpheus.dce.harvard.edu/~jhollist/BeeR_is_Good/project/about.html) for this site provides a more detailed, albeit short, biography.  Primary purpose is to give the audience additional information about my background.  Additionally, this page has a layout different than that of the home page.  Navigation has been moved to the top to provide a greater focus on the content of the page.
+
+- Consulting page: [The Consutling page](http://morpheus.dce.harvard.edu/~jhollist/BeeR_is_Good/project/contact.html) introduces the idea that I have limited availability for some consulting jobs.  It also provides a means to contact me about these opportunities.  This page provides the required JavaScript functionality.  The form has validation implemented to check for required fields and to enforce proper formatting for emails and phone numbers.
+
+As more and more sites are read via mobile devices, a design goal for this site was to have it be responsive and gracefully transition to multiple screen sizes.  To accomplish this I chose a responsive CSS framework, [Skeleton](http://www.getskeleton.com/).  Additionally, I added a second JavaScript functionality to convert the navigation to a `select menu` when screen size is less than 767 pixels. This is implemented on all pages of the site. I borrowed the idea from [Chris Coyiers CSS-Tricks website](http://css-tricks.com/convert-menu-to-dropdown/). Lastly, additional styling for the site is in `css/styles.css`.
 
 ## Future Directions
 
+I currently have two areas of expansion planned for the site.  First, the blog that is currently linked is hosted separately via [Wordpress.Com](http://wordpress.com/).  My blog is not active (e.g. posts every few months) and control over the layout is a bit complex given the overhead of WordPress.  I plan to move my blog, along with the rest of the site, to [Github](https://github.com).  There are several, [Jekyll](http://jekyllrb.com/) based blogging platforms available for hosting on [Github Pages](https://pages.github.com/).  I plan to implement my blog via [Octopress](http://octopress.org/)
+
+The second enhancement to the site will be the C.V. page.  One of the stated goals of the site is to provide easy access to my body of scholarly work.  I plan to maintain my complete C.V. on this site and create a separate `print.css` to style an output `.pdf` for printing hard copies.  My current C.V. is a Word Document which is saved to `.pdf` and linked via a website.  This requires significant manual intervention.  Having a single site with the most current version and easy printing will facilitate better management of my C.V.
+
+
 ## Lessons Learned
+
+Throughout the process of developing this site I reinforced two lessons that I have been learning all semester.  First, design work and `css` styling take time.  In fact the markup and content development for this site consisted of about 20% of my time.  The remaining 80% was spent developing logos, choosing colors, tweaking the `css` to get positioning and page behavior correct, and editing images to match the look and feel for the site.  I do have some previous experience developing web pages, but it has all been self taught and I had assumed that learning `css` and html from the ground up would speed the process.  It did to some extent, but when it comes down to it, making an attractive and responsive site simply takes time.  The second lesson learned did, however, save me significant time
+
+Prior to this class I did not use the developer tools.  Now, I cannot imagine developing a site without them.   In addition to de-bugging JavaScript, the `css` tools are invaluable for determining correct `css` selectors and experimenting with various settings.  Without using the tools I would save `css`, reload the page and examine the results.  This process is greatly enhanced with the use of developer tools.
+
+In short, this class and project have strengthened my foundation in the fundamentals of web design. I expect these skills to serve me well as I continue to push Open Science in my job, create applications, and serve code and data via web based APIs.
+
+
